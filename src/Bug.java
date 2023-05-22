@@ -18,7 +18,8 @@ public class Bug{
 //	}
 	
 	public Bug(int bugId, String name, String type, String priority, String projectName,int testerID) {
-    
+    // add due date
+    // add when it closed
 		this.bugId = bugId;
 		this.name = name;
 		this.type = type;

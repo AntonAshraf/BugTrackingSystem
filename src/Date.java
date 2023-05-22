@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class Date {
 
 	public static String getCurrentDate () {
-        // Current date
+    // Current date
 		LocalDate currentDate = LocalDate.now();
 		
 		// Formatting a date
