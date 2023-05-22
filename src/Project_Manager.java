@@ -1,3 +1,5 @@
+package system;
+
 import java.util.ArrayList;
 
 public class Project_Manager extends User {
@@ -39,6 +41,7 @@ public class Project_Manager extends User {
 	public void setBugs(ArrayList<Bug> bugs) {
 		this.bugs = bugs;
 	}
+	
 	
 	
 	
