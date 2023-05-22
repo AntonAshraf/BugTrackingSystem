@@ -17,5 +17,12 @@ A bug tracking system project in Java is a good choice for an OOP course project
 - Increased productivity: Bug tracking systems can help developers to be more productive by freeing them up from the time-consuming task of manually tracking bugs.
 - Improved communication: Bug tracking systems can help to improve communication between developers and other stakeholders by providing a central location for bug reports.
 ---
-Overall, a bug tracking system in Java is a valuable tool for improving the quality and productivity of software development. It is a good choice for an OOP course project because it allows students to apply their knowledge of object-oriented programming to a real-world problem.
+Overall, a bug tracking system in Java is a valuable tool for improving the quality and productivity of software development. It is a good choice for an OOP course project because it allows us  to apply our knowledge of object-oriented programming to a real-world problem.
 
+### Collaborators
+
+- [Ismail Fakhr](https://github.com/Ismailfakhr)
+- [Alaa Imam](https://github.com/AlaaImam)
+- [Ahmed Kamal](https://github.com/AhmadKamal0)
+- [Mahmoud Hany](https://github.com/MahmoudHanyFathalla)
+- [Anton Ashraf](https://github.com/AntonAshraf)
