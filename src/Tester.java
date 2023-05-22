@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Tester extends User {
 	
-	private ArrayList<BUG> bugs; 
+	private ArrayList<Bug> bugs; 
 	private ArrayList<Developer> developer;
-	private ArrayList<BUG> Assigned_bugs;
+	private ArrayList<Bug> Assigned_bugs;
+	private int num_of_Assigned_bugs;
 	
-	public BUG Add_bug(Bug bug)
+	public void Add_bug(Bug bug)
 	
 	{
 		bugs.add(bug);
@@ -19,42 +20,38 @@ public class Tester extends User {
 	{
 		return Assigned_bugs;
 	}
-	public void monitor_bug_status(BUG bug, String status) 
+	public void monitor_bug_status(Bug bug, String status) 
 	{ 
-		Bug b = bug;
-		String s = status;
-		b.setStatus(s);
+		if(status=="opend" || status=="closed") {
+		bug.setStatus(status);}
+		else {
+			System.out.print("wrong status");
+		}
 		
 		
 	}
-	public void Assign_bug_to_developer(Developer dev, Bug bug)
 	
-	{
-		Developer d = dev;
-		Bug b1 = bug;
-		
-		d.setAssignedbug(b1);
-		
-	}
 	public void Assign_bugs_to_developer(Developer dev, ArrayList<Bug> bugs)
 	
 	{
-		Developer d1 = dev;
-		ArrayList<Bug> bugs = bugs ;
 		
-		d1.setAssignedbugs(dev,bugs);
+		dev.setAssigned_bugs(bugs);
+		int n = bugs.size();
+		num_of_Assigned_bugs+=n;
 		
 	}
-	public Tester(ArrayList<Bug> bugs,ArrayList<Developer> developer,ArrayList<Bug> Assigned_bugs) 
+	public Tester(int id, String name, String email, String password,ArrayList<Bug> bugs,ArrayList<Developer> developer,ArrayList<Bug> Assigned_bugs) 
 	{
-		super(id, name, email, password);
-		
-		this.bugs = bugs;
+		super(id,name,email,password);
 		this.developer = developer;
 		this.Assigned_bugs = Assigned_bugs;
+		this.bugs = bugs;
 		
 		
 		
+	}
+	public double performance() {
+		return num_of_Assigned_bugs;
 	}
 
 	
