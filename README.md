@@ -24,5 +24,5 @@ Overall, a bug tracking system in Java is a valuable tool for improving the qual
 - [Ismail Fakhr](https://github.com/Ismailfakhr)
 - [Alaa Imam](https://github.com/AlaaImam)
 - [Ahmed Kamal](https://github.com/AhmadKamal0)
-- [Mahmoud Hany Fathalla](https://github.com/MahmoudHanyFathalla)
+- [Mahmoud Hany](https://github.com/MahmoudHanyFathalla)
 - [Anton Ashraf](https://github.com/AntonAshraf)
