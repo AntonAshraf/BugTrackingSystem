@@ -41,6 +41,12 @@ public class J extends JFrame {
     private DefaultTableModel devTableModel;
     
     private JFrame proFrame;
+    private JTextField protxtName;
+    private JTextField protxtId;
+    private JTextField protxtEnterYourName;
+    private JTextField protxtEnterYourAge;
+    private JTextField protxtEnterYourId;
+    private JTextField protxtEnterYourEmail;
     
     private JFrame tstFrame;
     private JTextField tsttxtName;
@@ -86,299 +92,419 @@ public class J extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-        JButton btnNewButton = new JButton("Developer");
-        btnNewButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
-        });
-        btnNewButton.setBounds(10, 94, 130, 23);
-        contentPane.add(btnNewButton);
         
-        JButton btnAdmin = new JButton("Admin");
-        btnAdmin.setBounds(176, 94, 130, 23);
-        contentPane.add(btnAdmin);
         
-        JButton btnTester = new JButton("Tester");
-        btnTester.setBounds(339, 94, 130, 23);
-        contentPane.add(btnTester);
+        JButton btnsignup = new JButton("sign up");
+        btnsignup.setBounds(176, 94, 130, 23);
+        contentPane.add(btnsignup);
         
-        JButton btnProjectManager = new JButton("Project Manager");
-        btnProjectManager.setBounds(177, 176, 129, 23);
-        contentPane.add(btnProjectManager);
+        JButton btnlogin = new JButton("login");
+        btnlogin.setBounds(176, 194, 130, 23);
+        contentPane.add(btnlogin);
         
-        JLabel lblNewLabel = new JLabel("Select Your Role");
-        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel.setBounds(169, 37, 149, 14);
-        contentPane.add(lblNewLabel);
-        tableModel = new DefaultTableModel();
-
-        tableModel.addColumn("ID");
-        tableModel.addColumn("Name");
-        tableModel.addColumn("E-Mail");
-        tableModel.addColumn("Password");
+       
+       
         
-        btnNewButton.addActionListener(new ActionListener() {
+        
+        
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        //pro manger
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        btnlogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame devFrame = new JFrame("A");
+                JFrame logFrame = new JFrame("login");
                 // Customize the "A" frame here if needed
                 
-                devFrame.setSize(400, 300);
-                devFrame.setVisible(true);
+                logFrame.setSize(500, 500);
+                logFrame.setVisible(true);
                 
-                devFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                logFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 
-                devFrame.getContentPane().setLayout(null);
+                logFrame.getContentPane().setLayout(null);
                 
-                devtxtName = new JTextField();
-                devtxtName.setToolTipText("");
-                devtxtName.setBounds(225, 11, 86, 20);
-                devFrame.getContentPane().add(devtxtName);
-                devtxtName.setColumns(10);
-
-                devtxtId = new JTextField();
-                devtxtId.setHorizontalAlignment(JTextField.LEFT);
-                devtxtId.setBounds(225, 54, 86, 20);
-                devFrame.getContentPane().add(devtxtId);
-                devtxtId.setColumns(10);
-
-                devtxtPhone = new JTextField();
-                devtxtPhone.setBounds(225, 95, 86, 20);
-                devFrame.getContentPane().add(devtxtPhone);
-                devtxtPhone.setColumns(10);
-
-                devtxtEmail = new JTextField();
-                devtxtEmail.setBounds(225, 143, 86, 20);
-                devFrame.getContentPane().add(devtxtEmail);
-                devtxtEmail.setColumns(10);
-
-                JButton btnSubmit = new JButton("Submit");
-                btnSubmit.setBounds(145, 218, 104, 23);
-                devFrame.getContentPane().add(btnSubmit);
-  
                 
-                devtxtEnterYourName = new JTextField();
-                devtxtEnterYourName.setText("Enter your name:");
-                devtxtEnterYourName.setEditable(false);
-                devtxtEnterYourName.setBounds(25, 11, 133, 20);
-                devFrame.getContentPane().add(devtxtEnterYourName);
-                devtxtEnterYourName.setColumns(10);
                 
-                devtxtEnterYourAge = new JTextField();
-                devtxtEnterYourAge.setText("Enter your id:");
-                devtxtEnterYourAge.setEditable(false);
-                devtxtEnterYourAge.setColumns(10);
-                devtxtEnterYourAge.setBounds(25, 54, 133, 20);
-                devFrame.getContentPane().add(devtxtEnterYourAge);
+                JButton btnProjectManager = new JButton("project manager");
+                btnProjectManager.setBounds(10, 94, 130, 23);
+                logFrame.getContentPane().add(btnProjectManager);
                 
-                devtxtEnterYourId = new JTextField();
-                devtxtEnterYourId.setText("Enter your password :");
-                devtxtEnterYourId.setEditable(false);
-                devtxtEnterYourId.setColumns(10);
-                devtxtEnterYourId.setBounds(25, 95, 133, 20);
-                devFrame.getContentPane().add(devtxtEnterYourId);
+                JButton btnadmin = new JButton("admin");
+                btnadmin.setBounds(339, 94, 130, 23);
+                logFrame.getContentPane().add(btnadmin);
                 
-                devtxtEnterYourEmail = new JTextField();
-                devtxtEnterYourEmail.setText("Enter your email:");
-                devtxtEnterYourEmail.setEditable(false);
-                devtxtEnterYourEmail.setColumns(10);
-                devtxtEnterYourEmail.setBounds(25, 143, 133, 20);
-                devFrame.getContentPane().add(devtxtEnterYourEmail);
-
-               
                 
-                btnSubmit.addActionListener(new ActionListener() {
+                btnProjectManager.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        String name = devtxtName.getText();
-                        String id = devtxtId.getText();
-                        String password = devtxtPhone.getText();
-                        String email = devtxtEmail.getText();
-
-                        insertData(name, id, password, email);
+                        JFrame proFrame = new JFrame("ProjectManager");
+                        // Customize the "A" frame here if needed
                         
-                        // Clear the text fields after submitting
-                        devtxtName.setText("");
-                        devtxtId.setText("");
-                        devtxtPhone.setText("");
-                        devtxtEmail.setText("");
-                    }
-                });
+                        proFrame.setSize(400, 300);
+                        proFrame.setVisible(true);
+                        
+                        proFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        
+                        proFrame.getContentPane().setLayout(null);
+                        
+                        protxtName = new JTextField();
+                        protxtName.setToolTipText("");
+                        protxtName.setBounds(225, 11, 86, 20);
+                        proFrame.getContentPane().add(protxtName);
+                        protxtName.setColumns(10);
 
-
-            }
-        });
-        
-        btnProjectManager.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame proFrame = new JFrame("ProjectManager");
-                // Customize the "A" frame here if needed
-                
-                proFrame.setSize(400, 300);
-                proFrame.setVisible(true);
-                
-                proFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                
-                proFrame.getContentPane().setLayout(null);
-                
-                JButton btnSubmitp = new JButton("View Developers");
-                btnSubmitp.setBounds(145, 218, 104, 23);
-                proFrame.getContentPane().add(btnSubmitp);
-                
-             // Add the following code inside the action listener of the "Submit" button in the project manager GUI window
-                btnSubmitp.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        try {
-                            Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-
-                            String query = "SELECT name, id, password, email FROM user";
-                            PreparedStatement statement = conn.prepareStatement(query);
-                            ResultSet resultSet = statement.executeQuery();
-
-                            // Create a new frame to display the table
-                            JFrame tableFrame = new JFrame("Developers Data");
-                            tableFrame.setSize(500, 400);
-                            
-                            // Create the table and table model
-                            JTable table = new JTable();
-                            DefaultTableModel tableModel = new DefaultTableModel();
-                            table.setModel(tableModel);
-                            
-                            // Add columns to the table model
-                            tableModel.addColumn("Name");
-                            tableModel.addColumn("ID");
-                            tableModel.addColumn("Password");
-                            tableModel.addColumn("Email");
-                            
-                            // Add rows to the table model from the ResultSet
-                            while (resultSet.next()) {
-                                String name = resultSet.getString("name");
-                                String id = resultSet.getString("id");
-                                String password = resultSet.getString("password");
-                                String email = resultSet.getString("email");
-                                
-                                tableModel.addRow(new Object[]{name, id, password, email});
+                        protxtId = new JTextField();
+                        protxtId.setHorizontalAlignment(JTextField.LEFT);
+                        protxtId.setBounds(225, 54, 86, 20);
+                        proFrame.getContentPane().add(protxtId);
+                        protxtId.setColumns(10);
+                        
+                        protxtEnterYourName = new JTextField();
+                        protxtEnterYourName.setText("Enter your email:");
+                        protxtEnterYourName.setEditable(false);
+                        protxtEnterYourName.setBounds(25, 11, 133, 20);
+                        proFrame.getContentPane().add(protxtEnterYourName);
+                        protxtEnterYourName.setColumns(10);
+                        
+                        protxtEnterYourAge = new JTextField();
+                        protxtEnterYourAge.setText("Enter your password:");
+                        protxtEnterYourAge.setEditable(false);
+                        protxtEnterYourAge.setColumns(10);
+                        protxtEnterYourAge.setBounds(25, 54, 133, 20);
+                        proFrame.getContentPane().add(protxtEnterYourAge);
+                        
+                        JButton btnSubmitpro = new JButton("Submit");
+                        btnSubmitpro.setBounds(145, 218, 104, 23);
+                        proFrame.getContentPane().add(btnSubmitpro);
+                        
                             }
-
-                            // Create a scroll pane and add the table to it
-                            JScrollPane scrollPane = new JScrollPane(table);
-                            tableFrame.getContentPane().add(scrollPane);
-
-                            // Set the frame visibility
-                            tableFrame.setVisible(true);
-
-                            // Close the database connections and resources
-                            resultSet.close();
-                            statement.close();
-                            conn.close();
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-
-            }
-        });
-        
-        btnAdmin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame devFrame = new JFrame("Admin");
-                // Customize the "A" frame here if needed
-                
-                devFrame.setSize(400, 300);
-                devFrame.setVisible(true);
-            }
-        });
-        
-        btnTester.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame tstFrame = new JFrame("Tester");
-                // Customize the "A" frame here if needed
-                
-                tstFrame.setSize(400, 300);
-                tstFrame.setVisible(true);
-                
-                tstFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                
-                tstFrame.getContentPane().setLayout(null);
-                
-                tsttxtName = new JTextField();
-                tsttxtName.setToolTipText("");
-                tsttxtName.setBounds(225, 11, 86, 20);
-                tstFrame.getContentPane().add(tsttxtName);
-                tsttxtName.setColumns(10);
-
-                tsttxtId = new JTextField();
-                tsttxtId.setHorizontalAlignment(JTextField.LEFT);
-                tsttxtId.setBounds(225, 54, 86, 20);
-                tstFrame.getContentPane().add(tsttxtId);
-                tsttxtId.setColumns(10);
-
-                tsttxtPhone = new JTextField();
-                tsttxtPhone.setBounds(225, 95, 86, 20);
-                tstFrame.getContentPane().add(tsttxtPhone);
-                tsttxtPhone.setColumns(10);
-
-                tsttxtEmail = new JTextField();
-                tsttxtEmail.setBounds(225, 143, 86, 20);
-                tstFrame.getContentPane().add(tsttxtEmail);
-                tsttxtEmail.setColumns(10);
-
-                JButton btnSubmitt = new JButton("Submit");
-                btnSubmitt.setBounds(145, 218, 104, 23);
-                tstFrame.getContentPane().add(btnSubmitt);
-  
-                
-                tsttxtEnterYourName = new JTextField();
-                tsttxtEnterYourName.setText("Enter your name:");
-                tsttxtEnterYourName.setEditable(false);
-                tsttxtEnterYourName.setBounds(25, 11, 133, 20);
-                tstFrame.getContentPane().add(tsttxtEnterYourName);
-                tsttxtEnterYourName.setColumns(10);
-                
-                tsttxtEnterYourAge = new JTextField();
-                tsttxtEnterYourAge.setText("Enter your id:");
-                tsttxtEnterYourAge.setEditable(false);
-                tsttxtEnterYourAge.setColumns(10);
-                tsttxtEnterYourAge.setBounds(25, 54, 133, 20);
-                tstFrame.getContentPane().add(tsttxtEnterYourAge);
-                
-                tsttxtEnterYourId = new JTextField();
-                tsttxtEnterYourId.setText("Enter your password :");
-                tsttxtEnterYourId.setEditable(false);
-                tsttxtEnterYourId.setColumns(10);
-                tsttxtEnterYourId.setBounds(25, 95, 133, 20);
-                tstFrame.getContentPane().add(tsttxtEnterYourId);
-                
-                tsttxtEnterYourEmail = new JTextField();
-                tsttxtEnterYourEmail.setText("Enter your email:");
-                tsttxtEnterYourEmail.setEditable(false);
-                tsttxtEnterYourEmail.setColumns(10);
-                tsttxtEnterYourEmail.setBounds(25, 143, 133, 20);
-                tstFrame.getContentPane().add(tsttxtEnterYourEmail);
-
-               
-                
-                btnSubmitt.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        String name = tsttxtName.getText();
-                        String id = tsttxtId.getText();
-                        String password = tsttxtPhone.getText();
-                        String email = tsttxtEmail.getText();
-
-                        insertDatatester(name, id, password, email);
+                        });
                         
-                        // Clear the text fields after submitting
-                        tsttxtName.setText("");
-                        tsttxtId.setText("");
-                        tsttxtPhone.setText("");
-                        tsttxtEmail.setText("");
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+
                     }
                 });
-
-
-            }
-      
+                
+                
             
-        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        btnsignup.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame upFrame = new JFrame("sign up");
+                // Customize the "A" frame here if needed
+                
+                upFrame.setSize(500, 500);
+                upFrame.setVisible(true);
+                
+                upFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                
+                upFrame.getContentPane().setLayout(null);
+                
+                
+                
+                JButton btndev = new JButton("Developer");
+                btndev.setBounds(10, 94, 130, 23);
+                upFrame.getContentPane().add(btndev);
+                
+                JButton btntst = new JButton("Tester");
+                btntst.setBounds(339, 94, 130, 23);
+                upFrame.getContentPane().add(btntst);
+                
+                
+                btndev.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame devFrame = new JFrame("developer");
+                        // Customize the "A" frame here if needed
+                        
+                        devFrame.setSize(400, 300);
+                        devFrame.setVisible(true);
+                        
+                        devFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        
+                        devFrame.getContentPane().setLayout(null);
+                        
+                        devtxtName = new JTextField();
+                        devtxtName.setToolTipText("");
+                        devtxtName.setBounds(225, 11, 86, 20);
+                        devFrame.getContentPane().add(devtxtName);
+                        devtxtName.setColumns(10);
+
+                        devtxtId = new JTextField();
+                        devtxtId.setHorizontalAlignment(JTextField.LEFT);
+                        devtxtId.setBounds(225, 54, 86, 20);
+                        devFrame.getContentPane().add(devtxtId);
+                        devtxtId.setColumns(10);
+
+                        devtxtPhone = new JTextField();
+                        devtxtPhone.setBounds(225, 95, 86, 20);
+                        devFrame.getContentPane().add(devtxtPhone);
+                        devtxtPhone.setColumns(10);
+
+                        devtxtEmail = new JTextField();
+                        devtxtEmail.setBounds(225, 143, 86, 20);
+                        devFrame.getContentPane().add(devtxtEmail);
+                        devtxtEmail.setColumns(10);
+
+                        JButton btnSubmit = new JButton("Submit");
+                        btnSubmit.setBounds(145, 218, 104, 23);
+                        devFrame.getContentPane().add(btnSubmit);
+          
+                        
+                        devtxtEnterYourName = new JTextField();
+                        devtxtEnterYourName.setText("Enter your name:");
+                        devtxtEnterYourName.setEditable(false);
+                        devtxtEnterYourName.setBounds(25, 11, 133, 20);
+                        devFrame.getContentPane().add(devtxtEnterYourName);
+                        devtxtEnterYourName.setColumns(10);
+                        
+                        devtxtEnterYourAge = new JTextField();
+                        devtxtEnterYourAge.setText("Enter your id:");
+                        devtxtEnterYourAge.setEditable(false);
+                        devtxtEnterYourAge.setColumns(10);
+                        devtxtEnterYourAge.setBounds(25, 54, 133, 20);
+                        devFrame.getContentPane().add(devtxtEnterYourAge);
+                        
+                        devtxtEnterYourId = new JTextField();
+                        devtxtEnterYourId.setText("Enter your password :");
+                        devtxtEnterYourId.setEditable(false);
+                        devtxtEnterYourId.setColumns(10);
+                        devtxtEnterYourId.setBounds(25, 95, 133, 20);
+                        devFrame.getContentPane().add(devtxtEnterYourId);
+                        
+                        devtxtEnterYourEmail = new JTextField();
+                        devtxtEnterYourEmail.setText("Enter your email:");
+                        devtxtEnterYourEmail.setEditable(false);
+                        devtxtEnterYourEmail.setColumns(10);
+                        devtxtEnterYourEmail.setBounds(25, 143, 133, 20);
+                        devFrame.getContentPane().add(devtxtEnterYourEmail);
+
+                       
+                        
+                        btnSubmit.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                String name = devtxtName.getText();
+                                String id = devtxtId.getText();
+                                String password = devtxtPhone.getText();
+                                String email = devtxtEmail.getText();
+
+                                insertData(name, id, password, email);
+                                
+                                // Clear the text fields after submitting
+                                devtxtName.setText("");
+                                devtxtId.setText("");
+                                devtxtPhone.setText("");
+                                devtxtEmail.setText("");
+                                
+                                
+                                JFrame devwFrame = new JFrame("Developer window");
+                                // Customize the "A" frame here if needed
+                                
+                                devwFrame.setSize(400, 300);
+                                devwFrame.setVisible(true);
+                                
+                                devwFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                
+                                devwFrame.getContentPane().setLayout(null);
+                            }
+                        });
+
+
+                       }
+                      });
+                
+                
+                btntst.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame tstFrame = new JFrame("Tester");
+                        // Customize the "A" frame here if needed
+                        
+                        tstFrame.setSize(400, 300);
+                        tstFrame.setVisible(true);
+                        
+                        tstFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        
+                        tstFrame.getContentPane().setLayout(null);
+                        
+                        tsttxtName = new JTextField();
+                        tsttxtName.setToolTipText("");
+                        tsttxtName.setBounds(225, 11, 86, 20);
+                        tstFrame.getContentPane().add(tsttxtName);
+                        tsttxtName.setColumns(10);
+
+                        tsttxtId = new JTextField();
+                        tsttxtId.setHorizontalAlignment(JTextField.LEFT);
+                        tsttxtId.setBounds(225, 54, 86, 20);
+                        tstFrame.getContentPane().add(tsttxtId);
+                        tsttxtId.setColumns(10);
+
+                        tsttxtPhone = new JTextField();
+                        tsttxtPhone.setBounds(225, 95, 86, 20);
+                        tstFrame.getContentPane().add(tsttxtPhone);
+                        tsttxtPhone.setColumns(10);
+
+                        tsttxtEmail = new JTextField();
+                        tsttxtEmail.setBounds(225, 143, 86, 20);
+                        tstFrame.getContentPane().add(tsttxtEmail);
+                        tsttxtEmail.setColumns(10);
+
+                        JButton btnSubmitt = new JButton("Submit");
+                        btnSubmitt.setBounds(145, 218, 104, 23);
+                        tstFrame.getContentPane().add(btnSubmitt);
+                        
+                 
+                        tsttxtEnterYourName = new JTextField();
+                        tsttxtEnterYourName.setText("Enter your name:");
+                        tsttxtEnterYourName.setEditable(false);
+                        tsttxtEnterYourName.setBounds(25, 11, 133, 20);
+                        tstFrame.getContentPane().add(tsttxtEnterYourName);
+                        tsttxtEnterYourName.setColumns(10);
+                        
+                        tsttxtEnterYourAge = new JTextField();
+                        tsttxtEnterYourAge.setText("Enter your id:");
+                        tsttxtEnterYourAge.setEditable(false);
+                        tsttxtEnterYourAge.setColumns(10);
+                        tsttxtEnterYourAge.setBounds(25, 54, 133, 20);
+                        tstFrame.getContentPane().add(tsttxtEnterYourAge);
+                        
+                        tsttxtEnterYourId = new JTextField();
+                        tsttxtEnterYourId.setText("Enter your password :");
+                        tsttxtEnterYourId.setEditable(false);
+                        tsttxtEnterYourId.setColumns(10);
+                        tsttxtEnterYourId.setBounds(25, 95, 133, 20);
+                        tstFrame.getContentPane().add(tsttxtEnterYourId);
+                        
+                        tsttxtEnterYourEmail = new JTextField();
+                        tsttxtEnterYourEmail.setText("Enter your email:");
+                        tsttxtEnterYourEmail.setEditable(false);
+                        tsttxtEnterYourEmail.setColumns(10);
+                        tsttxtEnterYourEmail.setBounds(25, 143, 133, 20);
+                        tstFrame.getContentPane().add(tsttxtEnterYourEmail);
+
+                       
+                        
+                        btnSubmitt.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                String name = tsttxtName.getText();
+                                String id = tsttxtId.getText();
+                                String password = tsttxtPhone.getText();
+                                String email = tsttxtEmail.getText();
+
+                                insertDatatester(name, id, password, email);
+                                
+                                // Clear the text fields after submitting
+                                tsttxtName.setText("");
+                                tsttxtId.setText("");
+                                tsttxtPhone.setText("");
+                                tsttxtEmail.setText("");
+                                
+                                JFrame testerFrame = new JFrame("Tester window");
+                                // Customize the "A" frame here if needed
+                                
+                                testerFrame.setSize(400, 300);
+                                testerFrame.setVisible(true);
+                                
+                                testerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                
+                                testerFrame.getContentPane().setLayout(null);
+                                
+                                JButton btnbug = new JButton("add bug");
+                                btnbug.setBounds(45, 218, 104, 23);
+                                testerFrame.getContentPane().add(btnbug);
+                                
+                                
+                                
+                                
+                            }
+                            
+                            
+                        });
+                        
+                        
+
+
+                    }
+              
+                    
+                });
+                
+                
+            }
+            });
+        
+        
+
     }
     
     
