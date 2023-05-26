@@ -1,6 +1,6 @@
 package system;
 
-public Interface IBugReport {
+public interface IBugReport {
 
   public void viewBugs();
 
