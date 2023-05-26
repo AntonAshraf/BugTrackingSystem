@@ -260,7 +260,7 @@ public class J extends JFrame {
         return false; // Email and password were not found in the database
     }
     
-    private void insertData(String name, String id, String password, String email) {
+    private boolean insertData(String name, String id, String password, String email) {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
@@ -272,18 +272,25 @@ public class J extends JFrame {
             statement.setString(3, email);
             statement.setString(4, password);
 
-            statement.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
 
             statement.close();
             conn.close();
 
-            System.out.println("Data inserted successfully!");
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Data insertion failed!");
+                return false;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return false;
         }
     }
     
-    private void insertDatapro(String name, String id, String password, String email) {
+    private boolean insertDatapro(String name, String id, String password, String email) {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
@@ -295,18 +302,25 @@ public class J extends JFrame {
             statement.setString(3, email);
             statement.setString(4, password);
 
-            statement.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
 
             statement.close();
             conn.close();
 
-            System.out.println("Data inserted successfully!");
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Data insertion failed!");
+                return false;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return false;
         }
     }
   
-    private void insertDatatester(String name, String id, String password, String email) {
+    private boolean insertDatatester(String name, String id, String password, String email) {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
@@ -318,18 +332,26 @@ public class J extends JFrame {
             statement.setString(3, email);
             statement.setString(4, password);
 
-            statement.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
 
             statement.close();
             conn.close();
 
-            System.out.println("Data inserted successfully!");
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Data insertion failed!");
+                return false;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return false;
         }
     }
+
     
-    private void insertDataad(String name, String id, String password, String email) {
+    private boolean insertDataad(String name, String id, String password, String email) {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
@@ -341,16 +363,24 @@ public class J extends JFrame {
             statement.setString(3, email);
             statement.setString(4, password);
 
-            statement.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
 
             statement.close();
             conn.close();
 
-            System.out.println("Data inserted successfully!");
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Data insertion failed!");
+                return false;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return false;
         }
     }
+
     
     
     private void projectmanager() {
@@ -511,15 +541,25 @@ public class J extends JFrame {
 			                    String password = devtxtPhone.getText();
 			                    String email = devtxtEmail.getText();
 			
-			                    insertData(name, id, password, email);
+			         
 			                    
+			                    Boolean x = insertData(name, id, password, email);
+			                    if(x) {
+			                    	
+			                    	System.out.println("Data inserted successfully!");
+			                    	developer();
+			                    	
+			                    }
+			                    else {
+			                    	JButton btnSubmittt = new JButton("wrong input type");
+						            btnSubmittt.setBounds(125, 180, 174, 23);
+						            devFrame.getContentPane().add(btnSubmittt);
+			                    }
 			                    // Clear the text fields after submitting
 			                    devtxtName.setText("");
 			                    devtxtId.setText("");
 			                    devtxtPhone.setText("");
 			                    devtxtEmail.setText("");
-			                    
-			                    developer();
 			                    
 			                }
 			            });
@@ -604,16 +644,24 @@ public class J extends JFrame {
 			                    String password = adtxtPhone.getText();
 			                    String email = adtxtEmail.getText();
 			
-			                    insertDataad(name, id, password, email);
-			                    
+			                   
+			                    Boolean x = insertDataad(name, id, password, email);
+			                    if(x) {
+			                    	
+			                    	System.out.println("Data inserted successfully!");
+			                    	admin();
+			                    	
+			                    }
+			                    else {
+			                    	JButton btnSubmittt = new JButton("wrong input type");
+						            btnSubmittt.setBounds(125, 180, 174, 23);
+						            adFrame.getContentPane().add(btnSubmittt);
+			                    }
 			                    // Clear the text fields after submitting
 			                    adtxtName.setText("");
 			                    adtxtId.setText("");
 			                    adtxtPhone.setText("");
 			                    adtxtEmail.setText("");
-			                    
-			                    
-			                    admin();
 			                }
 			            });
 			
@@ -698,16 +746,23 @@ public class J extends JFrame {
 			                    String password = prostxtPhone.getText();
 			                    String email = prostxtEmail.getText();
 			
-			                    insertDatapro(name, id, password, email);
-			                    
+			                    Boolean x = insertDatapro(name, id, password, email);
+			                    if(x) {
+			                    	
+			                    	System.out.println("Data inserted successfully!");
+			                    	projectmanager();
+			                    	
+			                    }
+			                    else {
+			                    	JButton btnSubmittt = new JButton("wrong input type");
+						            btnSubmittt.setBounds(125, 180, 174, 23);
+						            prosFrame.getContentPane().add(btnSubmittt);
+			                    }
 			                    // Clear the text fields after submitting
 			                    prostxtName.setText("");
 			                    prostxtId.setText("");
 			                    prostxtPhone.setText("");
 			                    prostxtEmail.setText("");
-			                    
-			                    
-			                    projectmanager();
 			                }
 			            });
 			
@@ -793,15 +848,25 @@ public class J extends JFrame {
 			                    String password = tsttxtPhone.getText();
 			                    String email = tsttxtEmail.getText();
 			
-			                    insertDatatester(name, id, password, email);
-			                    
+			                   Boolean x = insertDatatester(name, id, password, email);
+			                    if(x) {
+			                    	
+			                    	System.out.println("Data inserted successfully!");
+			                    	tester();
+			                    	
+			                    }
+			                    else {
+			                    	JButton btnSubmittt = new JButton("wrong input type");
+						            btnSubmittt.setBounds(125, 180, 174, 23);
+						            tstFrame.getContentPane().add(btnSubmittt);
+			                    }
 			                    // Clear the text fields after submitting
 			                    tsttxtName.setText("");
 			                    tsttxtId.setText("");
 			                    tsttxtPhone.setText("");
 			                    tsttxtEmail.setText("");
 			                    
-			                    tester();
+			                    
 			                    
 			                    
 			                    
