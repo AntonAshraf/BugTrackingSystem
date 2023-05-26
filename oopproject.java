@@ -155,10 +155,6 @@ public class J extends JFrame {
        
       
         
-        
-        
-        
-        
         btnlogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	    login();
