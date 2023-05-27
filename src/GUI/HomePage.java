@@ -36,14 +36,14 @@ public class HomePage extends JFrame{
     homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     homeFrame.getContentPane().setLayout(null);
     
-    ImageIcon background = new ImageIcon("C:\\Users\\PC\\Desktop\\College\\project oop\\bg.png");
+    ImageIcon background = new ImageIcon("images/bg.png");
     JLabel bgLabel = new JLabel(background);
     bgLabel.setSize(500,400);
     bgLabel.setLocation(0,0);
     homeFrame.add(bgLabel);
     
 
-    ImageIcon signinicon = new ImageIcon("C:\\Users\\PC\\Desktop\\College\\project oop\\signup.png");
+    ImageIcon signinicon = new ImageIcon("images/signup.png");
     JButton btnsignup = new JButton(signinicon);
     btnsignup.setOpaque(false);
     btnsignup.setContentAreaFilled(false);
@@ -51,7 +51,7 @@ public class HomePage extends JFrame{
     btnsignup.setBounds(140, 100, 200, 38);
     bgLabel.add(btnsignup);
 
-    ImageIcon loginicon = new ImageIcon("C:\\Users\\PC\\Desktop\\College\\project oop\\login.png");
+    ImageIcon loginicon = new ImageIcon("images/login.png");
     JButton btnlogin = new JButton(loginicon);
     btnlogin.setOpaque(false); //Remove Opacity
     btnlogin.setContentAreaFilled(false); //Remove filled background
@@ -59,7 +59,7 @@ public class HomePage extends JFrame{
     btnlogin.setBounds(140, 150, 200, 38);
     bgLabel.add(btnlogin);
     
-    ImageIcon infoicon = new ImageIcon("C:\\Users\\PC\\Desktop\\College\\project oop\\info.png");
+    ImageIcon infoicon = new ImageIcon("images/info.png");
     JButton btninfo = new JButton(infoicon);
     btninfo.setOpaque(false); //Remove Opacity
     btninfo.setContentAreaFilled(false); //Remove filled background
