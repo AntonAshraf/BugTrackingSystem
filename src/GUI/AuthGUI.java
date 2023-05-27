@@ -220,13 +220,13 @@ public class AuthGUI extends JFrame{
 
     btnad.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        signupPage("Admin", "Admin");
+        signupPage("Admin", "Admins");
       }
     });
 
     btnpro.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        signupPage("Project Manager", "ProjectManager");
+        signupPage("Project Manager", "ProjectManagers");
       }
     });
 
@@ -278,13 +278,13 @@ public class AuthGUI extends JFrame{
 
     btnProjectManager.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-       loginPage("Project Manager", "ProjectManager");
+       loginPage("Project Manager", "ProjectManagers");
       }
     });
 
     btnadmin.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        loginPage("Admin", "Admin");
+        loginPage("Admin", "Admins");
       }  
     });
   }
