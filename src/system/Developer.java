@@ -31,5 +31,27 @@ public class Developer extends User {
   public void addBug (Bug bug) {
     Assigned_bugs.add(bug);
   }
+  public void sendemail(Tester t,String new_status ){
+	  t.recivedmessages(new_status);
+	  
+  }
+  public int[] getdbugsinfo() {
+	  
+	  int[] arr = new int[2];
+	  int numofassignedbugs =0;
+	  int numofsolvedbugs = 0;
+	  
+	  for(Bug bug:this.Assigned_bugs) {
+		  
+		  numofassignedbugs++;
+		  if(bug.getStatus() == "Closed") {
+			  numofsolvedbugs++;
+		  }  
+	  }
+	  arr[0] = numofsolvedbugs;
+	  arr[1] = numofassignedbugs;
+	  return arr;
+  }
+  
 
 }
