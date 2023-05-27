@@ -29,12 +29,13 @@ public class Client {
       bufferedWriter.newLine();
       bufferedWriter.flush();
 
-      Scanner scanner = new Scanner(System.in);
-      while (socket.isConnected()) {
-        String messageToSend = scanner.nextLine();
-        bufferedWriter.write(username + ": " + messageToSend);
-        bufferedWriter.newLine();
-        bufferedWriter.flush();
+      try (Scanner scanner = new Scanner(System.in)) {
+        while (socket.isConnected()) {
+          String messageToSend = scanner.nextLine();
+          bufferedWriter.write(username + ": " + messageToSend);
+          bufferedWriter.newLine();
+          bufferedWriter.flush();
+        }
       }
     } catch (IOException e) {
       closeEverything(socket, bufferedReader, bufferedWriter);
@@ -80,22 +81,23 @@ public class Client {
 
   public static void main(String[] args) {
 
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Enter your username:");
-    String username = scanner.nextLine();
-    Socket socket = null;
-    try {
-      socket = new Socket("localhost", 1234);
-    } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    try (Scanner scanner = new Scanner(System.in)) {
+      System.out.println("Enter your username:");
+      String username = scanner.nextLine();
+      Socket socket = null;
+      try {
+        socket = new Socket("localhost", 1234);
+      } catch (UnknownHostException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      Client client = new Client(socket, username);
+      client.listenForMessage();
+      client.sendMessage();
     }
-    Client client = new Client(socket, username);
-    client.listenForMessage();
-    client.sendMessage();
 
   }
 }
