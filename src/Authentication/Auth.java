@@ -82,4 +82,45 @@ public class Auth extends JFrame {
       return false;
     }
   }
+  public static void viewdata(JTable table,String type) {
+      // Establish database connection and execute query
+      try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+           Statement statement = connection.createStatement()) {
+          // Construct the query to select all columns from the "bugs" table
+          String query = "SELECT * FROM "+ type ;
+
+          // Execute the query
+          ResultSet resultSet = statement.executeQuery(query);
+
+          // Create a DefaultTableModel to store the query results
+          DefaultTableModel tableModel = new DefaultTableModel();
+
+          // Get the metadata of the result set
+          ResultSetMetaData metaData = (ResultSetMetaData) resultSet.getMetaData();
+
+          // Get the column count
+          int columnCount = metaData.getColumnCount();
+
+          // Add column names to the table model
+          for (int i = 1; i <= columnCount; i++) {
+              tableModel.addColumn(metaData.getColumnName(i));
+          }
+
+          // Add rows to the table model
+          while (resultSet.next()) {
+              Object[] rowData = new Object[columnCount];
+              for (int i = 1; i <= columnCount; i++) {
+                  rowData[i - 1] = resultSet.getObject(i);
+              }
+              tableModel.addRow(rowData);
+          }
+
+          // Set the table model to the JTable
+          table.setModel(tableModel);
+      } catch (SQLException ex) {
+          ex.printStackTrace();
+      }
+      
+  }
+
 }
