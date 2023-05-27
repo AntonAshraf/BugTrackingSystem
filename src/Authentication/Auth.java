@@ -1,5 +1,6 @@
 package Authentication;
 
+import GUI.HomePage;
 import java.awt.EventQueue;
 
 
@@ -27,7 +28,8 @@ public class Auth extends JFrame {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          Auth frame = new Auth();
+          HomePage frame = new HomePage();
+          frame.homePage();
           frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
