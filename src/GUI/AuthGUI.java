@@ -26,7 +26,7 @@ public class AuthGUI extends JFrame{
   private JTextField dvltxtId;
   private JTextField dvltxtEnterYourName;
   private JTextField dvltxtEnterYourAge;
-
+ 
 
   private void signupPage(String userType, String Table) {
 
@@ -214,25 +214,25 @@ public class AuthGUI extends JFrame{
 
     btndev.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        signupPage("Developer", "user");
+        signupPage("Developer", "Developers");
       }
     });
 
     btnad.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        signupPage("Admin", "admindata");
+        signupPage("Admin", "Admin");
       }
     });
 
     btnpro.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        signupPage("Project Manager", "projectma");
+        signupPage("Project Manager", "ProjectManager");
       }
     });
 
     btntst.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        signupPage("Tester", "tester");
+        signupPage("Tester", "Testers");
       }
     });
   }
@@ -266,25 +266,25 @@ public class AuthGUI extends JFrame{
 
     btntstl.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-       loginPage("Tester", "tester");
+       loginPage("Tester", "Testers");
       }
     });
 
     btndevl.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-       loginPage("Developer", "user");
+       loginPage("Developer", "Developers");
       }
     });
 
     btnProjectManager.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-       loginPage("Project Manager", "projectma");
+       loginPage("Project Manager", "ProjectManager");
       }
     });
 
     btnadmin.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        loginPage("Admin", "admindata");
+        loginPage("Admin", "Admin");
       }  
     });
   }
