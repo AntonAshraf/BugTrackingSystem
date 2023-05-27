@@ -34,7 +34,7 @@ public class Auth extends JFrame {
         try {
           HomePage frame = new HomePage();
           frame.homePage();
-          frame.setVisible(true);
+          //frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
         }
