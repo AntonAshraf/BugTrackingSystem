@@ -41,7 +41,11 @@ public class Bug{
 	public void setDeveloperID(int developerID) {
 		this.developerID = developerID;
 	}
+	
 
+	public String getPriority() {
+		return priority;
+	}
 	public String getBugStatus() {
 		return "Bug [bugId=" + bugId + ", name=" + name + ", type=" + type + ", priority=" + priority + ", projectName="
 				+ projectName + ", date=" + date + ", status=" + status + ", testerID=" + testerID + ", developerID="
