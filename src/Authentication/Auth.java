@@ -3,6 +3,7 @@ package Authentication;
 import GUI.HomePage;
 import java.awt.EventQueue;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,6 +12,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
+
+
+
 
 public class Auth extends JFrame {
 
@@ -19,6 +27,7 @@ public class Auth extends JFrame {
   private static final String DB_USERNAME = "sql7621761";
   private static final String DB_PASSWORD = "aGdHdzy8Is";
 
+ 
   public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
@@ -32,6 +41,7 @@ public class Auth extends JFrame {
       }
     });
   }
+  
   
   public static boolean authenticateUser(String email, String password, String table) {
     // Establish database connection and execute query
@@ -50,6 +60,7 @@ public class Auth extends JFrame {
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
+    
     return false; // Email and password were not found in the database
 }
 
@@ -82,6 +93,7 @@ public class Auth extends JFrame {
       return false;
     }
   }
+  
   public static void viewdata(JTable table,String type) {
       // Establish database connection and execute query
       try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -123,4 +135,6 @@ public class Auth extends JFrame {
       
   }
 
+
 }
+
