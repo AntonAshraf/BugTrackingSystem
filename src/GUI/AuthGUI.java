@@ -128,7 +128,7 @@ public class AuthGUI extends JFrame{
           UserGUI.UserPage(userType, name, id, email);
 
         } else {
-        	JOptionPane.showMessageDialog(SignUpFrame, "An Error has Occured.","Error",JOptionPane.WARNING_MESSAGE);
+        	JOptionPane.showMessageDialog(SignUpFrame, "Invalid Data.","Error!",JOptionPane.WARNING_MESSAGE);
 
         }
         SignUptxtName.setText("");
@@ -217,7 +217,7 @@ public class AuthGUI extends JFrame{
             UserGUI.UserPage(userType,"null", "-1", email);
           } else {
             System.out.println("Not found");
-            JOptionPane.showMessageDialog(LogInFrame, "An Error has Occured.","Error",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(LogInFrame, "Invalid E-Mail or Password.","Error!",JOptionPane.WARNING_MESSAGE);
           }
           LogIntxtEmail.setText("");
           LogIntxtPassword.setText("");
