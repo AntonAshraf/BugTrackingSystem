@@ -24,6 +24,41 @@ public class Project_Manager extends User implements IBugReport{
       System.out.println(bug.getBugStatus());
     }
   }
+public double devper(Developer dev) {
+	
+	int[] arr = dev.getdbugsinfo();
+	int sum =0;
+	for(Bug bug:dev.getAssigned_bugs()) {
+		String bugpriority = bug.getPriority();
+
+		if(bugpriority=="High") {
+			sum = sum + 3;
+		}else if(bugpriority == "Medium") {
+			sum = sum + 2;
+		}else if(bugpriority == "Low") {
+			sum = sum + 1;
+		}
+	}
+	return ((arr[0]*sum)/(arr[1]));
+}
+public double testvper(Tester t) {
+	
+	int totalnumofbus = t.gettotalnumofbugs();
+	int testerownbugs = t.getNumOfBugsFound();
+	int sum =0;
+	for(Bug bug:t.getDiscoverdbugs()) {
+		String bugpriority = bug.getPriority();
+
+		if(bugpriority=="High") {
+			sum +=3;
+		}else if(bugpriority == "Medium") {
+			sum +=2;
+		}else if(bugpriority == "Low") {
+			sum +=1;
+		}
+	}
+	return ((testerownbugs*sum)/(totalnumofbus));
+}
 
 
 }
