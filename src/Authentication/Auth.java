@@ -3,7 +3,6 @@ package Authentication;
 import GUI.HomePage;
 import java.awt.EventQueue;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,16 +12,12 @@ import java.sql.Statement;
 
 import javax.swing.JFrame;
 
-
-
-
 public class Auth extends JFrame {
 
   // MySQL database connection parameters
-  private static final String DB_URL = "jdbc:mysql://localhost/oopdata"; // Replace "mydatabase" with your actual
-  private static final String DB_USERNAME = "root";
-  private static final String DB_PASSWORD = "tony";
-
+  private static final String DB_URL = "jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7621761"; // Replace "mydatabase" with your actual
+  private static final String DB_USERNAME = "sql7621761";
+  private static final String DB_PASSWORD = "aGdHdzy8Is";
 
   public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
@@ -55,7 +50,6 @@ public class Auth extends JFrame {
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
-    
     return false; // Email and password were not found in the database
 }
 
@@ -88,6 +82,4 @@ public class Auth extends JFrame {
       return false;
     }
   }
-
-
 }

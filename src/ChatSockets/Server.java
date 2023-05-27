@@ -4,8 +4,6 @@ import java.net.ServerSocket;
 import java.io.IOException;
 import java.net.Socket;
 
-import system.ClientHandler;
-
 public class Server {
 
   private ServerSocket serverSocket;

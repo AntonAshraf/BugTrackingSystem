@@ -1,4 +1,4 @@
-package system;
+package ChatSockets;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
