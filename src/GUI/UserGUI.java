@@ -156,11 +156,11 @@ public class UserGUI {
 		    testerFrame.add(bgLabel);
 		    
 		    JButton btnAddBug = new JButton("Add Bug");
-		    btnAddBug.setBounds(175, 90, 125, 25);
+		    btnAddBug.setBounds(175, 60, 125, 25);
 		    bgLabel.add(btnAddBug);
 		    
 		    JButton btnViewBugs = new JButton("View Bugs");
-		    btnViewBugs.setBounds(175, 140, 125, 25);
+		    btnViewBugs.setBounds(175, 110, 125, 25);
 		    bgLabel.add(btnViewBugs);
 		    
 		    btnViewBugs.addActionListener(new ActionListener() {
@@ -182,31 +182,31 @@ public class UserGUI {
 		        }
 		    });
 		    
-//		    JButton btnViewDevs = new JButton("View Developers");
-//		    btnViewDevs.setBounds(175, 5, 125, 25);
-//		    bgLabel.add(btnViewDevs);
+		    JButton btnViewDevs = new JButton("View Developers");
+		    btnViewDevs.setBounds(175, 210, 125, 25);
+		    bgLabel.add(btnViewDevs);
 		    
-//		    btnViewDevs.addActionListener(new ActionListener() {
-//		    	public void actionPerformed(ActionEvent e) {
-//				    JFrame frame = new JFrame("Developer Viewer");
-//				    frame.setSize(500,400);
-//				    frame.setLocationRelativeTo(null);
-//				    frame.setResizable(true);
-//			        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//			        JTable table = new JTable();
-//			        JScrollPane scrollPane = new JScrollPane(table);
-//			        frame.add(scrollPane, BorderLayout.CENTER);
-//
-//			        Auth.viewdata(table,"Developers");
-//
-//			        frame.pack();
-//			        frame.setVisible(true);
-//		            
-//		        }
-//		    });
+		    btnViewDevs.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+				    JFrame frame = new JFrame("Developer Viewer");
+				    frame.setSize(500,400);
+				    frame.setLocationRelativeTo(null);
+				    frame.setResizable(true);
+			        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			        JTable table = new JTable();
+			        JScrollPane scrollPane = new JScrollPane(table);
+			        frame.add(scrollPane, BorderLayout.CENTER);
+
+			        Auth.viewdata(table,"Developers");
+
+			        frame.pack();
+			        frame.setVisible(true);
+		            
+		        }
+		    });
 		    
 		    JButton btnBack = new JButton("Back");
-		    btnBack.setBounds(175, 240, 125, 25);
+		    btnBack.setBounds(175, 260, 125, 25);
 		    bgLabel.add(btnBack);
 		    
 		    btnBack.addActionListener(new ActionListener() {
@@ -217,7 +217,7 @@ public class UserGUI {
 		    });
 		    
 		    JButton btnAssignBug = new JButton("Assign Bug");
-		    btnAssignBug.setBounds(175, 190, 125, 25);
+		    btnAssignBug.setBounds(175, 160, 125, 25);
 		    bgLabel.add(btnAssignBug);
 		    
 		    btnAssignBug.addActionListener(new ActionListener() {
