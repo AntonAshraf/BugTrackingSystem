@@ -182,7 +182,7 @@ public class UserGUI {
 		        }
 		    });
 		    
-		    JButton btnViewDevs = new JButton("View Developers");
+		    JButton btnViewDevs = new JButton("View Devs");
 		    btnViewDevs.setBounds(175, 210, 125, 25);
 		    bgLabel.add(btnViewDevs);
 		    
