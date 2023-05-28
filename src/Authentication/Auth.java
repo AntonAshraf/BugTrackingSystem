@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -64,6 +66,77 @@ public class Auth extends JFrame {
     return false; // Email and password were not found in the database
 }
 
+  public static boolean authenticatebugdev(String developerid) {
+	    // Establish database connection and execute query
+	    try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	         Statement statement = connection.createStatement()) {
+	        // Construct the query to search for email and password in the table "projectma"
+	    	String query = "SELECT * FROM Developers WHERE id = " + developerid ;
+	        
+	        // Execute the query
+	        ResultSet resultSet = statement.executeQuery(query);
+	        
+	        // Check if any rows were returned
+	        if (resultSet.next()) {
+	            return true; // Email and password were found in the database
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    
+	    return false; // Email and password were not found in the database
+	}
+  
+  public static List<String> getColumnValues(String columnName, String table) {
+	    List<String> columnValues = new ArrayList<>();
+	    try {
+	        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	        String query = "SELECT " + columnName + " FROM " + table;
+	        //              SELECT       name         FROM     Bugs
+	        PreparedStatement statement = conn.prepareStatement(query);
+
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            columnValues.add(resultSet.getString(columnName));
+	        }
+
+	        resultSet.close();
+	        statement.close();
+	        conn.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return columnValues;
+	}
+
+  public static String getIDByName(String value, String targetvalue, String table, String identifier) {
+	    String ID = "-1";
+
+	    try {
+	        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	        String query = "SELECT " + targetvalue + " FROM " + table + " WHERE " + identifier + " = ?";
+	        //              SELECT     id     FROM   Developers  WHERE  name = ?
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, value);
+
+	        ResultSet resultSet = statement.executeQuery();
+
+	        if (resultSet.next()) {
+	            ID = resultSet.getString(targetvalue);
+	        }
+
+	        resultSet.close();
+	        statement.close();
+	        conn.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return ID;
+	}
+
   public static boolean insertData(String name, String id, String password, String email, String table) {
     try {
       Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -93,6 +166,80 @@ public class Auth extends JFrame {
       return false;
     }
   }
+  
+  public static boolean insertDataBug(String bugid , String name, String type, String priority, String projectname, String startdate, String deadline, String level,String testerid) {
+	    try {
+	      Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	      
+	                  String fixstatus ="open";
+	                  String fixdonedate ="";
+	                  
+	                  
+				      String query = "INSERT INTO Bugs (bugid,name,type,priority,projectname,startdate,deadline,donedate, level, status,testerid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+			
+				      PreparedStatement statement = conn.prepareStatement(query);
+				      statement.setString(1, bugid);
+				      statement.setString(2, name);
+				      statement.setString(3, type);
+				      statement.setString(4, priority);
+				      statement.setString(5, projectname);
+				      statement.setString(6, startdate);
+				      statement.setString(7, deadline);
+				      statement.setString(8, fixdonedate);
+				      statement.setString(9, level);
+				      statement.setString(10, fixstatus);
+				      statement.setString(11, testerid);
+				      
+			
+				      int rowsInserted = statement.executeUpdate();
+			
+				      statement.close();
+				      conn.close();
+			
+				      if (rowsInserted > 0) {
+				        System.out.println("Data inserted successfully!");
+				        return true;
+				      } else {
+				        System.out.println("Data insertion failed!");
+				        return false;
+				      }
+	  
+			} 
+	    
+	                 catch (SQLException ex) {
+				      ex.printStackTrace();
+				      return false;
+				   
+				    }
+	  }
+  
+  public static boolean updateDatabug(String table,String identifier,String searchvalue,String columnewvalue, String newvalue) {
+      //Auth.updateDatabug(Bugs, bugid, 3 , developerid, 4);
+   try {
+         Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+         //Example                    Bugs              developerid         4           bugid          3
+         String query = "UPDATE " + table + " SET " + columnewvalue + "  = ? WHERE "+ identifier + " = ? ";
+         PreparedStatement statement = conn.prepareStatement(query);
+         statement.setString(1, newvalue);
+         statement.setString(2, searchvalue);
+
+         int rowsUpdated = statement.executeUpdate();
+
+         statement.close();
+         conn.close();
+
+         if (rowsUpdated > 0) {
+             System.out.println("Data updated successfully!");
+             return true;
+         } else {
+             System.out.println("Data update failed!");
+             return false;
+         }
+     } catch (SQLException ex) {
+         ex.printStackTrace();
+         return false;
+     }
+ }
   
   public static void viewdata(JTable table,String type) {
       // Establish database connection and execute query
@@ -137,4 +284,3 @@ public class Auth extends JFrame {
 
 
 }
-
