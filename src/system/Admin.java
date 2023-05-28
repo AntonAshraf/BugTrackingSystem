@@ -39,4 +39,19 @@ public class Admin extends User
   public void delete_users(User user) {
     users.remove(user);
   }
+  public void ADD_user(String name,String email,int id,String role,String password) {
+	  String r = role;
+	  if (r.equals("Developer")) {
+		  Developer dev = new Developer(id,name,email,password);
+		  //Add in database
+	  }else if (r.equals("Tester")) {
+		  Tester t = new Tester(id,name,email,password);
+		  //Add in database	  
+	  }else if (r.equals("Project_Manager")) {
+		  Project_Manager pm = new Project_Manager(id,name,email,password);
+		  //Add in database	  
+	  
+  }
+	  
+}
 }
