@@ -17,6 +17,11 @@ public class Project_Manager extends User implements IBugReport{
 		this.bugs = bugs;
 
 	}
+	public Project_Manager(int id, String name, String email, String password) {
+		
+		super(id, name, email, password);
+		
+	}
 
   public void viewBugs()
   {
@@ -31,11 +36,11 @@ public double devper(Developer dev) {
 	for(Bug bug:dev.getAssigned_bugs()) {
 		String bugpriority = bug.getPriority();
 
-		if(bugpriority=="High") {
+		if(bugpriority.equals("High")) {
 			sum = sum + 3;
-		}else if(bugpriority == "Medium") {
+		}else if(bugpriority.equals("Medium")) {
 			sum = sum + 2;
-		}else if(bugpriority == "Low") {
+		}else if(bugpriority.equals("Low")) {
 			sum = sum + 1;
 		}
 	}
@@ -49,11 +54,11 @@ public double testvper(Tester t) {
 	for(Bug bug:t.getDiscoverdbugs()) {
 		String bugpriority = bug.getPriority();
 
-		if(bugpriority=="High") {
+		if(bugpriority.equals("High")) {
 			sum +=3;
-		}else if(bugpriority == "Medium") {
+		}else if(bugpriority.equals("Medium")) {
 			sum +=2;
-		}else if(bugpriority == "Low") {
+		}else if(bugpriority.equals("Low")) {
 			sum +=1;
 		}
 	}
