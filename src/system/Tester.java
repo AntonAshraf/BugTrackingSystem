@@ -18,6 +18,11 @@ public class Tester extends User implements IBugReport{
 		this.developer = developer;
     numOfBugsFound = 0;
 	}
+	public Tester(int id, String name, String email, String password) 
+	{
+		super(id,name,email,password);
+    numOfBugsFound = 0;
+	}
 
 	public void AddBug(Bug bug)
 	{
