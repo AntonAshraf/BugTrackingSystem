@@ -11,6 +11,10 @@ public class Developer extends User {
 		super(id, name, email, password);
 		this.Assigned_bugs = Assigned_bugs;
 	}
+	public Developer(int id, String name, String email, String password) {
+		super(id, name, email, password);
+	
+	}
 
 	public ArrayList<Bug> getAssigned_bugs() {
 		return Assigned_bugs;
@@ -18,10 +22,10 @@ public class Developer extends User {
 
 	public void changeBugStatus(Bug bug, String status)
 	{
-    if (status == "closed" && bug.getBugStatus() == "opened"){
+    if (status.equals("closed") && bug.getBugStatus().equals("opened")){
       bug.setStatus(status);
       num_of_closed_bugs++;
-    } else if  (status == "closed") {
+    } else if  (status.equals("closed")) {
       System.out.println("Bug is already closed");
     }  else {
       System.out.println("Wrong status");
@@ -44,14 +48,18 @@ public class Developer extends User {
 	  for(Bug bug:this.Assigned_bugs) {
 		  
 		  numofassignedbugs++;
-		  if(bug.getStatus() == "Closed") {
+		  if(bug.getStatus().equals("Closed")) {
 			  numofsolvedbugs++;
 		  }  
 	  }
 	  arr[0] = numofsolvedbugs;
 	  arr[1] = numofassignedbugs;
 	  return arr;
+	  
   }
+public void setAssigned_bugs(ArrayList<Bug> assigned_bugs) {
+	Assigned_bugs = assigned_bugs;
+}
   
 
 }
