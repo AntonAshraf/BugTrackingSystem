@@ -115,7 +115,7 @@ public class UserGUI {
 	            JScrollPane scrollPane = new JScrollPane(table);
 	            frame.add(scrollPane, BorderLayout.CENTER);
 
-	            Auth.viewdata(table,"Bugs");
+	            Auth.viewspecificdata(table,"Bugs","developerid",ID);
 
 	            frame.pack();
 	            frame.setVisible(true);
@@ -150,11 +150,11 @@ public class UserGUI {
 
 	        public void actionPerformed(ActionEvent e) {
 	        	
-	        	String s = Auth.getIDByName(ID,"name", "Bugs","developerid");
+	        	
 	        	String bugname = (String) BugsCombo.getSelectedItem();
 	        	Auth.updateDatabug("Bugs", "name", bugname, "status", "closed");
 	        	
-	        	System.out.println(s);
+	        	
 
 	            //JFrame dframe = new JFrame("Developer");
 	            //dframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
