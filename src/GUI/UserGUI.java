@@ -1,20 +1,12 @@
 package GUI;
 import Authentication.Auth;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.*;
 
 public class UserGUI {
 	
@@ -43,15 +35,34 @@ public class UserGUI {
 		    prowFrame.getContentPane().setLayout(null);
 		    
 		    JButton btnCheckPerform = new JButton("Check Performance");
-		    btnCheckPerform.setBounds(175, 90, 125, 25);
+		    btnCheckPerform.setBounds(162, 110, 150, 25);
 		    prowFrame.add(btnCheckPerform);
 		    
 		    JButton btnMonitor = new JButton("Monitor Bugs");
-		    btnMonitor.setBounds(175, 140, 125, 25);
+		    btnMonitor.setBounds(175, 160, 125, 25);
 		    prowFrame.add(btnMonitor);
 		    
-		    JButton btnBack = new JButton("Logout");
-		    btnBack.setBounds(175, 190, 125, 25);
+		    btnMonitor.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+				    JFrame frame = new JFrame("Bug Viewer");
+				    frame.setSize(500,400);
+				    frame.setLocationRelativeTo(null);
+				    frame.setResizable(true);
+			        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			        JTable table = new JTable();
+			        JScrollPane scrollPane = new JScrollPane(table);
+			        frame.add(scrollPane, BorderLayout.CENTER);
+
+			        Auth.viewdata(table,"Bugs");
+
+			        frame.pack();
+			        frame.setVisible(true);
+		            
+		        }
+		    });
+		    
+		    JButton btnBack = new JButton("Back");
+		    btnBack.setBounds(175, 210, 125, 25);
 		    prowFrame.add(btnBack);
 		    
 		    btnBack.addActionListener(new ActionListener() {
@@ -63,29 +74,107 @@ public class UserGUI {
 		  }
 
   public static void developer(String email) {
-    JFrame devwFrame = new JFrame("Developer window");
+	  
+	    String ID = Auth.getIDByName(email, "id", "Developers","email");
 
-    devwFrame.setSize(500, 400);
-    devwFrame.setLocationRelativeTo(null);
-    devwFrame.setVisible(true);
-    devwFrame.setResizable(false);
-    devwFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    devwFrame.getContentPane().setLayout(null);
-    
-    JButton btnBack = new JButton("Logout");
-    btnBack.setBounds(175, 240, 125, 25);
-    devwFrame.add(btnBack);
-    
-    
-    
-    btnBack.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        	devwFrame.dispose();
-      	  	home.homePage();
-        }
-    });
-  }
+	    JFrame devwFrame = new JFrame("Developer window");
+	    devwFrame.setSize(500, 400);
+	    devwFrame.setLocationRelativeTo(null);
+	    devwFrame.setVisible(true);
+	    devwFrame.setResizable(false);
+	    devwFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    devwFrame.getContentPane().setLayout(null);
 
+	    ImageIcon background = new ImageIcon("C:\\Users\\LENOVO\\Desktop\\jp\\BugTrackingSystem\\images\\dev.png");
+	    JLabel bgLabel = new JLabel(background);
+	    bgLabel.setSize(500,400);
+	    bgLabel.setLocation(0,0);
+	    devwFrame.add(bgLabel);
+
+	    JButton btnbugs = new JButton("View Bugs");
+	    btnbugs.setBounds(180, 50, 120, 25);
+	    bgLabel.add(btnbugs);
+
+	    JButton btnvbug = new JButton("Submit");
+	    btnvbug.setBounds(360, 300, 120, 25);
+	    bgLabel.add(btnvbug);
+
+	    JButton btnBack = new JButton("Back");
+	    btnBack.setBounds(40, 300, 125, 25);
+	    bgLabel.add(btnBack);
+	    
+
+	    btnbugs.addActionListener(new ActionListener() {
+
+	        public void actionPerformed(ActionEvent e) {
+
+	            JFrame frame = new JFrame("View Bugs");
+	            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+	            JTable table = new JTable();
+	            JScrollPane scrollPane = new JScrollPane(table);
+	            frame.add(scrollPane, BorderLayout.CENTER);
+
+	            Auth.viewdata(table,"Bugs");
+
+	            frame.pack();
+	            frame.setVisible(true);
+
+	        }
+	    });
+
+
+
+	    btnBack.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            devwFrame.dispose();
+	                home.homePage();
+	        }
+	    });
+	    
+	    List<String> Bugs = Auth.getColumnspecificValues("name", "Bugs","developerid",ID);
+	    
+	    String Bugsarray[] = new String[Bugs.size()];                
+        for(int j =0;j<Bugs.size();j++){  
+      	Bugsarray[j] = Bugs.get(j); 
+      	System.out.println(j);
+        }  
+
+	    JComboBox BugsCombo = new JComboBox(Bugsarray);
+        bgLabel.add(BugsCombo);
+        BugsCombo.setSelectedIndex(0);
+	    BugsCombo.setBounds(25, 200, 200, 20);
+	    devwFrame.getContentPane().add(BugsCombo);
+
+	    btnvbug.addActionListener(new ActionListener() {
+
+	        public void actionPerformed(ActionEvent e) {
+	        	
+	        	String s = Auth.getIDByName(ID,"name", "Bugs","developerid");
+	        	String bugname = (String) BugsCombo.getSelectedItem();
+	        	Auth.updateDatabug("Bugs", "name", bugname, "status", "closed");
+	        	
+	        	System.out.println(s);
+
+	            //JFrame dframe = new JFrame("Developer");
+	            //dframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+	            //JTable table = new JTable();
+	            //JScrollPane scrollPane = new JScrollPane(table);
+	            //dframe.add(scrollPane, BorderLayout.CENTER);
+	            //String s1 = Auth.viewdata(table,"Bugs");
+	            //c1 = new JComboBox(s1);
+
+	            //Auth.viewdata(table,"Developers");
+	            //List<String> s = getColumnValues("name",table)
+
+	            //dframe.pack();
+	            //dframe.setVisible(true);
+
+	        }
+	    });
+	  }
+ 
   public static void admin() {
     JFrame adFrame = new JFrame("Admin Window");
     
@@ -103,15 +192,146 @@ public class UserGUI {
     adFrame.add(bgLabel);
     
     JButton btnViewBugs = new JButton("View Bugs");
-    btnViewBugs.setBounds(175, 135, 125, 25);
+    btnViewBugs.setBounds(175, 110, 125, 25);
     bgLabel.add(btnViewBugs);
     
     JButton btnUpdate = new JButton("Update Users");
-    btnUpdate.setBounds(175, 200, 125, 25);
+    btnUpdate.setBounds(175, 160, 125, 25);
     bgLabel.add(btnUpdate);
     
-    JButton btnBack = new JButton("Logout");
-    btnBack.setBounds(175, 240, 125, 25);
+    btnUpdate.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+		    adFrame.dispose();
+    		JFrame Updateframe = new JFrame("User Updater");
+		    Updateframe.setSize(500,400);
+		    Updateframe.setLocationRelativeTo(null);
+		    Updateframe.setResizable(false);
+		    Updateframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		    Updateframe.getContentPane().setLayout(null);
+		    Updateframe.setVisible(true);
+		    
+		    JLabel updatetxtEnterRole = new JLabel();
+		    updatetxtEnterRole.setText("Choose User Role");
+		    updatetxtEnterRole.setBounds(180, 10, 133, 20);
+		    Updateframe.getContentPane().add(updatetxtEnterRole);
+		    
+		    JButton btnTesters = new JButton("Testers");
+		    btnTesters.setBounds(150, 40, 175, 25);
+		    Updateframe.getContentPane().add(btnTesters);
+		    
+		    JButton btnDevs = new JButton("Developers");
+		    btnDevs.setBounds(150, 90, 175, 25);
+		    Updateframe.getContentPane().add(btnDevs);
+		    
+		    JButton btnPMs = new JButton("Project Managers");
+		    btnPMs.setBounds(150, 140, 175, 25);
+		    Updateframe.getContentPane().add(btnPMs);
+		    
+		    JButton btnAdmins = new JButton("Admins");
+		    btnAdmins.setBounds(150, 190, 175, 25);
+		    Updateframe.getContentPane().add(btnAdmins);
+		    
+		    JButton btnBack = new JButton("Back");
+		    btnBack.setBounds(50, 300, 125, 25);
+		    Updateframe.getContentPane().add(btnBack);
+		    
+		    btnTesters.addActionListener(new ActionListener() {
+		        public void actionPerformed(ActionEvent e) {
+		        	JFrame Testersframe = new JFrame("User Updater");
+		        	Testersframe.setSize(300,300);
+		        	Testersframe.setLocationRelativeTo(null);
+		        	Testersframe.setResizable(false);
+		        	Testersframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		        	Testersframe.getContentPane().setLayout(null);
+		        	Testersframe.setVisible(true);
+		        	
+		        	JLabel TestertxtChooseName = new JLabel();
+		        	TestertxtChooseName.setText("Choose Tester Name:");
+		        	TestertxtChooseName.setBounds(25, 10, 130, 20);
+		        	Testersframe.getContentPane().add(TestertxtChooseName);
+		    		
+				    List<String> Testers = Auth.getColumnValues("name","Testers");
+				    String Testersarray[] = new String[Testers.size()];                
+		            for(int j =0;j<Testers.size();j++){  
+		            	Testersarray[j] = Testers.get(j);  
+		            }  
+
+				    JComboBox TestersCombo = new JComboBox(Testersarray);
+				    TestersCombo.setSelectedIndex(0);
+				    TestersCombo.setBounds(25, 35, 200, 20);
+				    Testersframe.getContentPane().add(TestersCombo);
+				    
+				    JLabel TestertxtChooseField = new JLabel();
+		        	TestertxtChooseField.setText("Choose Tester Field:");
+		        	TestertxtChooseField.setBounds(25, 60, 130, 20);
+		        	Testersframe.getContentPane().add(TestertxtChooseField);
+		    		
+				    String Fieldsarray[] = new String[]{"Name","ID","E-Mail","Password"}; 
+
+				    JComboBox FieldsCombo = new JComboBox(Fieldsarray);
+				    FieldsCombo.setSelectedIndex(0);
+				    FieldsCombo.setBounds(25, 85, 200, 20);
+				    Testersframe.getContentPane().add(FieldsCombo);
+				    
+				    JLabel TestertxtChangeField = new JLabel();
+		        	TestertxtChangeField.setText("Change Chosen Field:");
+		        	TestertxtChangeField.setBounds(25, 110, 130, 20);
+		        	Testersframe.getContentPane().add(TestertxtChangeField);
+		        	
+		        	JTextField TestertxtFieldEntry = new JTextField();
+		        	TestertxtFieldEntry.setBounds(25, 135, 200, 20);
+				    Testersframe.getContentPane().add(TestertxtFieldEntry);
+				    TestertxtFieldEntry.setColumns(10);
+				    
+				    JButton btnSubmit = new JButton("Submit");
+				    btnSubmit.setBounds(95, 200, 90, 25);
+				    Testersframe.getContentPane().add(btnSubmit);
+				    
+				    btnSubmit.addActionListener(new ActionListener() {
+				        @Override
+				        public void actionPerformed(ActionEvent e) {
+				        	String TesterName = (String) TestersCombo.getSelectedItem();
+				        	String TesterField = (String) FieldsCombo.getSelectedItem();
+				        	String FieldChange = TestertxtFieldEntry.getText();
+				        	String FieldInput = "";
+				        	
+				        	if(TesterField == "Name") {
+				        		FieldInput = "name";
+				        	}else if(TesterField == "ID") {
+				        		FieldInput = "id";
+				        	}else if(TesterField == "E-Mail") {
+				        		FieldInput = "email";
+				        	}else if(TesterField == "Password") {
+				        		FieldInput = "password";
+				        	}
+				        	
+				        	Boolean x = Auth.updateDatabug("Testers", "name", TesterName, FieldInput, FieldChange);
+				        	
+				        	if(x) {
+				        		Testersframe.dispose();
+				        		Updateframe.dispose();
+				        		admin();
+				        	}else {
+				        		JOptionPane.showMessageDialog(Testersframe, "Invalid Data.","Error!",JOptionPane.WARNING_MESSAGE);
+				        	}
+				        	TestertxtFieldEntry.setText("");
+				        }
+				      });
+		        }
+		    });
+		    
+		    btnBack.addActionListener(new ActionListener() {
+		        public void actionPerformed(ActionEvent e) {
+		        	Updateframe.dispose();
+		      	  	home.homePage();
+		        }
+		    });
+        }
+
+    });
+    
+    JButton btnBack = new JButton("Back");
+    btnBack.setBounds(175, 210, 125, 25);
     bgLabel.add(btnBack);
     
     btnBack.addActionListener(new ActionListener() {
@@ -126,7 +346,7 @@ public class UserGUI {
 		    JFrame frame = new JFrame("Bug Viewer");
 		    frame.setSize(500,400);
 		    frame.setLocationRelativeTo(null);
-		    frame.setResizable(false);
+		    frame.setResizable(true);
 	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        JTable table = new JTable();
 	        JScrollPane scrollPane = new JScrollPane(table);
@@ -208,7 +428,7 @@ public class UserGUI {
 		        }
 		    });
 		    
-		    JButton btnBack = new JButton("Logout");
+		    JButton btnBack = new JButton("Back");
 		    btnBack.setBounds(175, 260, 125, 25);
 		    bgLabel.add(btnBack);
 		    
