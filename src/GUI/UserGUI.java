@@ -76,9 +76,7 @@ public class UserGUI {
     btnBack.setBounds(175, 240, 125, 25);
     devwFrame.add(btnBack);
     
-    AuthGUI authGUI = new AuthGUI();
-    String x = authGUI.getName();
-    System.out.println(x);
+    
     
     btnBack.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
