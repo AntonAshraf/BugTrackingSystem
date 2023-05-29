@@ -29,7 +29,7 @@ public class AuthGUI extends JFrame{
   private JLabel LogIntxtEnterYourRole;
 
   public void signup() {
-    JFrame SignUpFrame = new JFrame("Sign Up");
+    final JFrame SignUpFrame = new JFrame("Sign Up");
 
     SignUpFrame.setLocation(710, 340);
     SignUpFrame.setSize(500, 400);
@@ -90,7 +90,7 @@ public class AuthGUI extends JFrame{
     
     String[] UserOptions = {"Tester", "Developer", "Project Manager", "Admin"};
 
-    JComboBox UserList = new JComboBox(UserOptions);
+    final JComboBox UserList = new JComboBox(UserOptions);
     UserList.setSelectedIndex(0);
     UserList.setBounds(25, 235, 200, 30);
     SignUpFrame.getContentPane().add(UserList);
@@ -141,7 +141,7 @@ public class AuthGUI extends JFrame{
 
  
   public void login() {
-    JFrame LogInFrame = new JFrame("Login");
+    final JFrame LogInFrame = new JFrame("Login");
     
     LogInFrame.setLocation(710, 340);
     LogInFrame.setSize(500, 400);
@@ -181,7 +181,7 @@ public class AuthGUI extends JFrame{
     
     String[] UserOptions = {"Tester", "Developer", "Project Manager", "Admin"};
 
-    JComboBox UserList = new JComboBox(UserOptions);
+    final JComboBox UserList = new JComboBox(UserOptions);
     UserList.setSelectedIndex(0);
     UserList.setBounds(25, 135, 200, 30);
     LogInFrame.getContentPane().add(UserList);

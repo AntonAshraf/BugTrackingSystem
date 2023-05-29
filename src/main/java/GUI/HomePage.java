@@ -17,7 +17,7 @@ public class HomePage extends JFrame{
   //private JPanel contentPane;
 
   public void homePage() {
-    AuthGUI auth = new AuthGUI();
+    final AuthGUI auth = new AuthGUI();
     
     //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //setBounds(710, 340, 500, 400);
@@ -27,7 +27,7 @@ public class HomePage extends JFrame{
     //setContentPane(contentPane);
     //contentPane.setLayout(null);
     
-    JFrame homeFrame = new JFrame("Main Menu");
+    final JFrame homeFrame = new JFrame("Main Menu");
     
     homeFrame.setLocation(710, 340);
     homeFrame.setSize(500, 400);
@@ -35,15 +35,16 @@ public class HomePage extends JFrame{
     homeFrame.setResizable(false);
     homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     homeFrame.getContentPane().setLayout(null);
-    
-    ImageIcon background = new ImageIcon("images/bg.png");
+    String currentDirectory = System.getProperty("user.dir");
+    System.out.println("Current Directory: " + currentDirectory);
+    ImageIcon background = new ImageIcon("src/main/resources/images/bg.png");
     JLabel bgLabel = new JLabel(background);
     bgLabel.setSize(500,400);
     bgLabel.setLocation(0,0);
     homeFrame.add(bgLabel);
     
 
-    ImageIcon signinicon = new ImageIcon("images/signup.png");
+    ImageIcon signinicon = new ImageIcon("src/main/resources/images/signup.png");
     JButton btnsignup = new JButton(signinicon);
     btnsignup.setOpaque(false);
     btnsignup.setContentAreaFilled(false);
@@ -51,7 +52,7 @@ public class HomePage extends JFrame{
     btnsignup.setBounds(140, 100, 200, 38);
     bgLabel.add(btnsignup);
 
-    ImageIcon loginicon = new ImageIcon("images/login.png");
+    ImageIcon loginicon = new ImageIcon("src/main/resources/images/login.png");
     JButton btnlogin = new JButton(loginicon);
     btnlogin.setOpaque(false); //Remove Opacity
     btnlogin.setContentAreaFilled(false); //Remove filled background
@@ -59,7 +60,7 @@ public class HomePage extends JFrame{
     btnlogin.setBounds(140, 150, 200, 38);
     bgLabel.add(btnlogin);
     
-    ImageIcon infoicon = new ImageIcon("images/info.png");
+    ImageIcon infoicon = new ImageIcon("src/main/resources/images/info.png");
     JButton btninfo = new JButton(infoicon);
     btninfo.setOpaque(false); //Remove Opacity
     btninfo.setContentAreaFilled(false); //Remove filled background
