@@ -78,13 +78,13 @@ public class Auth extends JFrame {
 	        
 	        // Check if any rows were returned
 	        if (resultSet.next()) {
-	            return true; // Email and password were found in the database
+	            return true; // id were found in the database
 	        }
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }
 	    
-	    return false; // Email and password were not found in the database
+	    return false; // id were not found in the database
 	}
   
   public static List<String> getColumnValues(String columnName, String table) {
@@ -110,6 +110,32 @@ public class Auth extends JFrame {
 
 	    return columnValues;
 	}
+  
+  public static List<String> getColumnspecificValues(String columnName, String table,String identifier,String value) {
+	    List<String> columnValues = new ArrayList<>();
+	    try {
+	        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	        String query = "SELECT " + columnName + " FROM " + table + " WHERE " + identifier +" = ?";
+	        //              SELECT       name         FROM     Bugs
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, value);
+	        
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            columnValues.add(resultSet.getString(columnName));
+	        }
+
+	        resultSet.close();
+	        statement.close();
+	        conn.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return columnValues;
+	}
+
 
   public static String getIDByName(String value, String targetvalue, String table, String identifier) {
 	    String ID = "-1";
@@ -117,7 +143,7 @@ public class Auth extends JFrame {
 	    try {
 	        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 	        String query = "SELECT " + targetvalue + " FROM " + table + " WHERE " + identifier + " = ?";
-	        //              SELECT     id     FROM   Developers  WHERE  name = ?
+	        //              SELECT          id         FROM   Developers  WHERE      name         = value
 	        PreparedStatement statement = conn.prepareStatement(query);
 	        statement.setString(1, value);
 
@@ -217,7 +243,7 @@ public class Auth extends JFrame {
       //Auth.updateDatabug(Bugs, bugid, 3 , developerid, 4);
    try {
          Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-         //Example                    Bugs              developerid         4           bugid          3
+         //Example                    Bugs              developerid       4            bugid          3
          String query = "UPDATE " + table + " SET " + columnewvalue + "  = ? WHERE "+ identifier + " = ? ";
          PreparedStatement statement = conn.prepareStatement(query);
          statement.setString(1, newvalue);
@@ -281,6 +307,49 @@ public class Auth extends JFrame {
       }
       
   }
+  
+  public static void viewspecificdata(JTable table,String datatable,String specificcolum,String specificvalue) {
+      // Establish database connection and execute query
+      try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+           Statement statement = connection.createStatement()) {
+          // Construct the query to select all columns from the "bugs" table
+          //                                Bugs                    testerid              5
+    	  String query = "SELECT * FROM "+ datatable + " WHERE " + specificcolum + " = " + specificvalue;
+       
+          // Execute the query
+          ResultSet resultSet = statement.executeQuery(query);
+
+          // Create a DefaultTableModel to store the query results
+          DefaultTableModel tableModel = new DefaultTableModel();
+
+          // Get the metadata of the result set
+          ResultSetMetaData metaData = (ResultSetMetaData) resultSet.getMetaData();
+
+          // Get the column count
+          int columnCount = metaData.getColumnCount();
+
+          // Add column names to the table model
+          for (int i = 1; i <= columnCount; i++) {
+              tableModel.addColumn(metaData.getColumnName(i));
+          }
+
+          // Add rows to the table model
+          while (resultSet.next()) {
+              Object[] rowData = new Object[columnCount];
+              for (int i = 1; i <= columnCount; i++) {
+                  rowData[i - 1] = resultSet.getObject(i);
+              }
+              tableModel.addRow(rowData);
+          }
+
+          // Set the table model to the JTable
+          table.setModel(tableModel);
+      } catch (SQLException ex) {
+          ex.printStackTrace();
+      }
+      
+  }
+ 
 
 
 }
