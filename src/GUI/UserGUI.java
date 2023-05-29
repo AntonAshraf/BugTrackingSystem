@@ -50,7 +50,7 @@ public class UserGUI {
 		    btnMonitor.setBounds(175, 140, 125, 25);
 		    prowFrame.add(btnMonitor);
 		    
-		    JButton btnBack = new JButton("Back");
+		    JButton btnBack = new JButton("Logout");
 		    btnBack.setBounds(175, 190, 125, 25);
 		    prowFrame.add(btnBack);
 		    
@@ -72,7 +72,7 @@ public class UserGUI {
     devwFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     devwFrame.getContentPane().setLayout(null);
     
-    JButton btnBack = new JButton("Back");
+    JButton btnBack = new JButton("Logout");
     btnBack.setBounds(175, 240, 125, 25);
     devwFrame.add(btnBack);
     
@@ -110,7 +110,7 @@ public class UserGUI {
     btnUpdate.setBounds(175, 200, 125, 25);
     bgLabel.add(btnUpdate);
     
-    JButton btnBack = new JButton("Back");
+    JButton btnBack = new JButton("Logout");
     btnBack.setBounds(175, 240, 125, 25);
     bgLabel.add(btnBack);
     
@@ -185,7 +185,7 @@ public class UserGUI {
 		        }
 		    });
 		    
-		    JButton btnViewDevs = new JButton("View Developers");
+		    JButton btnViewDevs = new JButton("View Devs");
 		    btnViewDevs.setBounds(175, 210, 125, 25);
 		    bgLabel.add(btnViewDevs);
 		    
@@ -208,7 +208,7 @@ public class UserGUI {
 		        }
 		    });
 		    
-		    JButton btnBack = new JButton("Back");
+		    JButton btnBack = new JButton("Logout");
 		    btnBack.setBounds(175, 260, 125, 25);
 		    bgLabel.add(btnBack);
 		    
