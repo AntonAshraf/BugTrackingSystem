@@ -116,7 +116,7 @@ public class Auth extends JFrame {
 	    try {
 	        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 	        String query = "SELECT " + columnName + " FROM " + table + " WHERE " + identifier +" = ?";
-	        //              SELECT       name         FROM     Bugs
+	        //              SELECT       name         FROM     Bugs                 testerid       3
 	        PreparedStatement statement = conn.prepareStatement(query);
 	        statement.setString(1, value);
 	        
@@ -215,7 +215,7 @@ public class Auth extends JFrame {
 				      statement.setString(9, level);
 				      statement.setString(10, fixstatus);
 				      statement.setString(11, testerid);
-				      
+				      increment("Testers","numbugs",testerid);
 			
 				      int rowsInserted = statement.executeUpdate();
 			
@@ -238,6 +238,48 @@ public class Auth extends JFrame {
 				   
 				    }
 	  }
+  
+  public static void increment(String table,String colum,String incvalue) {
+      try {
+    	  Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+    	  
+    	  String query = "SELECT " + colum + " FROM " + table + " WHERE id = ?";
+    	  //                         numbugs            Testers           incvalue
+          PreparedStatement statement = conn.prepareStatement(query);
+          statement.setString(1, incvalue);
+          ResultSet resultSet = statement.executeQuery();
+
+          if (resultSet.next()) {
+              Integer numBugs = resultSet.getInt(colum);
+
+              if (numBugs == null) 
+               {
+                   numBugs = 1; 
+               }
+              else {
+                  numBugs++;
+               }
+
+          
+              String query2 = "UPDATE " + table + " SET " + colum + " = ? WHERE id = ? ";
+              //                         Testers           colum                 incvalue
+              PreparedStatement updatestatement = conn.prepareStatement(query2);
+              updatestatement.setInt(1, numBugs);
+              updatestatement.setString(2, incvalue);
+              updatestatement.executeUpdate();
+
+              System.out.println("target updated successfully!");
+          } else {
+              System.out.println("No row found with the provided id: " + incvalue);
+          }
+
+          resultSet.close();
+          statement.close();
+          conn.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+  }
   
   public static boolean updateDatabug(String table,String identifier,String searchvalue,String columnewvalue, String newvalue) {
       //Auth.updateDatabug(Bugs, bugid, 3 , developerid, 4);
