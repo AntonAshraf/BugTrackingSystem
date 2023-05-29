@@ -19,16 +19,16 @@ import javax.swing.JComboBox;
 public class UserGUI {
 	
   static HomePage home = new HomePage();
-	
+	//                            ok               null        -1        ok
   public static void UserPage(String UserType, String name, String id, String email) {
     if (UserType.equals("Project Manager")) {
       projectmanager();
     } else if (UserType.equals("Developer")) {
-      developer();
+      developer(email);
     } else if (UserType.equals("Admin")) {
       admin();
     } else if (UserType.equals("Tester")) {
-      tester();
+      tester(email);
     }
   }
 
@@ -62,7 +62,7 @@ public class UserGUI {
 		    });
 		  }
 
-  public static void developer() {
+  public static void developer(String email) {
     JFrame devwFrame = new JFrame("Developer window");
 
     devwFrame.setSize(500, 400);
@@ -75,6 +75,10 @@ public class UserGUI {
     JButton btnBack = new JButton("Back");
     btnBack.setBounds(175, 240, 125, 25);
     devwFrame.add(btnBack);
+    
+    AuthGUI authGUI = new AuthGUI();
+    String x = authGUI.getName();
+    System.out.println(x);
     
     btnBack.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -139,7 +143,8 @@ public class UserGUI {
     });
   }
 
-  public static void tester() {
+  public static void tester(String email) {
+	  		String ID = Auth.getIDByName(email, "id", "Testers","email");
 	  		
 		    JFrame testerFrame = new JFrame("Tester Window");
 		    testerFrame.setSize(500, 400);
@@ -174,15 +179,15 @@ public class UserGUI {
 			        JScrollPane scrollPane = new JScrollPane(table);
 			        frame.add(scrollPane, BorderLayout.CENTER);
 
-			        Auth.viewdata(table,"Bugs");
-
+			        Auth.viewspecificdata(table,"Bugs","testerid",ID);
+                    
 			        frame.pack();
 			        frame.setVisible(true);
 		            
 		        }
 		    });
 		    
-		    JButton btnViewDevs = new JButton("View Devs");
+		    JButton btnViewDevs = new JButton("View Developers");
 		    btnViewDevs.setBounds(175, 210, 125, 25);
 		    bgLabel.add(btnViewDevs);
 		    
@@ -238,7 +243,7 @@ public class UserGUI {
 					    btnBack.addActionListener(new ActionListener() {
 					        public void actionPerformed(ActionEvent e) {
 					        	assignFrame.dispose();
-					      	  	tester();
+					      	  	tester(email);
 					        }
 					    });
 			    		
@@ -247,7 +252,7 @@ public class UserGUI {
 			    		assignBugtxtChooseBug.setBounds(25, 10, 133, 20);
 					    assignFrame.getContentPane().add(assignBugtxtChooseBug);
 			    		
-					    List<String> Bugs = Auth.getColumnValues("name", "Bugs");
+					    List<String> Bugs = Auth.getColumnspecificValues("name", "Bugs","testerid",ID);
 					    String Bugsarray[] = new String[Bugs.size()];                
 			            for(int j =0;j<Bugs.size();j++){  
 			            	Bugsarray[j] = Bugs.get(j);  
@@ -292,7 +297,7 @@ public class UserGUI {
 						          
 						          if(x) {
 						        	  assignFrame.dispose();
-							      	  tester();
+							      	  tester(email);
 						          }else {
 						          	  JOptionPane.showMessageDialog(assignFrame, "Invalid Data.","Error!",JOptionPane.WARNING_MESSAGE);
 						          }
@@ -402,16 +407,6 @@ public class UserGUI {
 					    LevelCombo.setSelectedIndex(0);
 					    LevelCombo.setBounds(25, 185, 200, 20);
 					    addFrame.getContentPane().add(LevelCombo);
-					    
-					    JLabel addBugtxtEnterTesterID = new JLabel();
-					    addBugtxtEnterTesterID.setText("Enter Tester ID:");
-					    addBugtxtEnterTesterID.setBounds(140, 210, 133, 20);
-					    addFrame.getContentPane().add(addBugtxtEnterTesterID);
-					    
-					    JTextField addBugtxtTesterID = new JTextField();
-					    addBugtxtTesterID.setBounds(140, 235, 200, 20);
-					    addFrame.getContentPane().add(addBugtxtTesterID);
-					    addBugtxtTesterID.setColumns(10);
 					   
 					    JButton btnSubmit = new JButton("Submit");
 					    btnSubmit.setBounds(350, 300, 90, 25);
@@ -428,13 +423,12 @@ public class UserGUI {
 					          String ProjectName = addBugtxtProjectName.getText();
 					          String StartDate = addBugtxtStartDate.getText();
 					          String DeadlineDate = addBugtxtDeadline.getText();
-					          String TesterID = addBugtxtTesterID.getText();
 					          
-					          Boolean x = Auth.insertDataBug(BugID, BugName, BugType, BugPriority, ProjectName, StartDate, DeadlineDate, BugLevel, TesterID);
+					          Boolean x = Auth.insertDataBug(BugID, BugName, BugType, BugPriority, ProjectName, StartDate, DeadlineDate, BugLevel, ID);
 					          
 					          if(x) {
 					        	  addFrame.dispose();
-						      	  tester();
+						      	  tester(email);
 					          }else {
 					          	  JOptionPane.showMessageDialog(addFrame, "Invalid Data.","Error!",JOptionPane.WARNING_MESSAGE);
 					          }
@@ -444,7 +438,7 @@ public class UserGUI {
 					          addBugtxtProjectName.setText("");
 					          addBugtxtStartDate.setText("");
 					          addBugtxtDeadline.setText("");
-					          addBugtxtTesterID.setText("");
+					          
 					        }
 					      });
 					    
@@ -455,7 +449,7 @@ public class UserGUI {
 					    btnBack.addActionListener(new ActionListener() {
 					        public void actionPerformed(ActionEvent e) {
 					        	addFrame.dispose();
-					      	  	tester();
+					      	  	tester(email);
 					        }
 					    });
 			        }
