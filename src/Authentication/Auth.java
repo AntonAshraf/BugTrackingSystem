@@ -350,6 +350,30 @@ public class Auth extends JFrame {
       
   }
   
+  public static void deleteRow(String table,String targetcolum,int id) {
+     
+      try {
+    	  Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+    	  
+    	  String query = "DELETE FROM " + table + " WHERE " + targetcolum + " = ?";
+          PreparedStatement statement = conn.prepareStatement(query);
+         
+          statement.setInt(1, id);
+          int rowsDeleted = statement.executeUpdate();
+
+          if (rowsDeleted > 0) {
+              System.out.println("Row with id " + id + " deleted successfully!");
+          } else {
+              System.out.println("No row found with the provided id: " + id);
+          }
+
+          statement.close();
+          conn.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+  }
+  
   public static void viewspecificdata(JTable table,String datatable,String specificcolum,String specificvalue) {
       // Establish database connection and execute query
       try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -389,6 +413,7 @@ public class Auth extends JFrame {
       } catch (SQLException ex) {
           ex.printStackTrace();
       }
+      
       
   }
  
