@@ -5,12 +5,17 @@ import java.awt.EventQueue;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -135,6 +140,31 @@ public class Auth extends JFrame {
 
 	    return columnValues;
 	}
+  
+  public static List<Long> getLongColumnspecificValues(String columnName, String table,String identifier,String value) {
+	    List<Long> columnValues = new ArrayList<>();
+	    try {
+	        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	        String query = "SELECT " + columnName + " FROM " + table + " WHERE " + identifier +" = ?";
+	        //              SELECT       name         FROM     Bugs                 testerid       3
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, value);
+	        
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            columnValues.add(resultSet.getLong(columnName));
+	        }
+
+	        resultSet.close();
+	        statement.close();
+	        conn.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return columnValues;
+	}
 
 
   public static String getIDByName(String value, String targetvalue, String table, String identifier) {
@@ -151,6 +181,32 @@ public class Auth extends JFrame {
 
 	        if (resultSet.next()) {
 	            ID = resultSet.getString(targetvalue);
+	        }
+
+	        resultSet.close();
+	        statement.close();
+	        conn.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return ID;
+	}
+  
+  public static int intgetIDByName(String value, String targetvalue, String table, String identifier) {
+	    int ID = 0;
+
+	    try {
+	        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	        String query = "SELECT " + targetvalue + " FROM " + table + " WHERE " + identifier + " = ?";
+	        //              SELECT          id         FROM   Developers  WHERE      name         = value
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, value);
+
+	        ResultSet resultSet = statement.executeQuery();
+
+	        if (resultSet.next()) {
+	            ID = resultSet.getInt(targetvalue);
 	        }
 
 	        resultSet.close();
@@ -215,7 +271,7 @@ public class Auth extends JFrame {
 				      statement.setString(9, level);
 				      statement.setString(10, fixstatus);
 				      statement.setString(11, testerid);
-				      increment("Testers","numbugs",testerid);
+				      increment("Testers","numbugs",testerid,"id");
 			
 				      int rowsInserted = statement.executeUpdate();
 			
@@ -239,11 +295,11 @@ public class Auth extends JFrame {
 				    }
 	  }
   
-  public static void increment(String table,String colum,String incvalue) {
+  public static void increment(String table,String colum,String incvalue,String idecolum) {
       try {
     	  Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
     	  
-    	  String query = "SELECT " + colum + " FROM " + table + " WHERE id = ?";
+    	  String query = "SELECT " + colum + " FROM " + table + " WHERE " + idecolum + " = ?";
     	  //                         numbugs            Testers           incvalue
           PreparedStatement statement = conn.prepareStatement(query);
           statement.setString(1, incvalue);
@@ -309,6 +365,34 @@ public class Auth extends JFrame {
      }
  }
   
+  public static boolean updatelongDatabug(String table,String identifier,String searchvalue,String columnewvalue, long newvalue) {
+      //Auth.updateDatabug(Bugs, bugid, 3 , developerid, 4);
+   try {
+         Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+         //Example                    Bugs              developerid       4            bugid          3
+         String query = "UPDATE " + table + " SET " + columnewvalue + "  = ? WHERE "+ identifier + " = ? ";
+         PreparedStatement statement = conn.prepareStatement(query);
+         statement.setLong(1, newvalue);
+         statement.setString(2, searchvalue);
+
+         int rowsUpdated = statement.executeUpdate();
+
+         statement.close();
+         conn.close();
+
+         if (rowsUpdated > 0) {
+             System.out.println("Data updated successfully!");
+             return true;
+         } else {
+             System.out.println("Data update failed!");
+             return false;
+         }
+     } catch (SQLException ex) {
+         ex.printStackTrace();
+         return false;
+     }
+ }
+  
   public static void viewdata(JTable table,String type) {
       // Establish database connection and execute query
       try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -350,7 +434,7 @@ public class Auth extends JFrame {
       
   }
   
-  public static void deleteRow(String table,String targetcolum,int id) {
+  public static Boolean deleteRow(String table,String targetcolum,String name) {
      
       try {
     	  Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -358,22 +442,81 @@ public class Auth extends JFrame {
     	  String query = "DELETE FROM " + table + " WHERE " + targetcolum + " = ?";
           PreparedStatement statement = conn.prepareStatement(query);
          
-          statement.setInt(1, id);
+          statement.setString(1, name);
           int rowsDeleted = statement.executeUpdate();
 
           if (rowsDeleted > 0) {
-              System.out.println("Row with id " + id + " deleted successfully!");
+              return true;
           } else {
-              System.out.println("No row found with the provided id: " + id);
+              return false;
           }
-
-          statement.close();
-          conn.close();
+          
       } catch (SQLException e) {
           e.printStackTrace();
       }
+      return false;
   }
   
+  public static long getDaysBetweenDates(String date1, String date2) {
+	  //long d = Auth.getDaysBetweenDates("23/04/2023","29/04/2023");
+	  //                                    start        done
+      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+      try {
+          java.util.Date startDate = dateFormat.parse(date1);
+          java.util.Date endDate =  dateFormat.parse(date2);
+          
+          long diffInMilliseconds = endDate.getTime() - startDate.getTime();
+          long diffInDays = TimeUnit.DAYS.convert(diffInMilliseconds, TimeUnit.MILLISECONDS);
+          
+          return diffInDays;
+      } catch (ParseException e) {
+          e.printStackTrace();
+          return -1; // Return -1 to indicate an error
+      }
+  }
+  
+  public static double testper(int numofallbugs, int numtesterbugs, List<String> bugpriorityList) {
+	    int sum = 0;
+	    for (String bugpriority : bugpriorityList) {
+	        if (bugpriority.equals("High")) {
+	            sum += 3;
+	        } else if (bugpriority.equals("Medium")) {
+	            sum += 2;
+	        } else if (bugpriority.equals("Low")) {
+	            sum += 1;
+	        }
+	    }
+	    return (numtesterbugs * sum) / (double) numofallbugs;
+	}
+  
+  public static double devper(int numdevbugs, List<String> bugpriorityList, List<Long> timeList) {
+	    int sum = 0;          // Initialize the sum variable to 0
+	    int timescore = 0;    // Initialize the timescore variable to 0
+	    
+	    // Iterate over each bug's priority and time taken
+	    for (int i = 0; i < bugpriorityList.size(); i++) {
+	        String bugpriority = bugpriorityList.get(i); // Get the priority of the current bug
+	        long time = timeList.get(i);                 // Get the time taken for the current bug
+	        
+	        if (time >= 0) {
+	            timescore += 3;    // If time is greater than 0, increment timescore by 3
+	        } else {
+	            timescore += 1;    // Otherwise, increment timescore by 1
+	        }
+	        
+	        // Calculate the sum based on the bug priority
+	        if (bugpriority.equals("High")) {
+	            sum += 3;       // If bugpriority is "High", increment sum by 3
+	        } else if (bugpriority.equals("Medium")) {
+	            sum += 2;       // If bugpriority is "Medium", increment sum by 2
+	        } else if (bugpriority.equals("Low")) {
+	            sum += 1;       // If bugpriority is "Low", increment sum by 1
+	        }
+	    }
+	    
+	    return numdevbugs * sum * timescore * 0.01;    // Return the calculated performance score
+	}
+
   public static void viewspecificdata(JTable table,String datatable,String specificcolum,String specificvalue) {
       // Establish database connection and execute query
       try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -415,6 +558,33 @@ public class Auth extends JFrame {
       }
       
       
+  }
+  public static int getRowCount(String tableName) {
+      int rowCount = 0;
+      
+      try {
+          // Establish a connection to the MySQL database
+    	  Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+          
+          // Create a statement to execute SQL queries
+          Statement statement = connection.createStatement();
+          String query = "SELECT COUNT(*) FROM " + tableName;
+          // Execute a SQL query to get the row count
+          ResultSet resultSet = statement.executeQuery(query);
+          // Retrieve the row count from the result set
+          if (resultSet.next()) {
+              rowCount = resultSet.getInt(1);
+          }
+          
+          // Close the result set, statement, and connection
+          resultSet.close();
+          statement.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+      
+      return rowCount;
   }
  
 
