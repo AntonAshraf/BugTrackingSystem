@@ -1,55 +1,58 @@
 package system;
 
+import Authentication.Auth;
 
 public class Bug{
 	
-	private int bugId;
+	private String bugId;
 	private String name;
-	private String type;
-	private String priority;
-	private String projectName;
-	private String date;
-	private String status;
-	private int testerID;
-	private int developerID;
-	
-//	public int genID() {
-//		return 
-//	}
-	
-	public Bug(int bugId, String name, String type, String priority, String projectName,int testerID) {
-    // add due date
-    // add when it closed
-		this.bugId = bugId;
-		this.name = name;
-		this.type = type;
-		this.priority = priority;
-		this.projectName = projectName;
-		this.date = Date.getCurrentDate();
-		this.status = "Opened";
-		this.testerID = testerID;
-//		this.developerID = null;
-	}
-	public String getStatus() {
-		return status;
-	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public Bug(String name) {
+    this.name = name;
+    bugId = Auth.getIDByName(name, "bugid", "Bugs", "name");
 	}
+  public Bug(int bugId) {
+    this.bugId = Integer.toString(bugId);
+    name = Auth.getIDByName(this.bugId, "name", "Bugs", "bugid");
+  }
+  public String getID() {
+    return bugId;
+  }
+  public String getName() {
+    return name;
+  }
+  public String getType() {
+    return Auth.getIDByName(bugId, "type", "Bugs", "bugid");
+  }
+  public String getPriority() {
+    return Auth.getIDByName(bugId, "priority", "Bugs", "bugid");
+  }
+  public String getProjectName() {
+    return Auth.getIDByName(bugId, "projectname", "Bugs", "bugid");
+  }
+  public String getStartDate() {
+    return Auth.getIDByName(bugId, "startdate", "Bugs", "bugid");
+  }  
+  public String Deadline() {
+    return Auth.getIDByName(bugId, "deadline", "Bugs", "bugid");
+  }
+  public String getDifficultyLevel() {
+    return Auth.getIDByName(bugId, "level", "Bugs", "bugid");
+  }
+  public String getStatus() {
+    return Auth.getIDByName(bugId, "status", "Bugs", "bugid");
+  }
+  public String getTesterID() {
+    return Auth.getIDByName(bugId, "testerid", "Bugs", "bugid");
+  }
+  public String getDeveloperID() {
+    return Auth.getIDByName(bugId, "developerid", "Bugs", "bugid");
+  }
+  public String getTesterName() {
+    return Auth.getIDByName(getTesterID(), "name", "Testers", "bugid");
+  }
+	public String getDeveloperName (){
+    return Auth.getIDByName(getDeveloperID(), "name", "Developers", "bugid");
+  }
 
-	public void setDeveloperID(int developerID) {
-		this.developerID = developerID;
-	}
-	
-
-	public String getPriority() {
-		return priority;
-	}
-	public String getBugStatus() {
-		return "Bug [bugId=" + bugId + ", name=" + name + ", type=" + type + ", priority=" + priority + ", projectName="
-				+ projectName + ", date=" + date + ", status=" + status + ", testerID=" + testerID + ", developerID="
-				+ developerID + "]";
-	}
-	
 }
