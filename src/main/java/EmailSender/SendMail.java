@@ -1,5 +1,6 @@
 package EmailSender;
 
+import system.Bug;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -17,11 +18,13 @@ import javax.mail.internet.MimeMultipart;
 
 public class SendMail extends EmailData{
     
-	public static void sendEmail(String BugName, String DevName) {
-		String to = "mahmoudhanyfathalla@gmail.com";
+	public static void sendEmail(String BugName, String DevName, String PATH) {
+        // Recipient's email ID needs to be mentioned.
+        Bug bug = new Bug(BugName);
+        String to = bug.getDeveloperEmail();
 
         // Sender's email ID needs to be mentioned
-        String from = "anton0ashraf@gmail.com";
+        final String from = bug.getTesterEmail();
 
         // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
@@ -40,7 +43,7 @@ public class SendMail extends EmailData{
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication("anton0a.com", "bsnfdujbzgnyaamb");
+                return new PasswordAuthentication(from, "bsnfdujbzgnyaamb");
 
             }
 
@@ -70,10 +73,10 @@ public class SendMail extends EmailData{
 
           try {
 
-              File f =new File("H:\\pepipost_tutorials\\javaemail1.PNG");
+              File f =new File(PATH);
 
               attachmentPart.attachFile(f);
-              textPart.setText("Screenshot about the bug");
+              textPart.setText(EmailData.getbody(DevName, BugName));
               multipart.addBodyPart(textPart);
               multipart.addBodyPart(attachmentPart);
 
