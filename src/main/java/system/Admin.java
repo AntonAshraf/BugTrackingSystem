@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import GUI.UserGUI;
 import DB.DataBase;
@@ -72,21 +73,28 @@ public class Admin  {
     });
   }
 
-  public static void Update (String username, final JFrame deleteFrame) {
-    final JFrame PMsframe = new JFrame("Project Manager Updater");
-            PMsframe.setSize(300, 300);
-            PMsframe.setLocationRelativeTo(null);
-            PMsframe.setResizable(false);
-            PMsframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            PMsframe.getContentPane().setLayout(null);
-            PMsframe.setVisible(true);
+  public static void Update (String username, final JFrame window) {
+    final JFrame updateFrame = new JFrame(username+" Updater");
+            updateFrame.setSize(300, 300);
+            updateFrame.setLocationRelativeTo(null);
+            updateFrame.setResizable(false);
+            updateFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            updateFrame.getContentPane().setLayout(null);
+            updateFrame.setVisible(true);
+
+            String table = "";
+            if (username.equals("Project Manager")) {
+              table = "ProjectManagers";
+            } else {
+              table = username + "s";
+            }
 
             JLabel PMtxtChooseName = new JLabel();
-            PMtxtChooseName.setText("Choose Project Manager Name:");
+            PMtxtChooseName.setText("Choose "+username+" Name:");
             PMtxtChooseName.setBounds(25, 10, 200, 20);
-            PMsframe.getContentPane().add(PMtxtChooseName);
+            updateFrame.getContentPane().add(PMtxtChooseName);
 
-            List<String> PMs = DataBase.getColumnValues("name", "ProjectManagers");
+            List<String> PMs = DataBase.getColumnValues("name", table);
             String PMsarray[] = new String[PMs.size()];
             for (int j = 0; j < PMs.size(); j++) {
               PMsarray[j] = PMs.get(j);
@@ -95,34 +103,34 @@ public class Admin  {
             final JComboBox PMsCombo = new JComboBox(PMsarray);
             PMsCombo.setSelectedIndex(0);
             PMsCombo.setBounds(25, 35, 200, 20);
-            PMsframe.getContentPane().add(PMsCombo);
+            updateFrame.getContentPane().add(PMsCombo);
 
             JLabel PMtxtChooseField = new JLabel();
-            PMtxtChooseField.setText("Choose Project Manager Field:");
+            PMtxtChooseField.setText("Choose "+username+" Field:");
             PMtxtChooseField.setBounds(25, 60, 200, 20);
-            PMsframe.getContentPane().add(PMtxtChooseField);
+            updateFrame.getContentPane().add(PMtxtChooseField);
 
             String Fieldsarray[] = new String[] { "Name", "ID", "E-Mail", "Password" };
 
             final JComboBox FieldsCombo = new JComboBox(Fieldsarray);
             FieldsCombo.setSelectedIndex(0);
             FieldsCombo.setBounds(25, 85, 200, 20);
-            PMsframe.getContentPane().add(FieldsCombo);
+            updateFrame.getContentPane().add(FieldsCombo);
 
             JLabel PMtxtChangeField = new JLabel();
             PMtxtChangeField.setText("Change Chosen Field:");
             PMtxtChangeField.setBounds(25, 110, 130, 20);
-            PMsframe.getContentPane().add(PMtxtChangeField);
+            updateFrame.getContentPane().add(PMtxtChangeField);
 
             final JTextField PMtxtFieldEntry = new JTextField();
             PMtxtFieldEntry.setBounds(25, 135, 200, 20);
-            PMsframe.getContentPane().add(PMtxtFieldEntry);
+            updateFrame.getContentPane().add(PMtxtFieldEntry);
             PMtxtFieldEntry.setColumns(10);
 
             JButton btnSubmit = new JButton("Submit");
             btnSubmit.setBounds(95, 200, 90, 25);
-            PMsframe.getContentPane().add(btnSubmit);
-
+            updateFrame.getContentPane().add(btnSubmit);
+            final String tab = table;
             btnSubmit.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent e) {
@@ -141,18 +149,19 @@ public class Admin  {
                   FieldInput = "password";
                 }
 
-                Boolean x = DataBase.updateDatabug("ProjectManagers", "name", PMName, FieldInput, FieldChange);
+                Boolean x = DataBase.updateDatabug(tab, "name", PMName, FieldInput, FieldChange);
 
                 if (x) {
-                  PMsframe.dispose();
-                  Updateframe.dispose();
-                  admin();
+                  updateFrame.dispose();
+                  window.dispose();
+                  UserGUI.admin();
                 } else {
-                  JOptionPane.showMessageDialog(PMsframe, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
+                  JOptionPane.showMessageDialog(updateFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
                 }
                 PMtxtFieldEntry.setText("");
               }
             });
   }
+
 
 }
