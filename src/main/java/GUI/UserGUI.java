@@ -904,8 +904,8 @@ public class UserGUI {
         btnSubmit.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            String BugName = (String) BugsCombo.getSelectedItem();
-            String DevName = (String) DevsCombo.getSelectedItem();
+            final String BugName = (String) BugsCombo.getSelectedItem();
+            final String DevName = (String) DevsCombo.getSelectedItem();
             String DevID = DataBase.getIDByName(DevName, "id", "Developers", "name");
             
             Boolean x = DataBase.updateDatabug("Bugs", "name", BugName, "developerid", DevID);
@@ -914,7 +914,17 @@ public class UserGUI {
                 
               assignFrame.dispose();
               tester(email);
-              SendMail.sendEmail(BugName, DevName, "");
+              Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                  try {
+                    SendMail.sendEmail(BugName, DevName, "");
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
+                }
+              });
+              thread.start();
             } else {
               JOptionPane.showMessageDialog(assignFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
             }
