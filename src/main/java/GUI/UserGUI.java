@@ -1,13 +1,22 @@
 package GUI;
-import Authentication.Auth;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.text.DecimalFormat;
+import java.util.List;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import Authentication.Auth;
 
 public class UserGUI {
 	
@@ -27,7 +36,7 @@ public class UserGUI {
   }
 
   public static void projectmanager() {
-		    JFrame prowFrame = new JFrame("Project Manager Window");
+		    final JFrame prowFrame = new JFrame("Project Manager Window");
 
 		    prowFrame.setSize(500, 400);
 		    prowFrame.setLocationRelativeTo(null);
@@ -69,7 +78,7 @@ public class UserGUI {
 		    btnCheckPerform.addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 				    prowFrame.dispose();
-		    		JFrame PerformFrame = new JFrame("pre");
+		    		final JFrame PerformFrame = new JFrame("pre");
 				    PerformFrame.setSize(500,400);
 				    PerformFrame.setLocationRelativeTo(null);
 				    PerformFrame.setResizable(true);
@@ -103,7 +112,7 @@ public class UserGUI {
 				    
 				    btnTesters.addActionListener(new ActionListener() {
 				    	public void actionPerformed(ActionEvent e) {
-				    		JFrame TesterPerformFrame = new JFrame("Tester Performance");
+				    		final JFrame TesterPerformFrame = new JFrame("Tester Performance");
 				    		TesterPerformFrame.setSize(300, 200);
 				    		TesterPerformFrame.setLocationRelativeTo(null);
 				    		TesterPerformFrame.setVisible(true);
@@ -124,7 +133,7 @@ public class UserGUI {
 				          	System.out.println(j);
 				            }  
 
-				    	    JComboBox TestersCombo = new JComboBox(Testersarray);
+				    	    final JComboBox TestersCombo = new JComboBox(Testersarray);
 				    	    TestersCombo.setSelectedIndex(0);
 				    	    TestersCombo.setBounds(25, 35, 200, 20);
 				    	    TesterPerformFrame.getContentPane().add(TestersCombo);
@@ -155,7 +164,7 @@ public class UserGUI {
 				    
 				    btnDevs.addActionListener(new ActionListener() {
 				    	public void actionPerformed(ActionEvent e) {
-				    		JFrame DevPerformFrame = new JFrame("Developer Performance");
+				    		final JFrame DevPerformFrame = new JFrame("Developer Performance");
 				    		DevPerformFrame.setSize(300, 200);
 				    		DevPerformFrame.setLocationRelativeTo(null);
 				    		DevPerformFrame.setVisible(true);
@@ -176,7 +185,7 @@ public class UserGUI {
 				          	System.out.println(j);
 				            }  
 
-				    	    JComboBox DevsCombo = new JComboBox(Devsarray);
+				    	    final JComboBox DevsCombo = new JComboBox(Devsarray);
 				    	    DevsCombo.setSelectedIndex(0);
 				    	    DevsCombo.setBounds(25, 35, 200, 20);
 				    	    DevPerformFrame.getContentPane().add(DevsCombo);
@@ -267,9 +276,9 @@ public class UserGUI {
 
   public static void developer(String email) {
 	  
-	    String ID = Auth.getIDByName(email, "id", "Developers","email");
+	    final String ID = Auth.getIDByName(email, "id", "Developers","email");
 
-	    JFrame devwFrame = new JFrame("Developer window");
+	    final JFrame devwFrame = new JFrame("Developer window");
 	    devwFrame.setSize(500, 400);
 	    devwFrame.setLocationRelativeTo(null);
 	    devwFrame.setVisible(true);
@@ -318,7 +327,7 @@ public class UserGUI {
 
 	    btnfinishbug.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		JFrame bugfinishFrame = new JFrame("Developer window");
+	    		final JFrame bugfinishFrame = new JFrame("Developer window");
 	    		bugfinishFrame.setSize(300, 225);
 	    		bugfinishFrame.setLocationRelativeTo(null);
 	    		bugfinishFrame.setVisible(true);
@@ -343,7 +352,7 @@ public class UserGUI {
 	          	System.out.println(j);
 	            }  
 
-	    	    JComboBox BugsCombo = new JComboBox(Bugsarray);
+	    	    final JComboBox BugsCombo = new JComboBox(Bugsarray);
 	            BugsCombo.setSelectedIndex(0);
 	    	    BugsCombo.setBounds(25, 35, 200, 20);
 	    	    bugfinishFrame.getContentPane().add(BugsCombo);
@@ -353,7 +362,7 @@ public class UserGUI {
 	    	    FinishtxtEnterDate.setBounds(25, 60, 190, 20);
 	        	bugfinishFrame.getContentPane().add(FinishtxtEnterDate);
 	        	
-	        	JTextField FinishtxtDateEntry = new JTextField();
+	        	final JTextField FinishtxtDateEntry = new JTextField();
 	        	FinishtxtDateEntry.setBounds(25, 85, 200, 20);
 			    bugfinishFrame.getContentPane().add(FinishtxtDateEntry);
 			    FinishtxtDateEntry.setColumns(10);
@@ -385,7 +394,7 @@ public class UserGUI {
 	  }
  
   public static void admin() {
-    JFrame adFrame = new JFrame("Admin Window");
+    final JFrame adFrame = new JFrame("Admin Window");
     
     adFrame.setSize(500, 400); 
     adFrame.setLocationRelativeTo(null);
@@ -458,7 +467,7 @@ public class UserGUI {
         public void actionPerformed(ActionEvent e) {
         	adFrame.dispose();
         	
-        	JFrame SignUpFrame = new JFrame("Add User");
+        	final JFrame SignUpFrame = new JFrame("Add User");
 
             SignUpFrame.setSize(500, 400);
             SignUpFrame.setLocationRelativeTo(null);
@@ -468,22 +477,22 @@ public class UserGUI {
             SignUpFrame.getContentPane().setLayout(null);
             
             	
-            JTextField SignUptxtName = new JTextField();
+            final JTextField SignUptxtName = new JTextField();
             SignUptxtName.setBounds(25, 35, 200, 20);
             SignUpFrame.getContentPane().add(SignUptxtName);
             SignUptxtName.setColumns(10);
 
-            JTextField SignUptxtId = new JTextField();
+            final JTextField SignUptxtId = new JTextField();
             SignUptxtId.setBounds(25, 85, 200, 20);
             SignUpFrame.getContentPane().add(SignUptxtId);
             SignUptxtId.setColumns(10);
 
-            JTextField SignUptxtPassword = new JPasswordField();
+            final JTextField SignUptxtPassword = new JPasswordField();
             SignUptxtPassword.setBounds(25, 135, 200, 20);
             SignUpFrame.getContentPane().add(SignUptxtPassword);
             SignUptxtPassword.setColumns(10);
 
-            JTextField SignUptxtEmail = new JTextField();
+            final JTextField SignUptxtEmail = new JTextField();
             SignUptxtEmail.setBounds(25, 185, 200, 20);
             SignUpFrame.getContentPane().add(SignUptxtEmail);
             SignUptxtEmail.setColumns(10);
@@ -519,7 +528,7 @@ public class UserGUI {
             
             String[] UserOptions = {"Tester", "Developer", "Project Manager", "Admin"};
 
-            JComboBox UserList = new JComboBox(UserOptions);
+            final JComboBox UserList = new JComboBox(UserOptions);
             UserList.setSelectedIndex(0);
             UserList.setBounds(25, 235, 200, 30);
             SignUpFrame.getContentPane().add(UserList);
@@ -591,7 +600,7 @@ public class UserGUI {
     btnDelete.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
         	adFrame.dispose();
-        	JFrame DeleteFrame = new JFrame("Delete User");
+        	final JFrame DeleteFrame = new JFrame("Delete User");
         	DeleteFrame.setSize(500, 400);
         	DeleteFrame.setLocationRelativeTo(null);
         	DeleteFrame.setVisible(true);
@@ -626,7 +635,7 @@ public class UserGUI {
 		    
 		    btnTesters.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	JFrame Testersframe = new JFrame("Tester Deleter");
+                	final JFrame Testersframe = new JFrame("Tester Deleter");
 		        	Testersframe.setSize(300,300);
 		        	Testersframe.setLocationRelativeTo(null);
 		        	Testersframe.setResizable(false);
@@ -645,7 +654,7 @@ public class UserGUI {
 		            	Testersarray[j] = Testers.get(j);  
 		            }  
 
-				    JComboBox TestersCombo = new JComboBox(Testersarray);
+				    final JComboBox TestersCombo = new JComboBox(Testersarray);
 				    TestersCombo.setSelectedIndex(0);
 				    TestersCombo.setBounds(25, 35, 200, 20);
 				    Testersframe.getContentPane().add(TestersCombo);
@@ -676,7 +685,7 @@ public class UserGUI {
 		    
 		    btnDevs.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	JFrame Devsframe = new JFrame("Developer Deleter");
+                	final JFrame Devsframe = new JFrame("Developer Deleter");
 		        	Devsframe.setSize(300,300);
 		        	Devsframe.setLocationRelativeTo(null);
 		        	Devsframe.setResizable(false);
@@ -695,7 +704,7 @@ public class UserGUI {
 		            	Devsarray[j] = Devs.get(j);  
 		            }  
 
-				    JComboBox DevsCombo = new JComboBox(Devsarray);
+				    final JComboBox DevsCombo = new JComboBox(Devsarray);
 				    DevsCombo.setSelectedIndex(0);
 				    DevsCombo.setBounds(25, 35, 200, 20);
 				    Devsframe.getContentPane().add(DevsCombo);
@@ -726,7 +735,7 @@ public class UserGUI {
 		    
 		    btnPMs.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	JFrame PMsframe = new JFrame("Project Manager Deleter");
+                	final JFrame PMsframe = new JFrame("Project Manager Deleter");
 		        	PMsframe.setSize(300,300);
 		        	PMsframe.setLocationRelativeTo(null);
 		        	PMsframe.setResizable(false);
@@ -745,7 +754,7 @@ public class UserGUI {
 		            	PMsarray[j] = PMs.get(j);  
 		            }  
 
-				    JComboBox PMsCombo = new JComboBox(PMsarray);
+				    final JComboBox PMsCombo = new JComboBox(PMsarray);
 				    PMsCombo.setSelectedIndex(0);
 				    PMsCombo.setBounds(25, 35, 200, 20);
 				    PMsframe.getContentPane().add(PMsCombo);
@@ -776,7 +785,7 @@ public class UserGUI {
 		    
 		    btnAdmins.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                	JFrame Adminsframe = new JFrame("Admin Deleter");
+                	final JFrame Adminsframe = new JFrame("Admin Deleter");
 		        	Adminsframe.setSize(300,300);
 		        	Adminsframe.setLocationRelativeTo(null);
 		        	Adminsframe.setResizable(false);
@@ -795,7 +804,7 @@ public class UserGUI {
 		            	Adminsarray[j] = Admins.get(j);  
 		            }  
 
-				    JComboBox AdminsCombo = new JComboBox(Adminsarray);
+				    final JComboBox AdminsCombo = new JComboBox(Adminsarray);
 				    AdminsCombo.setSelectedIndex(0);
 				    AdminsCombo.setBounds(25, 35, 200, 20);
 				    Adminsframe.getContentPane().add(AdminsCombo);
@@ -836,7 +845,7 @@ public class UserGUI {
     btnUpdate.addActionListener(new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
 		    adFrame.dispose();
-    		JFrame Updateframe = new JFrame("User Updater");
+    		final JFrame Updateframe = new JFrame("User Updater");
 		    Updateframe.setSize(500,400);
 		    Updateframe.setLocationRelativeTo(null);
 		    Updateframe.setResizable(false);
@@ -871,7 +880,7 @@ public class UserGUI {
 		    
 		    btnTesters.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		        	JFrame Testersframe = new JFrame("Tester Updater");
+		        	final JFrame Testersframe = new JFrame("Tester Updater");
 		        	Testersframe.setSize(300,300);
 		        	Testersframe.setLocationRelativeTo(null);
 		        	Testersframe.setResizable(false);
@@ -890,7 +899,7 @@ public class UserGUI {
 		            	Testersarray[j] = Testers.get(j);  
 		            }  
 
-				    JComboBox TestersCombo = new JComboBox(Testersarray);
+				    final JComboBox TestersCombo = new JComboBox(Testersarray);
 				    TestersCombo.setSelectedIndex(0);
 				    TestersCombo.setBounds(25, 35, 200, 20);
 				    Testersframe.getContentPane().add(TestersCombo);
@@ -902,7 +911,7 @@ public class UserGUI {
 		    		
 				    String Fieldsarray[] = new String[]{"Name","ID","E-Mail","Password"}; 
 
-				    JComboBox FieldsCombo = new JComboBox(Fieldsarray);
+				    final JComboBox FieldsCombo = new JComboBox(Fieldsarray);
 				    FieldsCombo.setSelectedIndex(0);
 				    FieldsCombo.setBounds(25, 85, 200, 20);
 				    Testersframe.getContentPane().add(FieldsCombo);
@@ -912,7 +921,7 @@ public class UserGUI {
 		        	TestertxtChangeField.setBounds(25, 110, 130, 20);
 		        	Testersframe.getContentPane().add(TestertxtChangeField);
 		        	
-		        	JTextField TestertxtFieldEntry = new JTextField();
+		        	final JTextField TestertxtFieldEntry = new JTextField();
 		        	TestertxtFieldEntry.setBounds(25, 135, 200, 20);
 				    Testersframe.getContentPane().add(TestertxtFieldEntry);
 				    TestertxtFieldEntry.setColumns(10);
@@ -956,7 +965,7 @@ public class UserGUI {
 		    
 		    btnDevs.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		        	JFrame Devsframe = new JFrame("Dev Updater");
+		        	final JFrame Devsframe = new JFrame("Dev Updater");
 		        	Devsframe.setSize(300,300);
 		        	Devsframe.setLocationRelativeTo(null);
 		        	Devsframe.setResizable(false);
@@ -975,7 +984,7 @@ public class UserGUI {
 		            	Devsarray[j] = Devs.get(j);  
 		            }  
 
-				    JComboBox DevsCombo = new JComboBox(Devsarray);
+				    final JComboBox DevsCombo = new JComboBox(Devsarray);
 				    DevsCombo.setSelectedIndex(0);
 				    DevsCombo.setBounds(25, 35, 200, 20);
 				    Devsframe.getContentPane().add(DevsCombo);
@@ -987,7 +996,7 @@ public class UserGUI {
 		    		
 				    String Fieldsarray[] = new String[]{"Name","ID","E-Mail","Password"}; 
 
-				    JComboBox FieldsCombo = new JComboBox(Fieldsarray);
+				    final JComboBox FieldsCombo = new JComboBox(Fieldsarray);
 				    FieldsCombo.setSelectedIndex(0);
 				    FieldsCombo.setBounds(25, 85, 200, 20);
 				    Devsframe.getContentPane().add(FieldsCombo);
@@ -997,7 +1006,7 @@ public class UserGUI {
 		        	DevtxtChangeField.setBounds(25, 110, 130, 20);
 		        	Devsframe.getContentPane().add(DevtxtChangeField);
 		        	
-		        	JTextField DevtxtFieldEntry = new JTextField();
+		        	final JTextField DevtxtFieldEntry = new JTextField();
 		        	DevtxtFieldEntry.setBounds(25, 135, 200, 20);
 				    Devsframe.getContentPane().add(DevtxtFieldEntry);
 				    DevtxtFieldEntry.setColumns(10);
@@ -1041,7 +1050,7 @@ public class UserGUI {
 		    
 		    btnPMs.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		        	JFrame PMsframe = new JFrame("Project Manager Updater");
+		        	final JFrame PMsframe = new JFrame("Project Manager Updater");
 		        	PMsframe.setSize(300,300);
 		        	PMsframe.setLocationRelativeTo(null);
 		        	PMsframe.setResizable(false);
@@ -1060,7 +1069,7 @@ public class UserGUI {
 		            	PMsarray[j] = PMs.get(j);  
 		            }  
 
-				    JComboBox PMsCombo = new JComboBox(PMsarray);
+				    final JComboBox PMsCombo = new JComboBox(PMsarray);
 				    PMsCombo.setSelectedIndex(0);
 				    PMsCombo.setBounds(25, 35, 200, 20);
 				    PMsframe.getContentPane().add(PMsCombo);
@@ -1072,7 +1081,7 @@ public class UserGUI {
 		    		
 				    String Fieldsarray[] = new String[]{"Name","ID","E-Mail","Password"}; 
 
-				    JComboBox FieldsCombo = new JComboBox(Fieldsarray);
+				    final JComboBox FieldsCombo = new JComboBox(Fieldsarray);
 				    FieldsCombo.setSelectedIndex(0);
 				    FieldsCombo.setBounds(25, 85, 200, 20);
 				    PMsframe.getContentPane().add(FieldsCombo);
@@ -1082,7 +1091,7 @@ public class UserGUI {
 		        	PMtxtChangeField.setBounds(25, 110, 130, 20);
 		        	PMsframe.getContentPane().add(PMtxtChangeField);
 		        	
-		        	JTextField PMtxtFieldEntry = new JTextField();
+		        	final JTextField PMtxtFieldEntry = new JTextField();
 		        	PMtxtFieldEntry.setBounds(25, 135, 200, 20);
 				    PMsframe.getContentPane().add(PMtxtFieldEntry);
 				    PMtxtFieldEntry.setColumns(10);
@@ -1126,7 +1135,7 @@ public class UserGUI {
 		    
 		    btnAdmins.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		        	JFrame Adminsframe = new JFrame("Admin Updater");
+		        	final JFrame Adminsframe = new JFrame("Admin Updater");
 		        	Adminsframe.setSize(300,300);
 		        	Adminsframe.setLocationRelativeTo(null);
 		        	Adminsframe.setResizable(false);
@@ -1145,7 +1154,7 @@ public class UserGUI {
 		            	Adminsarray[j] = Admins.get(j);  
 		            }  
 
-				    JComboBox AdminsCombo = new JComboBox(Adminsarray);
+				    final JComboBox AdminsCombo = new JComboBox(Adminsarray);
 				    AdminsCombo.setSelectedIndex(0);
 				    AdminsCombo.setBounds(25, 35, 200, 20);
 				    Adminsframe.getContentPane().add(AdminsCombo);
@@ -1157,7 +1166,7 @@ public class UserGUI {
 		    		
 				    String Fieldsarray[] = new String[]{"Name","ID","E-Mail","Password"}; 
 
-				    JComboBox FieldsCombo = new JComboBox(Fieldsarray);
+				    final JComboBox FieldsCombo = new JComboBox(Fieldsarray);
 				    FieldsCombo.setSelectedIndex(0);
 				    FieldsCombo.setBounds(25, 85, 200, 20);
 				    Adminsframe.getContentPane().add(FieldsCombo);
@@ -1167,7 +1176,7 @@ public class UserGUI {
 		        	AdmintxtChangeField.setBounds(25, 110, 130, 20);
 		        	Adminsframe.getContentPane().add(AdmintxtChangeField);
 		        	
-		        	JTextField AdmintxtFieldEntry = new JTextField();
+		        	final JTextField AdmintxtFieldEntry = new JTextField();
 		        	AdmintxtFieldEntry.setBounds(25, 135, 200, 20);
 				    Adminsframe.getContentPane().add(AdmintxtFieldEntry);
 				    AdmintxtFieldEntry.setColumns(10);
@@ -1249,10 +1258,10 @@ public class UserGUI {
     });
   }
 
-  public static void tester(String email) {
-	  		String ID = Auth.getIDByName(email, "id", "Testers","email");
+  public static void tester(final String email) {
+	  		final String ID = Auth.getIDByName(email, "id", "Testers","email");
 	  		
-		    JFrame testerFrame = new JFrame("Tester Window");
+		    final JFrame testerFrame = new JFrame("Tester Window");
 		    testerFrame.setSize(500, 400);
 		    testerFrame.setVisible(true);
 		    testerFrame.setLocationRelativeTo(null);
@@ -1332,7 +1341,7 @@ public class UserGUI {
 		    btnAssignBug.addActionListener(new ActionListener() {
 		    		public void actionPerformed(ActionEvent e) {
 			    		testerFrame.dispose();
-		    			JFrame assignFrame = new JFrame("Assign Bug");
+		    			final JFrame assignFrame = new JFrame("Assign Bug");
 			    		assignFrame.setSize(500,400);
 			    		assignFrame.setLocationRelativeTo(null);
 			    		assignFrame.setResizable(false);
@@ -1362,7 +1371,7 @@ public class UserGUI {
 			            	Bugsarray[j] = Bugs.get(j);  
 			            }  
 
-					    JComboBox BugsCombo = new JComboBox(Bugsarray);
+					    final JComboBox BugsCombo = new JComboBox(Bugsarray);
 					    BugsCombo.setSelectedIndex(0);
 					    BugsCombo.setBounds(25, 35, 200, 20);
 					    assignFrame.getContentPane().add(BugsCombo);
@@ -1378,7 +1387,7 @@ public class UserGUI {
 			              Devarray[j] = Devs.get(j);  
 			            }  
 
-					    JComboBox DevsCombo = new JComboBox(Devarray);
+					    final JComboBox DevsCombo = new JComboBox(Devarray);
 					    DevsCombo.setSelectedIndex(0);
 					    DevsCombo.setBounds(25, 85, 200, 20);
 					    assignFrame.getContentPane().add(DevsCombo);
@@ -1418,7 +1427,7 @@ public class UserGUI {
 		    btnAddBug.addActionListener(new ActionListener() {
 			    	public void actionPerformed(ActionEvent e) {
 					    testerFrame.dispose();
-			    		JFrame addFrame = new JFrame("Add Bug");
+			    		final JFrame addFrame = new JFrame("Add Bug");
 					    addFrame.setSize(500,400);
 					    addFrame.setLocationRelativeTo(null);
 					    addFrame.setResizable(false);
@@ -1431,7 +1440,7 @@ public class UserGUI {
 					    addBugtxtEnterName.setBounds(25, 10, 133, 20);
 					    addFrame.getContentPane().add(addBugtxtEnterName);
 					    
-					    JTextField addBugtxtName = new JTextField();
+					    final JTextField addBugtxtName = new JTextField();
 					    addBugtxtName.setBounds(25, 35, 200, 20);
 					    addFrame.getContentPane().add(addBugtxtName);
 					    addBugtxtName.setColumns(10);
@@ -1441,7 +1450,7 @@ public class UserGUI {
 					    addBugtxtEnterID.setBounds(260, 10, 133, 20);
 					    addFrame.getContentPane().add(addBugtxtEnterID);
 					    
-					    JTextField addBugtxtID = new JTextField();
+					    final JTextField addBugtxtID = new JTextField();
 					    addBugtxtID.setBounds(260, 35, 200, 20);
 					    addFrame.getContentPane().add(addBugtxtID);
 					    addBugtxtID.setColumns(10);
@@ -1451,7 +1460,7 @@ public class UserGUI {
 					    addBugtxtEnterProjectName.setBounds(260, 60, 133, 20);
 					    addFrame.getContentPane().add(addBugtxtEnterProjectName);
 					    
-					    JTextField addBugtxtProjectName = new JTextField();
+					    final JTextField addBugtxtProjectName = new JTextField();
 					    addBugtxtProjectName.setBounds(260, 85, 200, 20);
 					    addFrame.getContentPane().add(addBugtxtProjectName);
 					    addBugtxtProjectName.setColumns(10);
@@ -1461,7 +1470,7 @@ public class UserGUI {
 					    addBugtxtEnterStartDate.setBounds(260, 110, 133, 20);
 					    addFrame.getContentPane().add(addBugtxtEnterStartDate);
 					    
-					    JTextField addBugtxtStartDate = new JTextField();
+					    final JTextField addBugtxtStartDate = new JTextField();
 					    addBugtxtStartDate.setBounds(260, 135, 200, 20);
 					    addFrame.getContentPane().add(addBugtxtStartDate);
 					    addBugtxtStartDate.setColumns(10);
@@ -1471,7 +1480,7 @@ public class UserGUI {
 					    addBugtxtEnterDeadline.setBounds(260, 160, 133, 20);
 					    addFrame.getContentPane().add(addBugtxtEnterDeadline);
 					    
-					    JTextField addBugtxtDeadline = new JTextField();
+					    final JTextField addBugtxtDeadline = new JTextField();
 					    addBugtxtDeadline.setBounds(260, 185, 200, 20);
 					    addFrame.getContentPane().add(addBugtxtDeadline);
 					    addBugtxtDeadline.setColumns(10);
@@ -1483,7 +1492,7 @@ public class UserGUI {
 					    
 					    String[] BugTypes = {"Logic Bug", "Syntax Bug", "Security Bug", "Performance Bug"};
 
-					    JComboBox TypeCombo = new JComboBox(BugTypes);
+					    final JComboBox TypeCombo = new JComboBox(BugTypes);
 					    TypeCombo.setSelectedIndex(0);
 					    TypeCombo.setBounds(25, 85, 200, 20);
 					    addFrame.getContentPane().add(TypeCombo);
@@ -1495,7 +1504,7 @@ public class UserGUI {
 					    
 					    String[] BugPriorities = {"Low", "Medium", "High"};
 
-					    JComboBox PriorityCombo = new JComboBox(BugPriorities);
+					    final JComboBox PriorityCombo = new JComboBox(BugPriorities);
 					    PriorityCombo.setSelectedIndex(0);
 					    PriorityCombo.setBounds(25, 135, 200, 20);
 					    addFrame.getContentPane().add(PriorityCombo);
@@ -1507,7 +1516,7 @@ public class UserGUI {
 					    
 					    String[] BugLevels = {"Easy", "Medium", "Hard", "Level El Wa7sh"};
 
-					    JComboBox LevelCombo = new JComboBox(BugLevels);
+					    final JComboBox LevelCombo = new JComboBox(BugLevels);
 					    LevelCombo.setSelectedIndex(0);
 					    LevelCombo.setBounds(25, 185, 200, 20);
 					    addFrame.getContentPane().add(LevelCombo);
