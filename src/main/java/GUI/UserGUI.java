@@ -3,12 +3,14 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,11 +18,16 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.File;
+
 
 import DB.DataBase;
 import system.Admin;
 import system.Date;
 import system.Performance;
+import EmailSender.ImageSelectionButton;
 import EmailSender.SendMail;
 
 public class UserGUI {
@@ -28,10 +35,12 @@ public class UserGUI {
   static HomePage home = new HomePage();
   static AuthGUI auth = new AuthGUI();
   static DataBase cmd = new DataBase();
+  private static String path;
 
   // ok null -1 ok
   public static void UserPage(String UserType, String name, String id, String email) {
-    if (UserType.equals("Project Manager")) {
+    
+	if (UserType.equals("Project Manager")) {
       projectmanager();
     } else if (UserType.equals("Developer")) {
       developer(email);
@@ -900,7 +909,30 @@ public class UserGUI {
         JButton btnSubmit = new JButton("Submit");
         btnSubmit.setBounds(350, 300, 90, 25);
         assignFrame.getContentPane().add(btnSubmit);
-        //
+        
+        JButton btnattach = new JButton("Attach File");
+        btnattach.setBounds(25, 135, 120, 25);
+        assignFrame.getContentPane().add(btnattach);
+        
+        btnattach.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(assignFrame);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    // Process the selected image file
+                    // TODO: Add your code here to handle the selected image file
+                    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                    path = selectedFile.getAbsolutePath();
+                    
+                }
+            }
+        });
+
+//      getContentPane().add(btnattach);
+//      pack();
+//      setLocationRelativeTo(null);
+
         btnSubmit.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
@@ -915,16 +947,16 @@ public class UserGUI {
               assignFrame.dispose();
               tester(email);
               Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    SendMail.sendEmail(BugName, DevName, "");
-                  } catch (Exception e) {
-                    e.printStackTrace();
+                  @Override
+                  public void run() {
+                    try {
+                      SendMail.sendEmail(BugName, DevName, path);
+                    } catch (Exception e) {
+                      e.printStackTrace();
+                    }
                   }
-                }
-              });
-              thread.start();
+                });
+                thread.start();
             } else {
               JOptionPane.showMessageDialog(assignFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
             }

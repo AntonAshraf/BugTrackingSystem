@@ -72,20 +72,20 @@ public class SendMail extends EmailData {
 
       MimeBodyPart textPart = new MimeBodyPart();
 
-//      try {
+      try {
 
-//        File f = new File(PATH);
+        File f = new File(PATH);
 
-//        attachmentPart.attachFile(f);
+        attachmentPart.attachFile(f);
         textPart.setText(EmailData.getbody(DevName, BugName));
         multipart.addBodyPart(textPart);
-//        multipart.addBodyPart(attachmentPart);
+        multipart.addBodyPart(attachmentPart);
 
-//      } catch (IOException e) {
-//
-//        e.printStackTrace();
-//
-//      }
+      } catch (IOException e) {
+
+        e.printStackTrace();
+
+      }
 
       message.setContent(multipart);
 
