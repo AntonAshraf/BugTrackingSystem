@@ -16,88 +16,86 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class SendMail extends EmailData{
-    
-	public static void sendEmail(String BugName, String DevName, String PATH) {
-        // Recipient's email ID needs to be mentioned.
-        Bug bug = new Bug(BugName);
-        String to = bug.getDeveloperEmail();
+public class SendMail extends EmailData {
 
-        // Sender's email ID needs to be mentioned
-        final String from = bug.getTesterEmail();
+  public static void sendEmail(String BugName, String DevName, String PATH) {
+    // Recipient's email ID needs to be mentioned.
+    final Bug bug = new Bug(BugName);
+    String to = bug.getDeveloperEmail();
 
-        // Assuming you are sending email from through gmails smtp
-        String host = "smtp.gmail.com";
+    // Sender's email ID needs to be mentioned
+    final String from = bug.getTesterEmail();
 
-        // Get system properties
-        Properties properties = System.getProperties();
+    // Assuming you are sending email from through gmails smtp
+    String host = "smtp.gmail.com";
 
-        // Setup mail server
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "465");
-        properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.auth", "true");
+    // Get system properties
+    Properties properties = System.getProperties();
 
-        // Get the Session object.// and pass username and password
-        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+    // Setup mail server
+    properties.put("mail.smtp.host", host);
+    properties.put("mail.smtp.port", "465");
+    properties.put("mail.smtp.ssl.enable", "true");
+    properties.put("mail.smtp.auth", "true");
 
-            protected PasswordAuthentication getPasswordAuthentication() {
+    // Get the Session object.// and pass username and password
+    Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 
-                return new PasswordAuthentication(from, "bsnfdujbzgnyaamb");
+      protected PasswordAuthentication getPasswordAuthentication() {
 
-            }
+        return new PasswordAuthentication(from, bug.getTesterPassword());
 
-        });
-
-        // Used to debug SMTP issues
-        session.setDebug(true);
-
-        try {
-          // Create a default MimeMessage object.
-          MimeMessage message = new MimeMessage(session);
-
-          // Set From: header field of the header.
-          message.setFrom(new InternetAddress(from));
-
-          // Set To: header field of the header.
-          message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-          // Set Subject: header field
-          message.setSubject(EmailData.getSubject(host));
-
-          Multipart multipart = new MimeMultipart();
-
-          MimeBodyPart attachmentPart = new MimeBodyPart();
-
-          MimeBodyPart textPart = new MimeBodyPart();
-
-          try {
-
-              File f =new File(PATH);
-
-              attachmentPart.attachFile(f);
-              textPart.setText(EmailData.getbody(DevName, BugName));
-              multipart.addBodyPart(textPart);
-              multipart.addBodyPart(attachmentPart);
-
-          } catch (IOException e) {
-
-              e.printStackTrace();
-
-          }
-
-          message.setContent(multipart);
-
-          System.out.println("sending...");
-          // Send message
-          Transport.send(message);
-          System.out.println("Sent message successfully....");
-      } catch (MessagingException mex) {
-          mex.printStackTrace();
       }
 
-	}
-	
+    });
 
+    // Used to debug SMTP issues
+    session.setDebug(true);
+
+    try {
+      // Create a default MimeMessage object.
+      MimeMessage message = new MimeMessage(session);
+
+      // Set From: header field of the header.
+      message.setFrom(new InternetAddress(from));
+
+      // Set To: header field of the header.
+      message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+      // Set Subject: header field
+      message.setSubject(EmailData.getSubject(host));
+
+      Multipart multipart = new MimeMultipart();
+
+      MimeBodyPart attachmentPart = new MimeBodyPart();
+
+      MimeBodyPart textPart = new MimeBodyPart();
+
+      try {
+
+        File f = new File(PATH);
+
+        attachmentPart.attachFile(f);
+        textPart.setText(EmailData.getbody(DevName, BugName));
+        multipart.addBodyPart(textPart);
+        multipart.addBodyPart(attachmentPart);
+
+      } catch (IOException e) {
+
+        e.printStackTrace();
+
+      }
+
+      message.setContent(multipart);
+
+      System.out.println("sending...");
+      // Send message
+      Transport.send(message);
+      System.out.println("Sent message successfully....");
+    } catch (MessagingException mex) {
+      mex.printStackTrace();
+    }
+
+  }
 
 }

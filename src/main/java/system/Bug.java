@@ -60,5 +60,8 @@ public class Bug{
   public String getDeveloperEmail() {
     return Auth.getIDByName(getDeveloperID(), "email", "Developers", "bugid");
   }
+  public String getTesterPassword() {
+    return Auth.getIDByName(getTesterID(), "password", "Testers", "bugid");
+  }
 
 }
