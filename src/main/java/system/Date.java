@@ -10,7 +10,7 @@ public class Date {
 		LocalDate currentDate = LocalDate.now();
 		
 		// Formatting a date
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		String formattedDate = currentDate.format(formatter);
 		
 		return formattedDate;

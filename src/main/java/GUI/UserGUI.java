@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import Authentication.Auth;
+import system.Date;
 
 public class UserGUI {
 	
@@ -357,21 +358,11 @@ public class UserGUI {
 	    	    BugsCombo.setBounds(25, 35, 200, 20);
 	    	    bugfinishFrame.getContentPane().add(BugsCombo);
 	    	    
-	    	    JLabel FinishtxtEnterDate = new JLabel();
-	    	    FinishtxtEnterDate.setText("Enter Date of Bug Closing:");
-	    	    FinishtxtEnterDate.setBounds(25, 60, 190, 20);
-	        	bugfinishFrame.getContentPane().add(FinishtxtEnterDate);
-	        	
-	        	final JTextField FinishtxtDateEntry = new JTextField();
-	        	FinishtxtDateEntry.setBounds(25, 85, 200, 20);
-			    bugfinishFrame.getContentPane().add(FinishtxtDateEntry);
-			    FinishtxtDateEntry.setColumns(10);
-
 	    	    btnvbug.addActionListener(new ActionListener() {
 
 	    	        public void actionPerformed(ActionEvent e) {
 	    	        	bugfinishFrame.dispose();
-	    	        	String donedate = FinishtxtDateEntry.getText();
+	    	        	String donedate = Date.getCurrentDate();
 	    	        	String bugname = (String) BugsCombo.getSelectedItem();
 	    	        	Auth.updateDatabug("Bugs", "name", bugname, "status", "closed"); // change status of bug
 	    	        	Auth.increment("Developers","donebugs",ID,"id");  // increment donebug for developer
