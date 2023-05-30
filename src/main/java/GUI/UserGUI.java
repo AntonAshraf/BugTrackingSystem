@@ -17,11 +17,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import Authentication.Auth;
+import DB.DataBase;
 import system.Admin;
 import system.Date;
-import DB.DataBase;
 import system.Performance;
+import EmailSender.SendMail;
 
 public class UserGUI {
 
@@ -907,12 +907,14 @@ public class UserGUI {
             String BugName = (String) BugsCombo.getSelectedItem();
             String DevName = (String) DevsCombo.getSelectedItem();
             String DevID = DataBase.getIDByName(DevName, "id", "Developers", "name");
-
+            
             Boolean x = DataBase.updateDatabug("Bugs", "name", BugName, "developerid", DevID);
 
             if (x) {
+                
               assignFrame.dispose();
               tester(email);
+              SendMail.sendEmail(BugName, DevName, "");
             } else {
               JOptionPane.showMessageDialog(assignFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
             }

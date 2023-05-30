@@ -1,6 +1,6 @@
 package system;
 
-import Authentication.Auth;
+import DB.DataBase;
 
 public class Bug{
 	
@@ -9,12 +9,9 @@ public class Bug{
 
 	public Bug(String name) {
     this.name = name;
-    bugId = Auth.getIDByName(name, "bugid", "Bugs", "name");
+    bugId = DataBase.getIDByName(name, "bugid", "Bugs", "name");
 	}
-  public Bug(int bugId) {
-    this.bugId = Integer.toString(bugId);
-    name = Auth.getIDByName(this.bugId, "name", "Bugs", "bugid");
-  }
+
   public String getID() {
     return bugId;
   }
@@ -22,46 +19,46 @@ public class Bug{
     return name;
   }
   public String getType() {
-    return Auth.getIDByName(bugId, "type", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "type", "Bugs", "bugid");
   }
   public String getPriority() {
-    return Auth.getIDByName(bugId, "priority", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "priority", "Bugs", "bugid");
   }
   public String getProjectName() {
-    return Auth.getIDByName(bugId, "projectname", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "projectname", "Bugs", "bugid");
   }
   public String getStartDate() {
-    return Auth.getIDByName(bugId, "startdate", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "startdate", "Bugs", "bugid");
   }  
   public String Deadline() {
-    return Auth.getIDByName(bugId, "deadline", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "deadline", "Bugs", "bugid");
   }
   public String getDifficultyLevel() {
-    return Auth.getIDByName(bugId, "level", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "level", "Bugs", "bugid");
   }
   public String getStatus() {
-    return Auth.getIDByName(bugId, "status", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "status", "Bugs", "bugid");
   }
   public String getTesterID() {
-    return Auth.getIDByName(bugId, "testerid", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "testerid", "Bugs", "bugid");
   }
   public String getDeveloperID() {
-    return Auth.getIDByName(bugId, "developerid", "Bugs", "bugid");
+    return DataBase.getIDByName(bugId, "developerid", "Bugs", "bugid");
   }
   public String getTesterName() {
-    return Auth.getIDByName(getTesterID(), "name", "Testers", "bugid");
+    return DataBase.getIDByName(getTesterID(), "name", "Testers", "id");
   }
 	public String getDeveloperName (){
-    return Auth.getIDByName(getDeveloperID(), "name", "Developers", "bugid");
+    return DataBase.getIDByName(getDeveloperID(), "name", "Developers", "id");
   }
   public String getTesterEmail() {
-    return Auth.getIDByName(getTesterID(), "email", "Testers", "bugid");
+    return DataBase.getIDByName(getTesterID(), "email", "Testers", "id");
   }
   public String getDeveloperEmail() {
-    return Auth.getIDByName(getDeveloperID(), "email", "Developers", "bugid");
+    return DataBase.getIDByName(getDeveloperID(), "email", "Developers", "id");
   }
   public String getTesterPassword() {
-    return Auth.getIDByName(getTesterID(), "password", "Testers", "bugid");
+    return DataBase.getIDByName(getTesterID(), "password", "Testers", "id");
   }
 
 }

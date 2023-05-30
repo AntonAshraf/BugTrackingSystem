@@ -21,6 +21,7 @@ public class SendMail extends EmailData {
   public static void sendEmail(String BugName, String DevName, String PATH) {
     // Recipient's email ID needs to be mentioned.
     final Bug bug = new Bug(BugName);
+    
     String to = bug.getDeveloperEmail();
 
     // Sender's email ID needs to be mentioned
@@ -63,28 +64,28 @@ public class SendMail extends EmailData {
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
       // Set Subject: header field
-      message.setSubject(EmailData.getSubject(host));
-
+      message.setSubject(EmailData.getSubject(BugName));
+      
       Multipart multipart = new MimeMultipart();
 
       MimeBodyPart attachmentPart = new MimeBodyPart();
 
       MimeBodyPart textPart = new MimeBodyPart();
 
-      try {
+//      try {
 
-        File f = new File(PATH);
+//        File f = new File(PATH);
 
-        attachmentPart.attachFile(f);
+//        attachmentPart.attachFile(f);
         textPart.setText(EmailData.getbody(DevName, BugName));
         multipart.addBodyPart(textPart);
-        multipart.addBodyPart(attachmentPart);
+//        multipart.addBodyPart(attachmentPart);
 
-      } catch (IOException e) {
-
-        e.printStackTrace();
-
-      }
+//      } catch (IOException e) {
+//
+//        e.printStackTrace();
+//
+//      }
 
       message.setContent(multipart);
 

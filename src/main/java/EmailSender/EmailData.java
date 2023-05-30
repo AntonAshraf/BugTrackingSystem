@@ -1,11 +1,11 @@
 package EmailSender;
 
-import Authentication.Auth;
+import DB.DataBase;
 import system.Bug;
 
 public class EmailData {
   public static String getSubject(String Bugname) {
-    String BugID = Auth.getIDByName(Bugname, "id", "Bugs", "name");
+    String BugID = DataBase.getIDByName(Bugname, "bugid", "Bugs", "name");
     return "Bug Report: BugID #" + BugID + " - " + Bugname;
   }
 
