@@ -12,7 +12,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 
 
+
 public class AuthGUI extends JFrame{
+	
+  HomePage home = new HomePage();
+
   private JTextField SignUptxtName;
   private JTextField SignUptxtId;
   private JTextField SignUptxtPassword;
@@ -137,6 +141,17 @@ public class AuthGUI extends JFrame{
         SignUptxtEmail.setText("");
       }
     });
+    
+    JButton btnBack = new JButton("Back");
+    btnBack.setBounds(50, 300, 90, 25);
+    SignUpFrame.getContentPane().add(btnBack);
+    
+    btnBack.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        	SignUpFrame.dispose();
+      	  	home.homePage();
+        }
+      });
   }
 
  
@@ -187,7 +202,6 @@ public class AuthGUI extends JFrame{
     LogInFrame.getContentPane().add(UserList);
     
     btnSubmitdvl.addActionListener(new ActionListener() {
-        @Override
         public void actionPerformed(ActionEvent e) {
           String email = LogIntxtEmail.getText();
           String password = LogIntxtPassword.getText();
@@ -221,6 +235,16 @@ public class AuthGUI extends JFrame{
           }
           LogIntxtEmail.setText("");
           LogIntxtPassword.setText("");
+        }
+      });
+    JButton btnBack = new JButton("Back");
+    btnBack.setBounds(50, 300, 90, 25);
+    LogInFrame.getContentPane().add(btnBack);
+    
+    btnBack.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        	LogInFrame.dispose();
+      	  	home.homePage();
         }
       });
   	}
