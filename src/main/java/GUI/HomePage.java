@@ -35,8 +35,6 @@ public class HomePage extends JFrame{
     homeFrame.setResizable(false);
     homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     homeFrame.getContentPane().setLayout(null);
-    String currentDirectory = System.getProperty("user.dir");
-    System.out.println("Current Directory: " + currentDirectory);
     ImageIcon background = new ImageIcon("src/main/resources/images/bg.png");
     JLabel bgLabel = new JLabel(background);
     bgLabel.setSize(500,400);
@@ -67,6 +65,14 @@ public class HomePage extends JFrame{
     btninfo.setBorderPainted(false); //Remove Button border
     btninfo.setBounds(140, 200, 200, 38);
     bgLabel.add(btninfo);
+    
+    ImageIcon exiticon = new ImageIcon("src/main/resources/images/exit.png");
+    JButton btnexit = new JButton(exiticon);
+    btnexit.setOpaque(false); //Remove Opacity
+    btnexit.setContentAreaFilled(false); //Remove filled background
+    btnexit.setBorderPainted(false); //Remove Button border
+    btnexit.setBounds(140, 250, 200, 38);
+    bgLabel.add(btnexit);
 
     btnlogin.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -81,6 +87,12 @@ public class HomePage extends JFrame{
     	  auth.signup();
       }
     });
+    
+    btnexit.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+      	  homeFrame.dispose();
+        }
+      });
 
   }
 
