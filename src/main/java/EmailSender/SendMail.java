@@ -24,7 +24,7 @@ public class SendMail extends EmailData{
         String to = bug.getDeveloperEmail();
 
         // Sender's email ID needs to be mentioned
-        final String from = bug.getTesterEmail();
+        String from = bug.getTesterEmail();
 
         // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
