@@ -7,27 +7,25 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
-
 
 import DB.DataBase;
 import system.Admin;
 import system.Date;
 import system.Performance;
-import EmailSender.ImageSelectionButton;
 import EmailSender.SendMail;
 
 public class UserGUI {
@@ -36,11 +34,14 @@ public class UserGUI {
   static AuthGUI auth = new AuthGUI();
   static DataBase cmd = new DataBase();
   private static String path;
+  private static JTextField textField;
+
+
 
   // ok null -1 ok
   public static void UserPage(String UserType, String name, String id, String email) {
-    
-	if (UserType.equals("Project Manager")) {
+
+    if (UserType.equals("Project Manager")) {
       projectmanager();
     } else if (UserType.equals("Developer")) {
       developer(email);
@@ -401,7 +402,7 @@ public class UserGUI {
       }
     });
   }
-
+  
   public static void admin() {
     final JFrame adFrame = new JFrame("Admin Window");
 
@@ -914,6 +915,13 @@ public class UserGUI {
         btnattach.setBounds(25, 135, 120, 25);
         assignFrame.getContentPane().add(btnattach);
         
+        textField = new JTextField();
+        textField.setEditable(false);
+        textField.setText(path);
+        textField.setBounds(25, 185, 300, 25);
+        assignFrame.getContentPane().add(textField);
+        
+        
         btnattach.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
@@ -924,9 +932,13 @@ public class UserGUI {
                     // TODO: Add your code here to handle the selected image file
                     System.out.println("Selected file: " + selectedFile.getAbsolutePath());
                     path = selectedFile.getAbsolutePath();
+                    textField.setText(path);
+                    
                     
                 }
             }
+
+			
         });
 
 //      getContentPane().add(btnattach);
@@ -951,6 +963,7 @@ public class UserGUI {
                   public void run() {
                     try {
                       SendMail.sendEmail(BugName, DevName, path);
+                      path = "";
                     } catch (Exception e) {
                       e.printStackTrace();
                     }
