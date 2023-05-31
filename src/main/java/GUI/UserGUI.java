@@ -4,8 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.ServerSocket;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -23,8 +30,10 @@ import java.awt.event.*;
 import java.io.File;
 
 import DB.DataBase;
+import ChatSockets.*;
 import system.Admin;
 import system.Date;
+import Authentication.Auth;
 import system.Performance;
 import EmailSender.SendMail;
 
@@ -62,7 +71,7 @@ public class UserGUI {
     prowFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     prowFrame.getContentPane().setLayout(null);
 
-    ImageIcon background = new ImageIcon("src/main/resources/images/pmbg.jpg");
+    ImageIcon background = new ImageIcon("src/main/resources/images/pmbg.png");
     JLabel bgLabel = new JLabel(background);
     bgLabel.setSize(500, 400);
     bgLabel.setLocation(0, 0);
@@ -293,7 +302,7 @@ public class UserGUI {
     });
   }
 
-  public static void developer(String email) {
+  public static void developer(final String email) {
 
     final String ID = DataBase.getIDByName(email, "id", "Developers", "email");
 
@@ -322,6 +331,271 @@ public class UserGUI {
     JButton btnBack = new JButton("Log Out");
     btnBack.setBounds(175, 210, 125, 25);
     bgLabel.add(btnBack);
+    
+    ImageIcon chaticon = new ImageIcon("src/main/resources/images/chaticon.png");
+    JButton btnChat = new JButton(chaticon);
+    btnChat.setBounds(436, 0, 50, 50);
+    bgLabel.add(btnChat);
+    
+    btnChat.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		final JFrame ChatFrame = new JFrame("Chat Entry");
+    		ChatFrame.setSize(300, 100);
+    		ChatFrame.setVisible(true);
+    		ChatFrame.setLocationRelativeTo(null);
+    		ChatFrame.setResizable(false);
+    		ChatFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		ChatFrame.getContentPane().setLayout(null);
+
+ 		    JButton btnJoin = new JButton("Join Room");
+ 		    btnJoin.setBounds(90, 15, 100, 25);
+ 		    ChatFrame.getContentPane().add(btnJoin);
+ 		    
+ 		    btnJoin.addActionListener(new ActionListener() {
+ 		        public void actionPerformed(ActionEvent e) {
+ 		        	ChatFrame.dispose();
+ 		        	
+ 		        	final JFrame JoinFrame = new JFrame("Join Window");
+		    		JoinFrame.setSize(400, 300);
+		    		JoinFrame.setVisible(true);
+		    		JoinFrame.setLocationRelativeTo(null);
+		    		JoinFrame.setResizable(false);
+		    		JoinFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		    		JoinFrame.getContentPane().setLayout(null);
+
+				    JLabel JointxtEnterPort = new JLabel();
+		    		JointxtEnterPort.setText("Enter Port:");
+		    		JointxtEnterPort.setBounds(50, 70, 133, 20);
+				    JoinFrame.getContentPane().add(JointxtEnterPort);
+				    
+				    final JTextField JointxtPortEntry = new JTextField();
+				    JointxtPortEntry.setBounds(50, 95, 200, 20);
+				    JoinFrame.getContentPane().add(JointxtPortEntry);
+				    JointxtPortEntry.setColumns(10);
+				    
+				    JLabel JointxtEnterIP = new JLabel();
+		    		JointxtEnterIP.setText("Enter IP:");
+		    		JointxtEnterIP.setBounds(50, 20, 133, 20);
+				    JoinFrame.getContentPane().add(JointxtEnterIP);
+				    
+				    final JTextField JointxtIPEntry = new JTextField();
+				    JointxtIPEntry.setBounds(50, 45, 200, 20);
+				    JoinFrame.getContentPane().add(JointxtIPEntry);
+				    JointxtIPEntry.setColumns(10);
+				    
+				    JButton btnJoinRoom = new JButton("Join Room");
+				    btnJoinRoom.setBounds(210, 200, 125, 25);
+				    JoinFrame.getContentPane().add(btnJoinRoom);
+				    
+				    btnJoinRoom.addActionListener(new ActionListener() {
+				        public void actionPerformed(ActionEvent e) {
+				        	JoinFrame.dispose();
+				        	
+				        	final JFrame SearchFrame = new JFrame("Chat Window");
+				        	SearchFrame.setSize(400, 400);
+		 		    		SearchFrame.setLocationRelativeTo(null);
+		 		    		SearchFrame.setVisible(true);
+		 		    		SearchFrame.setResizable(false);
+		 		    		SearchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		 		    		SearchFrame.getContentPane().setLayout(null);
+				        	
+				        	Socket socket = null;
+				        	final String username = DataBase.getIDByName(email, "name", "Developers", "email");
+				        	String IP = JointxtIPEntry.getText();
+				        	
+				        	int Port = Integer.parseInt(JointxtPortEntry.getText());
+				        	
+				            try {
+				              socket = new Socket(IP, Port);
+				            } catch (UnknownHostException exception) {
+				              // TODO Auto-generated catch block
+				            	exception.printStackTrace();
+				            } catch (IOException exception) {
+				              // TODO Auto-generated catch block
+				            	exception.printStackTrace();
+				            }
+				           
+				            
+				            final JTextArea outputArea = new JTextArea();
+		 		            outputArea.setEditable(false);
+
+		 		            // Create a JTextField for user input
+		 		            final JTextField inputField = new JTextField();
+		 		            
+				            final Client client = new Client(socket, username);
+				            //client.listenForMessage();
+				                new Thread(new Runnable() {
+				                  @Override
+				                  public void run() {
+				                    String msgFromGroupChat;
+
+				                    while (client.getSocket().isConnected()) {
+				                      try {
+				                        msgFromGroupChat = client.getBufferedReader().readLine();
+				                        System.out.println(msgFromGroupChat);
+				                      } catch (IOException e) {
+				                        //closeEverything(socket, bufferedReader, bufferedWriter);
+				                      }
+				                    }
+				                  }
+				                }).start();
+				              
+
+		 		            // Create a JButton for sending the input
+		 		            JButton sendButton = new JButton("Send");
+		 		            sendButton.addActionListener(new ActionListener() {
+		 		                @Override
+		 		                public void actionPerformed(ActionEvent e) {
+		 		                    final String input = inputField.getText();
+		 		                    Auth.processInput(input,outputArea);
+		 		                    //client.sendMessage();
+		 		                   Thread thread = new Thread(new Runnable() {
+		 		                      @Override
+		 		                      public void run() {
+//	 		                              try {
+											//client.getBufferedWriter().write(username);
+//										} catch (IOException e) {
+//											// TODO Auto-generated catch block
+//											e.printStackTrace();
+//										}
+//	 		                              try {
+//											client.getBufferedWriter().newLine();
+//										} catch (IOException e) {
+											// TODO Auto-generated catch block
+//											e.printStackTrace();
+//										}
+	 		                              try {
+											client.getBufferedWriter().flush();
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+
+		 		                                //while (client.getSocket().isConnected()) {
+		 		                                	try {
+														client.getBufferedWriter().write(username + ": " + input + "\n");
+													} catch (IOException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+		 		                                	try {
+														client.getBufferedWriter().newLine();
+													} catch (IOException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+		 		                                	try {
+														client.getBufferedWriter().flush();
+													} catch (IOException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+		 		                                
+		 		                                }
+		 		                              //}
+		 		                              //closeEverything(getSocket(), getBufferedReader(), bufferedWriter);
+		 		                   } 
+		 		                      
+		 		                    );
+		 		                  thread.start();
+		 		                    inputField.setText("");
+		 		                }
+		 		            });
+		 		            
+		 		           System.setOut(new PrintStream(new OutputStream() {
+                               @Override
+                               public void write(int b) {
+                                   outputArea.append(String.valueOf((char) b));
+                               }
+                           }));
+		 		            
+		 		            // Create a JPanel to hold the input components
+		 		            JPanel inputPanel = new JPanel();
+		 		            inputPanel.setLayout(new BorderLayout());
+		 		            inputPanel.add(inputField, BorderLayout.CENTER);
+		 		            inputPanel.add(sendButton, BorderLayout.EAST);
+
+		 		            // Add the JTextArea and input panel to the JFrame
+		 		            SearchFrame.getContentPane().setLayout(new BorderLayout());
+		 		            SearchFrame.getContentPane().add(new JScrollPane(outputArea), BorderLayout.CENTER);
+		 		            SearchFrame.getContentPane().add(inputPanel, BorderLayout.SOUTH);
+				        } 
+				    });		    
+				    JButton btnBack = new JButton("Back");
+				    btnBack.setBounds(50, 200, 125, 25);
+				    JoinFrame.getContentPane().add(btnBack);
+				    
+				    btnBack.addActionListener(new ActionListener() {
+				        public void actionPerformed(ActionEvent e) {
+				        	JoinFrame.dispose();
+				        }
+				    });
+ 		        }
+ 		    });
+		    
+        }
+    });
+    
+    ImageIcon searchicon = new ImageIcon("src/main/resources/images/searchicon.png");
+    JButton btnsearch = new JButton(searchicon);
+    btnsearch.setBounds(385, 0, 50, 50);
+    bgLabel.add(btnsearch);
+    
+    btnsearch.addActionListener(new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+        	final JFrame SearchFrame = new JFrame("Search window");
+    		SearchFrame.setSize(1000, 1000);
+    		SearchFrame.setLocationRelativeTo(null);
+    		SearchFrame.setVisible(true);
+    		SearchFrame.setResizable(false);
+    		SearchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		SearchFrame.getContentPane().setLayout(null);
+    		
+    		final JTextArea outputArea = new JTextArea();
+            outputArea.setEditable(false);
+
+            // Create a JTextField for user input
+            final JTextField inputField = new JTextField();
+            
+            
+
+            // Create a JButton for sending the input
+            JButton sendButton = new JButton("Search");
+            sendButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String input = inputField.getText();
+				    List<String> Results =new ArrayList<String>();
+		    		Results = Auth.GoogleSearch(input);
+		    		
+		    		Results.remove(0);
+		    		Results.remove(Results.size()-1);
+		    		Results.remove(Results.size()-1);
+		    		Results.remove(Results.size()-1);
+		    
+                    for (String link : Results) {
+                    	Auth.processInput(link,outputArea);
+                    }
+                    Auth.processInput("--------------------------------------------------------------------------------------------------------------------------------------------------",outputArea);
+                    inputField.setText("");
+                }
+            });
+
+            // Create a JPanel to hold the input components
+            JPanel inputPanel = new JPanel();
+            inputPanel.setLayout(new BorderLayout());
+            inputPanel.add(inputField, BorderLayout.CENTER);
+            inputPanel.add(sendButton, BorderLayout.EAST);
+
+            // Add the JTextArea and input panel to the JFrame
+            SearchFrame.getContentPane().setLayout(new BorderLayout());
+            SearchFrame.getContentPane().add(new JScrollPane(outputArea), BorderLayout.CENTER);
+            SearchFrame.getContentPane().add(inputPanel, BorderLayout.SOUTH);
+            
+
+        }
+    });
 
     btnbugs.addActionListener(new ActionListener() {
 
@@ -814,6 +1088,395 @@ public class UserGUI {
         frame.setVisible(true);
 
       }
+    });
+    
+    ImageIcon chaticon = new ImageIcon("src/main/resources/images/chaticon.png");
+    JButton btnChat = new JButton(chaticon);
+    btnChat.setBounds(436, 0, 50, 50);
+    bgLabel.add(btnChat);
+    
+    btnChat.addActionListener(new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		final JFrame ChatFrame = new JFrame("Chat Entry");
+    		ChatFrame.setSize(300, 100);
+    		ChatFrame.setVisible(true);
+    		ChatFrame.setLocationRelativeTo(null);
+    		ChatFrame.setResizable(false);
+    		ChatFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		ChatFrame.getContentPane().setLayout(null);
+
+    		JButton btnHost = new JButton("Host Room");
+ 		    btnHost.setBounds(90, 15, 100, 25);
+ 		    ChatFrame.getContentPane().add(btnHost);
+ 		    
+ 		    btnHost.addActionListener(new ActionListener() {
+ 		        public void actionPerformed(ActionEvent e) {
+ 		        	ChatFrame.dispose();
+ 		        	
+ 		        	final JFrame HostFrame = new JFrame("Host Window");
+	 		   		HostFrame.setSize(400, 300);
+	 		   		HostFrame.setVisible(true);
+	 		   		HostFrame.setLocationRelativeTo(null);
+	 		   		HostFrame.setResizable(false);
+	 		   		HostFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	 		   		HostFrame.getContentPane().setLayout(null);
+	 		   		
+	 		   		JLabel HosttxtEnterIP = new JLabel();
+	 		   		HosttxtEnterIP.setText("Enter IP:");
+	 		   		HosttxtEnterIP.setBounds(50, 10, 133, 20);
+	 		   	    HostFrame.getContentPane().add(HosttxtEnterIP);
+	 		   	    
+	 		   	    final JTextField HosttxtIPEntry = new JTextField();
+	 		   	    HosttxtIPEntry.setBounds(50, 35, 200, 20);
+	 		   	    HostFrame.getContentPane().add(HosttxtIPEntry);
+	 		   	    HosttxtIPEntry.setColumns(10);
+	 		   	    
+	 		   	    JLabel HosttxtEnterPort = new JLabel();
+	 		   		HosttxtEnterPort.setText("Enter Port:");
+	 		   		HosttxtEnterPort.setBounds(50, 70, 133, 20);
+	 		   	    HostFrame.getContentPane().add(HosttxtEnterPort);
+	 		   	    
+	 		   	    final JTextField HosttxtPortEntry = new JTextField();
+	 		   	    HosttxtPortEntry.setBounds(50, 95, 200, 20);
+	 		   	    HostFrame.getContentPane().add(HosttxtPortEntry);
+	 		   	    HosttxtPortEntry.setColumns(10);
+	 		   	    
+	 		   	    JLabel HosttxtEnterDev = new JLabel();
+	 		   		HosttxtEnterDev.setText("Choose Developer:");
+	 		   		HosttxtEnterDev.setBounds(50, 130, 180, 20);
+	 		   	    HostFrame.getContentPane().add(HosttxtEnterDev);
+	 		   	    
+	 		   	    List<String> Devs = DataBase.getColumnValues("name", "Developers");
+	 		   	    String Devarray[] = new String[Devs.size()];                
+	 		   	    for(int j =0;j<Devs.size();j++){  
+	 		   	      Devarray[j] = Devs.get(j);  
+	 		   	    }  
+
+	 		   	    final JComboBox DevsCombo = new JComboBox(Devarray);
+	 		   	    DevsCombo.setSelectedIndex(0);
+	 		   	    DevsCombo.setBounds(50, 155, 200, 20);
+	 		   	    HostFrame.getContentPane().add(DevsCombo);
+	 		   	    
+	 		   	    JButton btnHostRoom = new JButton("Host Room");
+	 		   	    btnHostRoom.setBounds(210, 200, 125, 25);
+	 		   	    HostFrame.getContentPane().add(btnHostRoom);
+	 		   	    
+	 		   	    btnHostRoom.addActionListener(new ActionListener() {
+	 		   	        public void actionPerformed(ActionEvent e) {
+	 		   	        	HostFrame.dispose();
+	 		   	        	
+	 		   	        	String IP = HosttxtIPEntry.getText();
+	 		   	        	int Port = Integer.parseInt(HosttxtPortEntry.getText());
+	 		   	        	String DevName = (String) DevsCombo.getSelectedItem();
+
+	 		   	        	try {
+	 		   					ServerSocket serverSocket = new ServerSocket(Port);
+	 		   					Server server = new Server(serverSocket);
+	 		   					server.startServer();
+	 		   				} catch (IOException exception) {
+	 		   					// TODO Auto-generated catch block
+	 		   					exception.printStackTrace();
+	 		   				}
+	 		   	        	
+	 		   	        final JFrame SearchFrame = new JFrame("Chat window");
+	 		    		SearchFrame.setSize(400, 400);
+	 		    		SearchFrame.setLocationRelativeTo(null);
+	 		    		SearchFrame.setVisible(true);
+	 		    		SearchFrame.setResizable(false);
+	 		    		SearchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	 		    		SearchFrame.getContentPane().setLayout(null);
+	 		    		
+	 		    		final JTextArea outputArea = new JTextArea();
+	 		            outputArea.setEditable(false);
+
+	 		            // Create a JTextField for user input
+	 		            final JTextField inputField = new JTextField();
+	 		            
+	 		            Socket socket = null;
+			        	final String username = DataBase.getIDByName(email, "name", "Testers", "email");
+			            try {
+			              socket = new Socket("localhost", Port);
+			            } catch (UnknownHostException exception) {
+			              // TODO Auto-generated catch block
+			            	exception.printStackTrace();
+			            } catch (IOException exception) {
+			              // TODO Auto-generated catch block
+			            	exception.printStackTrace();
+			            }
+			            final Client client = new Client(socket, username);
+			            client.listenForMessage();
+
+	 		            // Create a JButton for sending the input
+	 		            JButton sendButton = new JButton("Send");
+	 		            sendButton.addActionListener(new ActionListener() {
+	 		                @Override
+	 		                public void actionPerformed(ActionEvent e) {
+	 		                    final String input = inputField.getText();
+	 		                    Auth.processInput(input,outputArea);
+	 		                    //client.sendMessage();
+	 		                   Thread thread = new Thread(new Runnable() {
+	 		                      @Override
+	 		                      public void run() {
+//	 		                              try {
+											//client.getBufferedWriter().write(username);
+//										} catch (IOException e) {
+//											// TODO Auto-generated catch block
+//											e.printStackTrace();
+//										}
+//	 		                              try {
+//											client.getBufferedWriter().newLine();
+//										} catch (IOException e) {
+											// TODO Auto-generated catch block
+//											e.printStackTrace();
+//										}
+	 		                              try {
+											client.getBufferedWriter().flush();
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+
+	 		                                //while (client.getSocket().isConnected()) {
+	 		                                	try {
+													client.getBufferedWriter().write(username + ": " + input + "\n");
+												} catch (IOException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+	 		                                	try {
+													client.getBufferedWriter().newLine();
+												} catch (IOException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+	 		                                	try {
+													client.getBufferedWriter().flush();
+												} catch (IOException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+	 		                                	
+	 		                               
+	 		                                }
+	 		                              //}
+	 		                              //closeEverything(getSocket(), getBufferedReader(), bufferedWriter);
+	 		                   } 
+	 		                      
+	 		                    );
+	 		                  thread.start();
+	 		                    inputField.setText("");
+	 		                }
+	 		            });
+	 		            
+	 		           System.setOut(new PrintStream(new OutputStream() {
+                            @Override
+                            public void write(int b) {
+                                outputArea.append(String.valueOf((char) b));
+                            }
+                        }));
+
+	 		            // Create a JPanel to hold the input components
+	 		            JPanel inputPanel = new JPanel();
+	 		            inputPanel.setLayout(new BorderLayout());
+	 		            inputPanel.add(inputField, BorderLayout.CENTER);
+	 		            inputPanel.add(sendButton, BorderLayout.EAST);
+
+	 		            // Add the JTextArea and input panel to the JFrame
+	 		            SearchFrame.getContentPane().setLayout(new BorderLayout());
+	 		            SearchFrame.getContentPane().add(new JScrollPane(outputArea), BorderLayout.CENTER);
+	 		            SearchFrame.getContentPane().add(inputPanel, BorderLayout.SOUTH);
+	 		            
+	 		   	        	
+	 		   	        } 
+	 		   	    });		    
+	 		   	    JButton btnBack = new JButton("Back");
+	 		   	    btnBack.setBounds(50, 200, 125, 25);
+	 		   	    HostFrame.getContentPane().add(btnBack);
+	 		   	    
+	 		   	    btnBack.addActionListener(new ActionListener() {
+	 		   	        public void actionPerformed(ActionEvent e) {
+	 		   	        	HostFrame.dispose();
+	 		   	        }
+	 		   	    });
+ 		        }
+ 		    });
+    		
+// 		    JButton btnJoin = new JButton("Join Room");
+// 		    btnJoin.setBounds(160, 15, 100, 25);
+// 		    ChatFrame.getContentPane().add(btnJoin);
+ 		    
+// 		    btnJoin.addActionListener(new ActionListener() {
+// 		        public void actionPerformed(ActionEvent e) {
+// 		        	ChatFrame.dispose();
+// 		        	
+// 		        	final JFrame JoinFrame = new JFrame("Join Window");
+//		    		JoinFrame.setSize(400, 300);
+//		    		JoinFrame.setVisible(true);
+//		    		JoinFrame.setLocationRelativeTo(null);
+//		    		JoinFrame.setResizable(false);
+//		    		JoinFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		    		JoinFrame.getContentPane().setLayout(null);
+//
+//				    JLabel JointxtEnterPort = new JLabel();
+//		    		JointxtEnterPort.setText("Enter Port:");
+//		    		JointxtEnterPort.setBounds(50, 70, 133, 20);
+//				    JoinFrame.getContentPane().add(JointxtEnterPort);
+//				    
+//				    final JTextField JointxtPortEntry = new JTextField();
+//				    JointxtPortEntry.setBounds(50, 95, 200, 20);
+//				    JoinFrame.getContentPane().add(JointxtPortEntry);
+//				    JointxtPortEntry.setColumns(10);
+//				    
+//				    JButton btnJoinRoom = new JButton("Join Your Room");
+//				    btnJoinRoom.setBounds(210, 200, 200, 25);
+//				    JoinFrame.getContentPane().add(btnJoinRoom);
+//				    
+//				    btnJoinRoom.addActionListener(new ActionListener() {
+//				        public void actionPerformed(ActionEvent e) {
+//				        	JoinFrame.dispose();
+//				        	
+//				        	final JFrame SearchFrame = new JFrame("Join Window");
+//				        	SearchFrame.setSize(400, 400);
+//		 		    		SearchFrame.setLocationRelativeTo(null);
+//		 		    		SearchFrame.setVisible(true);
+//		 		    		SearchFrame.setResizable(false);
+//		 		    		SearchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		 		    		SearchFrame.getContentPane().setLayout(null);
+//				        	
+//				        	Socket socket = null;
+//				        	final String username = Auth.getIDByName(email, "name", "Developers", "email");
+//				        	String IP = "localhost";
+//				        	
+//				        	int Port = Integer.parseInt(JointxtPortEntry.getText());
+//				        	
+//				            try {
+//				              socket = new Socket(IP, Port);
+//				            } catch (UnknownHostException exception) {
+//				              // TODO Auto-generated catch block
+//				            	exception.printStackTrace();
+//				            } catch (IOException exception) {
+//				              // TODO Auto-generated catch block
+//				            	exception.printStackTrace();
+//				            }
+//				           
+//				            
+//				            final JTextArea outputArea = new JTextArea();
+//		 		            outputArea.setEditable(false);
+//
+//		 		            // Create a JTextField for user input
+//		 		            final JTextField inputField = new JTextField();
+//		 		            
+//				            final Client client = new Client(socket, username);
+//				            //client.listenForMessage();
+//				                new Thread(new Runnable() {
+//				                  @Override
+//				                  public void run() {
+//				                    String msgFromGroupChat;
+//
+//				                    while (client.getSocket().isConnected()) {
+//				                      try {
+//				                        msgFromGroupChat = client.getBufferedReader().readLine();
+//				                        System.out.println(msgFromGroupChat);
+//				                      } catch (IOException e) {
+//				                        //closeEverything(socket, bufferedReader, bufferedWriter);
+//				                      }
+//				                    }
+//				                  }
+//				                }).start();
+//				              
+//
+//		 		            // Create a JButton for sending the input
+//		 		            JButton sendButton = new JButton("Send");
+//		 		            sendButton.addActionListener(new ActionListener() {
+//		 		                @Override
+//		 		                public void actionPerformed(ActionEvent e) {
+//		 		                    final String input = inputField.getText();
+//		 		                    Auth.processInput(input,outputArea);
+//		 		                    //client.sendMessage();
+//		 		                   Thread thread = new Thread(new Runnable() {
+//		 		                      @Override
+//		 		                      public void run() {
+////	 		                              try {
+//											//client.getBufferedWriter().write(username);
+////										} catch (IOException e) {
+////											// TODO Auto-generated catch block
+////											e.printStackTrace();
+////										}
+////	 		                              try {
+////											client.getBufferedWriter().newLine();
+////										} catch (IOException e) {
+//											// TODO Auto-generated catch block
+////											e.printStackTrace();
+////										}
+//	 		                              try {
+//											client.getBufferedWriter().flush();
+//										} catch (IOException e) {
+//											// TODO Auto-generated catch block
+//											e.printStackTrace();
+//										}
+//
+//		 		                                //while (client.getSocket().isConnected()) {
+//		 		                                	try {
+//														client.getBufferedWriter().write(username + ": " + input);
+//													} catch (IOException e) {
+//														// TODO Auto-generated catch block
+//														e.printStackTrace();
+//													}
+//		 		                                	try {
+//														client.getBufferedWriter().newLine();
+//													} catch (IOException e) {
+//														// TODO Auto-generated catch block
+//														e.printStackTrace();
+//													}
+//		 		                                	try {
+//														client.getBufferedWriter().flush();
+//													} catch (IOException e) {
+//														// TODO Auto-generated catch block
+//														e.printStackTrace();
+//													}
+//		 		                                }
+//		 		                              //}
+//		 		                              //closeEverything(getSocket(), getBufferedReader(), bufferedWriter);
+//		 		                   } 
+//		 		                      
+//		 		                    );
+//		 		                  thread.start();
+//		 		                    inputField.setText("");
+//		 		                }
+//		 		            });
+//		 		            
+//		 		           System.setOut(new PrintStream(new OutputStream() {
+//                               @Override
+//                               public void write(int b) {
+//                                   outputArea.append(String.valueOf((char) b));
+//                               }
+//                           }));
+//		 		            
+//		 		            // Create a JPanel to hold the input components
+//		 		            JPanel inputPanel = new JPanel();
+//		 		            inputPanel.setLayout(new BorderLayout());
+//		 		            inputPanel.add(inputField, BorderLayout.CENTER);
+//		 		            inputPanel.add(sendButton, BorderLayout.EAST);
+//
+//		 		            // Add the JTextArea and input panel to the JFrame
+//		 		            SearchFrame.getContentPane().setLayout(new BorderLayout());
+//		 		            SearchFrame.getContentPane().add(new JScrollPane(outputArea), BorderLayout.CENTER);
+//		 		            SearchFrame.getContentPane().add(inputPanel, BorderLayout.SOUTH);
+//				        } 
+//				    });   
+//				    JButton btnBack = new JButton("Back");
+//				    btnBack.setBounds(50, 200, 125, 25);
+//				    JoinFrame.getContentPane().add(btnBack);
+//				    
+//				    btnBack.addActionListener(new ActionListener() {
+//				        public void actionPerformed(ActionEvent e) {
+//				        	JoinFrame.dispose();
+//				        }
+//				    });
+// 		        }
+// 		    });
+		    
+        }
     });
 
     JButton btnViewDevs = new JButton("View Devs");
