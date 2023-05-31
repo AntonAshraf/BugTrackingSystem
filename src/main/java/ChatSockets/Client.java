@@ -14,32 +14,39 @@ public class Client {
 
   public Client(Socket socket, String username) {
     try {
-      this.socket = socket;
-      this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-      this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      this.setSocket(socket);
+      this.setBufferedWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
+      this.setBufferedReader(new BufferedReader(new InputStreamReader(socket.getInputStream())));
       this.username = username;
     } catch (IOException e) {
-      closeEverything(socket, bufferedReader, bufferedWriter);
+      closeEverything(socket, getBufferedReader(), getBufferedWriter());
     }
   }
 
   public void sendMessage() {
-    try {
-      bufferedWriter.write(username);
-      bufferedWriter.newLine();
-      bufferedWriter.flush();
 
-      try (Scanner scanner = new Scanner(System.in)) {
-        while (socket.isConnected()) {
-          String messageToSend = scanner.nextLine();
-          bufferedWriter.write(username + ": " + messageToSend);
-          bufferedWriter.newLine();
-          bufferedWriter.flush();
-        }
-      }
-    } catch (IOException e) {
-      closeEverything(socket, bufferedReader, bufferedWriter);
-    }
+      Thread thread = new Thread(new Runnable() {
+          @Override
+          public void run() {
+              try {
+                  getBufferedWriter().write(username);
+                  getBufferedWriter().newLine();
+                  getBufferedWriter().flush();
+
+                  try (Scanner scanner = new Scanner(System.in)) {
+                    while (getSocket().isConnected()) {
+                      String messageToSend = scanner.nextLine();
+                      getBufferedWriter().write(username + ": " + messageToSend);
+                      getBufferedWriter().newLine();
+                      getBufferedWriter().flush();
+                    }
+                  }
+                } catch (IOException e) {
+                  closeEverything(getSocket(), getBufferedReader(), getBufferedWriter());
+                }
+          }
+        });
+      thread.start();
   }
 
   public void listenForMessage() {
@@ -48,12 +55,12 @@ public class Client {
       public void run() {
         String msgFromGroupChat;
 
-        while (socket.isConnected()) {
+        while (getSocket().isConnected()) {
           try {
-            msgFromGroupChat = bufferedReader.readLine();
+            msgFromGroupChat = getBufferedReader().readLine();
             System.out.println(msgFromGroupChat);
           } catch (IOException e) {
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(getSocket(), getBufferedReader(), getBufferedWriter());
           }
         }
       }
@@ -79,25 +86,45 @@ public class Client {
     }
   }
 
-  public static void main(String[] args) {
+//  public static void main(String[] args) {
+//      Socket socket = null;
+//      try {
+//        socket = new Socket("localhost", 1234);
+//      } catch (UnknownHostException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      } catch (IOException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//      Client client = new Client(socket, username);
+//      client.listenForMessage();
+//      client.sendMessage();
+//    }
+//
+//  }
 
-    try (Scanner scanner = new Scanner(System.in)) {
-      System.out.println("Enter your username:");
-      String username = scanner.nextLine();
-      Socket socket = null;
-      try {
-        socket = new Socket("localhost", 1234);
-      } catch (UnknownHostException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      Client client = new Client(socket, username);
-      client.listenForMessage();
-      client.sendMessage();
-    }
+public BufferedReader getBufferedReader() {
+    return bufferedReader;
+}
 
-  }
+public void setBufferedReader(BufferedReader bufferedReader) {
+    this.bufferedReader = bufferedReader;
+}
+
+public Socket getSocket() {
+    return socket;
+}
+
+public void setSocket(Socket socket) {
+    this.socket = socket;
+}
+
+public BufferedWriter getBufferedWriter() {
+    return bufferedWriter;
+}
+
+public void setBufferedWriter(BufferedWriter bufferedWriter) {
+    this.bufferedWriter = bufferedWriter;
+}
 }
