@@ -1,15 +1,24 @@
 package Authentication;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import GUI.HomePage;
 
@@ -53,6 +62,45 @@ public class Auth extends JFrame {
     }
 
     return false; // Email and password were not found in the database
+  }
+  
+  public static List<String> GoogleSearch(String Prompt) {
+
+      Document doc;
+      List<String> Results =new ArrayList<String>();
+      String s = "https://www.google.com/search?q=" + Prompt;
+      s.replace(' ', '+');
+
+      try {
+          doc = Jsoup.connect(s).get();
+          // get title of the page
+          String title = doc.title();
+          System.out.println("Title: " + title);
+          // get all links
+          Elements links = doc.select("a[href]");
+          for (Element link : links) {
+              String x = new String(link.attr("href"));
+              // get the value from href attribute
+                  if(x.startsWith("https")){
+                  	Results.add(x);
+                  	System.out.println("\nLink : " + x);}
+                  //System.out.println("Text : " + link.text());
+                  }
+          
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+		return Results;
+
+    }
+  
+  public static void appendToOutput(String message, JTextArea outputArea) {
+	  outputArea.append(message + "\n");
+  }
+  
+  public static void processInput(String input, JTextArea outputArea) {
+      // Your code to process the input string
+      appendToOutput(input + "\n", outputArea);
   }
 
 }
