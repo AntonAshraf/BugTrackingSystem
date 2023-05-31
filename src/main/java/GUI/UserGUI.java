@@ -545,10 +545,10 @@ public class UserGUI {
 
         public void actionPerformed(ActionEvent e) {
         	final JFrame SearchFrame = new JFrame("Search window");
-    		SearchFrame.setSize(600, 600);
+    		SearchFrame.setSize(500, 500);
     		SearchFrame.setLocationRelativeTo(null);
     		SearchFrame.setVisible(true);
-    		SearchFrame.setResizable(false);
+    		SearchFrame.setResizable(true);
     		SearchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     		SearchFrame.getContentPane().setLayout(null);
     		
