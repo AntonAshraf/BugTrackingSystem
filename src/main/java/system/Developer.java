@@ -1,65 +1,72 @@
 package system;
 
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Developer extends User {
-	
-	private ArrayList<Bug> Assigned_bugs;
-	private int num_of_closed_bugs;
-	
-	public Developer(int id, String name, String email, String password,ArrayList<Bug> Assigned_bugs) {
-		super(id, name, email, password);
-		this.Assigned_bugs = Assigned_bugs;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import Authentication.Auth;
+
+public class Developer {
+	public static void search () {
+		final JFrame SearchFrame = new JFrame("Search window");
+        SearchFrame.setSize(500, 500);
+        SearchFrame.setLocationRelativeTo(null);
+        SearchFrame.setVisible(true);
+        SearchFrame.setResizable(true);
+        SearchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        SearchFrame.getContentPane().setLayout(null);
+
+        final JTextArea outputArea = new JTextArea();
+        outputArea.setEditable(false);
+
+        // Create a JTextField for user input
+        final JTextField inputField = new JTextField();
+
+        // Create a JButton for sending the input
+        JButton sendButton = new JButton("Search");
+        sendButton.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            String input = inputField.getText();
+            List<String> Results = new ArrayList<String>();
+            Results = Auth.GoogleSearch(input);
+
+            Results.remove(0);
+            Results.remove(Results.size() - 1);
+            Results.remove(Results.size() - 1);
+            Results.remove(Results.size() - 1);
+
+            for (String link : Results) {
+              Auth.processInput(link, outputArea);
+            }
+            Auth.processInput(
+                "--------------------------------------------------------------------------------------------------------------------------------------------------",
+                outputArea);
+            inputField.setText("");
+          }
+        });
+
+        // Create a JPanel to hold the input components
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BorderLayout());
+        inputPanel.add(inputField, BorderLayout.CENTER);
+        inputPanel.add(sendButton, BorderLayout.EAST);
+
+        // Add the JTextArea and input panel to the JFrame
+        SearchFrame.getContentPane().setLayout(new BorderLayout());
+        SearchFrame.getContentPane().add(new JScrollPane(outputArea), BorderLayout.CENTER);
+        SearchFrame.getContentPane().add(inputPanel, BorderLayout.SOUTH);
+
+
 	}
-	public Developer(int id, String name, String email, String password) {
-		super(id, name, email, password);
-	
-	}
-
-	public ArrayList<Bug> getAssigned_bugs() {
-		return Assigned_bugs;
-	}
-
-	public void changeBugStatus(Bug bug, String status)
-	{
-    if (status.equals("closed") && bug.getBugStatus().equals("opened")){
-      bug.setStatus(status);
-      num_of_closed_bugs++;
-    } else if  (status.equals("closed")) {
-      System.out.println("Bug is already closed");
-    }  else {
-      System.out.println("Wrong status");
-    }
-  }
-
-  public void addBug (Bug bug) {
-    Assigned_bugs.add(bug);
-  }
-  public void sendemail(Tester t,String new_status ){
-	  t.recivedmessages(new_status);
-	  
-  }
-  public int[] getdbugsinfo() {
-	  
-	  int[] arr = new int[2];
-	  int numofassignedbugs =0;
-	  int numofsolvedbugs = 0;
-	  
-	  for(Bug bug:this.Assigned_bugs) {
-		  
-		  numofassignedbugs++;
-		  if(bug.getStatus().equals("Closed")) {
-			  numofsolvedbugs++;
-		  }  
-	  }
-	  arr[0] = numofsolvedbugs;
-	  arr[1] = numofassignedbugs;
-	  return arr;
-	  
-  }
-public void setAssigned_bugs(ArrayList<Bug> assigned_bugs) {
-	Assigned_bugs = assigned_bugs;
-}
-  
 
 }

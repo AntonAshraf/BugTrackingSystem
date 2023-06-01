@@ -1,73 +1,162 @@
 package system;
 
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Tester extends User implements IBugReport{
-	
-  private ArrayList<Bug> bugs;
-  private ArrayList<Developer> developer;
-  private int numOfBugsFound;
-  private ArrayList<String> listofmesages;
-  private  ArrayList<Bug> discoverdbugs;
-  
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
-	
-	public Tester(int id, String name, String email, String password,ArrayList<Developer> developer) 
-	{
-		super(id,name,email,password);
-		this.developer = developer;
-    numOfBugsFound = 0;
-	}
-	public Tester(int id, String name, String email, String password) 
-	{
-		super(id,name,email,password);
-    numOfBugsFound = 0;
-	}
+import DB.DataBase;
+import GUI.UserGUI;
 
-	public void AddBug(Bug bug)
-	{
-    // TODO: add bug to the list of bugs in database
-		this.discoverdbugs.add(bug);
-		numOfBugsFound++;
-    //sendEmailToDeveloper(bug);
-	}
+public class Tester {
+	public static void addBug (final String email, final String ID) {
+		final JFrame addFrame = new JFrame("Add Bug");
+        addFrame.setSize(500, 400);
+        addFrame.setLocationRelativeTo(null);
+        addFrame.setResizable(false);
+        addFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addFrame.setVisible(true);
+        addFrame.getContentPane().setLayout(null);
 
-	public void viewBugs()
-  {
-    for (Bug bug : bugs) {
-      System.out.println(bug.getBugStatus());
-    }	
-	}
-	
-	public void AssignBugsToDeveloper(Developer dev, Bug bug){	
-		dev.addBug(bug);
-	}
-	
-	public void recivedmessages(String message) {
-		this.listofmesages.add(message);
-		
-		
-	}
+        JLabel addBugtxtEnterName = new JLabel();
+        addBugtxtEnterName.setText("Enter Bug Name:");
+        addBugtxtEnterName.setBounds(25, 10, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterName);
 
-	public int getNumOfBugsFound() {
-		return numOfBugsFound;
-	}
+        final JTextField addBugtxtName = new JTextField();
+        addBugtxtName.setBounds(25, 35, 200, 20);
+        addFrame.getContentPane().add(addBugtxtName);
+        addBugtxtName.setColumns(10);
 
-	public ArrayList<Bug> getDiscoverdbugs() {
-		return discoverdbugs;
+        JLabel addBugtxtEnterID = new JLabel();
+        addBugtxtEnterID.setText("Enter Bug ID:");
+        addBugtxtEnterID.setBounds(260, 10, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterID);
+
+        final JTextField addBugtxtID = new JTextField();
+        addBugtxtID.setBounds(260, 35, 200, 20);
+        addFrame.getContentPane().add(addBugtxtID);
+        addBugtxtID.setColumns(10);
+
+        JLabel addBugtxtEnterProjectName = new JLabel();
+        addBugtxtEnterProjectName.setText("Enter Project Name:");
+        addBugtxtEnterProjectName.setBounds(260, 60, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterProjectName);
+
+        final JTextField addBugtxtProjectName = new JTextField();
+        addBugtxtProjectName.setBounds(260, 85, 200, 20);
+        addFrame.getContentPane().add(addBugtxtProjectName);
+        addBugtxtProjectName.setColumns(10);
+
+        JLabel addBugtxtEnterStartDate = new JLabel();
+        addBugtxtEnterStartDate.setText("Enter Start Date:");
+        addBugtxtEnterStartDate.setBounds(260, 110, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterStartDate);
+
+        final JTextField addBugtxtStartDate = new JTextField();
+        addBugtxtStartDate.setBounds(260, 135, 200, 20);
+        addFrame.getContentPane().add(addBugtxtStartDate);
+        addBugtxtStartDate.setColumns(10);
+
+        JLabel addBugtxtEnterDeadline = new JLabel();
+        addBugtxtEnterDeadline.setText("Enter Deadline Date:");
+        addBugtxtEnterDeadline.setBounds(260, 160, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterDeadline);
+
+        final JTextField addBugtxtDeadline = new JTextField();
+        addBugtxtDeadline.setBounds(260, 185, 200, 20);
+        addFrame.getContentPane().add(addBugtxtDeadline);
+        addBugtxtDeadline.setColumns(10);
+
+        JLabel addBugtxtEnterType = new JLabel();
+        addBugtxtEnterType.setText("Enter Bug Type:");
+        addBugtxtEnterType.setBounds(25, 60, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterType);
+
+        String[] BugTypes = { "Logic Bug", "Syntax Bug", "Security Bug", "Performance Bug" };
+
+        final JComboBox TypeCombo = new JComboBox(BugTypes);
+        TypeCombo.setSelectedIndex(0);
+        TypeCombo.setBounds(25, 85, 200, 20);
+        addFrame.getContentPane().add(TypeCombo);
+
+        JLabel addBugtxtEnterPriority = new JLabel();
+        addBugtxtEnterPriority.setText("Enter Bug Priority:");
+        addBugtxtEnterPriority.setBounds(25, 110, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterPriority);
+
+        String[] BugPriorities = { "Low", "Medium", "High" };
+
+        final JComboBox PriorityCombo = new JComboBox(BugPriorities);
+        PriorityCombo.setSelectedIndex(0);
+        PriorityCombo.setBounds(25, 135, 200, 20);
+        addFrame.getContentPane().add(PriorityCombo);
+
+        JLabel addBugtxtEnterLevel = new JLabel();
+        addBugtxtEnterLevel.setText("Enter Bug Level:");
+        addBugtxtEnterLevel.setBounds(25, 160, 133, 20);
+        addFrame.getContentPane().add(addBugtxtEnterLevel);
+
+        String[] BugLevels = { "Easy", "Medium", "Hard", "Level El Wa7sh" };
+
+        final JComboBox LevelCombo = new JComboBox(BugLevels);
+        LevelCombo.setSelectedIndex(0);
+        LevelCombo.setBounds(25, 185, 200, 20);
+        addFrame.getContentPane().add(LevelCombo);
+
+        JButton btnSubmit = new JButton("Submit");
+        btnSubmit.setBounds(350, 300, 90, 25);
+        addFrame.getContentPane().add(btnSubmit);
+
+        btnSubmit.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            String BugName = addBugtxtName.getText();
+            String BugID = addBugtxtID.getText();
+            String BugType = (String) TypeCombo.getSelectedItem();
+            String BugPriority = (String) PriorityCombo.getSelectedItem();
+            String BugLevel = (String) LevelCombo.getSelectedItem();
+            String ProjectName = addBugtxtProjectName.getText();
+            String StartDate = addBugtxtStartDate.getText();
+            String DeadlineDate = addBugtxtDeadline.getText();
+
+            Boolean x = DataBase.insertDataBug(BugID, BugName, BugType, BugPriority, ProjectName, StartDate,
+                DeadlineDate, BugLevel, ID);
+
+            if (x) {
+              addFrame.dispose();
+              UserGUI.tester(email);
+            } else {
+              JOptionPane.showMessageDialog(addFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
+            }
+
+            addBugtxtName.setText("");
+            addBugtxtID.setText("");
+            addBugtxtProjectName.setText("");
+            addBugtxtStartDate.setText("");
+            addBugtxtDeadline.setText("");
+
+          }
+        });
+
+        JButton btnBack = new JButton("Back");
+        btnBack.setBounds(50, 300, 90, 25);
+        addFrame.getContentPane().add(btnBack);
+
+        btnBack.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            addFrame.dispose();
+            UserGUI.tester(email);
+          }
+        });
+
 	}
-	public int gettotalnumofbugs() {
-		int i =0;
-		for(Bug bug:this.bugs) {
-			i++;
-		}
-		return i;
-	}
-	
-	
-	
-		
-		
+ 		
 }
 
 
