@@ -25,7 +25,7 @@ public class SendMail extends EmailData {
     String to = bug.getDeveloperEmail();
 
     // Sender's email ID needs to be mentioned
-    final String from = bug.getTesterEmail();
+    final String from = bug.getTesterName();
 
     // Assuming you are sending email from through gmails smtp
     String host = "smtp.gmail.com";
@@ -44,7 +44,7 @@ public class SendMail extends EmailData {
 
       protected PasswordAuthentication getPasswordAuthentication() {
 
-        return new PasswordAuthentication(from, bug.getTesterPassword());
+        return new PasswordAuthentication(bug.getTesterEmail(), bug.getTesterPassword());
 
       }
 
@@ -72,19 +72,24 @@ public class SendMail extends EmailData {
 
       MimeBodyPart textPart = new MimeBodyPart();
 
-      try {
+      textPart.setText(EmailData.getbody(DevName, BugName));
+      multipart.addBodyPart(textPart);
 
-        File f = new File(PATH);
+      if (PATH.equals("")) {
+        System.out.println("No attachment");
+      } else {
+        try {
 
-        attachmentPart.attachFile(f);
-        textPart.setText(EmailData.getbody(DevName, BugName));
-        multipart.addBodyPart(textPart);
-        multipart.addBodyPart(attachmentPart);
+          File f = new File(PATH);
 
-      } catch (IOException e) {
+          attachmentPart.attachFile(f);
+          multipart.addBodyPart(attachmentPart);
 
-        e.printStackTrace();
+        } catch (IOException e) {
 
+          e.printStackTrace();
+
+        }
       }
 
       message.setContent(multipart);
