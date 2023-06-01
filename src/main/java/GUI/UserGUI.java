@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,7 +47,17 @@ public class UserGUI {
   private static String path;
   private static JTextField textField;
 
+  private static class FileViewWithSizeLimit extends javax.swing.filechooser.FileView {
+      private long maxSize;
 
+      public FileViewWithSizeLimit(long maxSize) {
+          this.maxSize = maxSize;
+      }
+
+      public Boolean isTraversable(File f) {
+          return (f.isFile() && f.length() <= maxSize);
+      }
+  }
 
   // ok null -1 ok
   public static void UserPage(String UserType, String name, String id, String email) {
@@ -1578,16 +1590,41 @@ public class UserGUI {
         btnattach.setBounds(25, 135, 120, 25);
         assignFrame.getContentPane().add(btnattach);
         
+        // make it smaller and red
+        final JLabel lblPath = new JLabel("Max size 5MB");
+        lblPath.setBounds(25, 165, 100, 14);
+        assignFrame.getContentPane().add(lblPath);
+                
         textField = new JTextField();
         textField.setEditable(false);
         textField.setText(path);
         textField.setBounds(25, 185, 300, 25);
         assignFrame.getContentPane().add(textField);
         
+        JButton btnclear = new JButton("Clear");
+        btnclear.setBounds(25, 225, 70, 20);
+        assignFrame.getContentPane().add(btnclear);
         
+        btnclear.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textField.setText("");
+                path = "";
+        	}
+        });
+
         btnattach.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG and JPG Images", "png", "jpg");
+                fileChooser.setFileFilter(filter);
+
+                // Set the file size limit to 5 MB (5 * 1024 * 1024 bytes)
+                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                fileChooser.setAcceptAllFileFilterUsed(false);
+                FileViewWithSizeLimit fsz = new FileViewWithSizeLimit(5 * 1024 * 1024);
+//                fileChooser.setFileView();
+
+                
                 int result = fileChooser.showOpenDialog(assignFrame);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
@@ -1595,7 +1632,13 @@ public class UserGUI {
                     // TODO: Add your code here to handle the selected image file
                     System.out.println("Selected file: " + selectedFile.getAbsolutePath());
                     path = selectedFile.getAbsolutePath();
-                    textField.setText(path);
+                    if (fsz.isTraversable(selectedFile)) {
+                    	textField.setText(path);                    	
+                    }
+                    else {
+                    	JOptionPane.showMessageDialog(assignFrame, "File size limit is 5 Mb", "File Limit Exceeded", JOptionPane.WARNING_MESSAGE);
+                        lblPath.setForeground(Color.RED);
+                    }
                     
                     
                 }
