@@ -15,10 +15,11 @@ public class Performance {
             sum += 1;
         }
     }
+    System.out.println("sum: " + sum + " numtesterbugs: " + numtesterbugs +" numofallbugs: " + numofallbugs);
     return (numtesterbugs * sum) / (double) numofallbugs;
 }
 
-public static double Developer(int numdevbugs, List<String> bugpriorityList, List<Long> timeList) {
+public static double Developer(int numdevbugs, List<String> bugpriorityList, List<String> levels, List<Long> timeList) {
     int sum = 0;          // Initialize the sum variable to 0
     int timescore = 0;    // Initialize the timescore variable to 0
 
@@ -41,8 +42,17 @@ public static double Developer(int numdevbugs, List<String> bugpriorityList, Lis
         } else if (bugpriority.equals("Low")) {
             sum += 1;       // If bugpriority is "Low", increment sum by 1
         }
+        if (levels.get(i).equals("Hard")) {
+            sum += 3;       // If bugpriority is "High", increment sum by 3
+        } else if (levels.get(i).equals("Medium")) {
+            sum += 2;       // If bugpriority is "Medium", increment sum by 2
+        } else if (levels.get(i).equals("Easy")) {
+            sum += 1;       // If bugpriority is "Low", increment sum by 1
+        } else if (levels.get(i).equals("Level El Wa7sh")) {
+            sum += 10;       // If bugpriority is "Low", increment sum by 1
+        }
     }
-    
+    System.out.println("sum: " + sum + " numdevbugs: " + numdevbugs +" timescore: " + timescore);
     return numdevbugs * sum * timescore * 0.01;    // Return the calculated performance score
 }
 
