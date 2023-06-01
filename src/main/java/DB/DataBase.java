@@ -1,5 +1,6 @@
 package DB;
 
+import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -475,6 +478,21 @@ public class DataBase {
     }
 
     return rowCount;
+  }
+
+  public static void viewTable (String tableName) {
+    JFrame frame = new JFrame(tableName + " Viewer");
+    frame.setSize(500, 400);
+    frame.setLocationRelativeTo(null);
+    frame.setResizable(true);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    JTable table = new JTable();
+    JScrollPane scrollPane = new JScrollPane(table);
+    frame.add(scrollPane, BorderLayout.CENTER);
+
+    DataBase.viewdata(table, tableName);
+    frame.setVisible(true);
+
   }
 
 }

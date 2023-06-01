@@ -5,15 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.ServerSocket;
-import java.net.UnknownHostException;
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -27,17 +19,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.File;
 
 import DB.DataBase;
 import ChatSockets.*;
 import system.Admin;
 import system.Date;
 import system.Developer;
-import Authentication.Auth;
-import system.Performance;
+import system.Project_Manager;
 import system.Tester;
 import EmailSender.SendMail;
 
@@ -101,17 +89,7 @@ public class UserGUI {
 
     btnMonitor.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        JFrame frame = new JFrame("Bug Viewer");
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTable table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-        DataBase.viewdata(table, "Bugs");
-        frame.setVisible(true);
-
+        DataBase.viewTable("Bugs");
       }
     });
 
@@ -152,107 +130,13 @@ public class UserGUI {
 
         btnTesters.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
-            final JFrame TesterPerformFrame = new JFrame("Tester Performance");
-            TesterPerformFrame.setSize(300, 200);
-            TesterPerformFrame.setLocationRelativeTo(null);
-            TesterPerformFrame.setVisible(true);
-            TesterPerformFrame.setResizable(false);
-            TesterPerformFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            TesterPerformFrame.getContentPane().setLayout(null);
-
-            JLabel FinishtxtChooseTester = new JLabel();
-            FinishtxtChooseTester.setText("Select Tester:");
-            FinishtxtChooseTester.setBounds(25, 10, 130, 20);
-            TesterPerformFrame.getContentPane().add(FinishtxtChooseTester);
-
-            List<String> Testers = DataBase.getColumnValues("name", "Testers");
-
-            String Testersarray[] = new String[Testers.size()];
-            for (int j = 0; j < Testers.size(); j++) {
-              Testersarray[j] = Testers.get(j);
-              System.out.println(j);
-            }
-
-            final JComboBox TestersCombo = new JComboBox(Testersarray);
-            TestersCombo.setSelectedIndex(0);
-            TestersCombo.setBounds(25, 35, 200, 20);
-            TesterPerformFrame.getContentPane().add(TestersCombo);
-
-            JButton btnSubmit = new JButton("Calculate");
-            btnSubmit.setBounds(95, 115, 90, 25);
-            TesterPerformFrame.getContentPane().add(btnSubmit);
-
-            btnSubmit.addActionListener(new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                String TesterName = (String) TestersCombo.getSelectedItem();
-                String ID = DataBase.getIDByName(TesterName, "id", "Testers", "name");
-                List<String> Priorities = DataBase.getColumnspecificValues("priority", "Bugs", "testerid", ID);
-                int allbugcount = DataBase.getRowCount("Bugs");
-                int specificbugcount = DataBase.intgetIDByName(TesterName, "numbugs", "Testers", "name");
-                double performance = Performance.Tester(allbugcount, specificbugcount, Priorities);
-                System.out.println(performance);
-
-                DecimalFormat decimalFormat = new DecimalFormat("#.##");
-                String formattedperformance = decimalFormat.format(performance);
-
-                JOptionPane.showMessageDialog(TesterPerformFrame, "Performance: " + formattedperformance,
-                    "Calculation Successful!", JOptionPane.INFORMATION_MESSAGE);
-              }
-            });
+            Project_Manager.PerformanceView("Tester");
           }
         });
 
         btnDevs.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
-            final JFrame DevPerformFrame = new JFrame("Developer Performance");
-            DevPerformFrame.setSize(300, 200);
-            DevPerformFrame.setLocationRelativeTo(null);
-            DevPerformFrame.setVisible(true);
-            DevPerformFrame.setResizable(false);
-            DevPerformFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            DevPerformFrame.getContentPane().setLayout(null);
-
-            JLabel FinishtxtChooseTester = new JLabel();
-            FinishtxtChooseTester.setText("Select Developer:");
-            FinishtxtChooseTester.setBounds(25, 10, 150, 20);
-            DevPerformFrame.getContentPane().add(FinishtxtChooseTester);
-
-            List<String> Devs = DataBase.getColumnValues("name", "Developers");
-
-            String Devsarray[] = new String[Devs.size()];
-            for (int j = 0; j < Devs.size(); j++) {
-              Devsarray[j] = Devs.get(j);
-              System.out.println(j);
-            }
-
-            final JComboBox DevsCombo = new JComboBox(Devsarray);
-            DevsCombo.setSelectedIndex(0);
-            DevsCombo.setBounds(25, 35, 200, 20);
-            DevPerformFrame.getContentPane().add(DevsCombo);
-
-            JButton btnSubmit = new JButton("Calculate");
-            btnSubmit.setBounds(95, 115, 90, 25);
-            DevPerformFrame.getContentPane().add(btnSubmit);
-
-            btnSubmit.addActionListener(new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                String DevName = (String) DevsCombo.getSelectedItem();
-                String ID = DataBase.getIDByName(DevName, "id", "Testers", "name");
-                List<String> Priorities = DataBase.getColumnspecificValues("priority", "Bugs", "developerid", ID);
-                List<Long> TimeList = DataBase.getLongColumnspecificValues("timetaken", "Bugs", "developerid", ID);
-                int devdonebugs = DataBase.intgetIDByName(DevName, "donebugs", "Developers", "name");
-                double performance = Performance.Developer(devdonebugs, Priorities, TimeList);
-                System.out.println(performance);
-
-                DecimalFormat decimalFormat = new DecimalFormat("#.##");
-                String formattedperformance = decimalFormat.format(performance);
-
-                JOptionPane.showMessageDialog(DevPerformFrame, "Performance: " + formattedperformance,
-                    "Calculation Successful!", JOptionPane.INFORMATION_MESSAGE);
-              }
-            });
+            Project_Manager.PerformanceView("Developer");
           }
         });
       }
@@ -267,40 +151,14 @@ public class UserGUI {
     bgLabel.add(btnViewDevs);
 
     btnViewTesters.addActionListener(new ActionListener() {
-
       public void actionPerformed(ActionEvent e) {
-
-        JFrame frame = new JFrame("Testers Viewer");
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTable table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        DataBase.viewdata(table, "Testers");
-        frame.setVisible(true);
-
+        DataBase.viewTable("Testers");
       }
     });
 
     btnViewDevs.addActionListener(new ActionListener() {
-
       public void actionPerformed(ActionEvent e) {
-
-        JFrame frame = new JFrame("Developers Viewer");
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTable table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        DataBase.viewdata(table, "Developers");
-        frame.setVisible(true);
-
+        DataBase.viewTable("Developers");
       }
     });
 
@@ -481,38 +339,13 @@ public class UserGUI {
     btnViewTesters.addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
-
-        JFrame frame = new JFrame("Testers Viewer");
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTable table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        DataBase.viewdata(table, "Testers");
-        frame.setVisible(true);
-
+        DataBase.viewTable("Testers");
       }
     });
 
     btnViewDevs.addActionListener(new ActionListener() {
-
       public void actionPerformed(ActionEvent e) {
-
-        JFrame frame = new JFrame("Developers Viewer");
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTable table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        DataBase.viewdata(table, "Developers");
-        frame.setVisible(true);
-
+        DataBase.viewTable("Developers");
       }
     });
 
@@ -803,19 +636,7 @@ public class UserGUI {
 
     btnViewBugs.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        JFrame frame = new JFrame("Bug Viewer");
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTable table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        DataBase.viewdata(table, "Bugs");
-
-        frame.setVisible(true);
-
+        DataBase.viewTable("Bugs");
       }
     });
   }
@@ -880,19 +701,7 @@ public class UserGUI {
 
     btnViewDevs.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        JFrame frame = new JFrame("Developer Viewer");
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTable table = new JTable();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
-        DataBase.viewdata(table, "Developers");
-
-        frame.setVisible(true);
-
+        DataBase.viewTable("Developers");
       }
     });
 
@@ -1021,10 +830,8 @@ public class UserGUI {
                     JOptionPane.WARNING_MESSAGE);
                 lblPath.setForeground(Color.RED);
               }
-
             }
           }
-
         });
 
         btnSubmit.addActionListener(new ActionListener() {
@@ -1055,7 +862,6 @@ public class UserGUI {
             } else {
               JOptionPane.showMessageDialog(assignFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
             }
-
           }
         });
       }
