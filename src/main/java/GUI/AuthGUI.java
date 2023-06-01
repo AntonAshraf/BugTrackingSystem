@@ -52,15 +52,15 @@ public class AuthGUI extends JFrame {
     SignUpFrame.getContentPane().add(SignUptxtId);
     SignUptxtId.setColumns(10);
 
-    SignUptxtPassword = new JPasswordField();
-    SignUptxtPassword.setBounds(25, 135, 200, 20);
-    SignUpFrame.getContentPane().add(SignUptxtPassword);
-    SignUptxtPassword.setColumns(10);
-
     SignUptxtEmail = new JTextField();
-    SignUptxtEmail.setBounds(25, 185, 200, 20);
+    SignUptxtEmail.setBounds(25, 135, 200, 20);
     SignUpFrame.getContentPane().add(SignUptxtEmail);
     SignUptxtEmail.setColumns(10);
+
+    SignUptxtPassword = new JPasswordField();
+    SignUptxtPassword.setBounds(25, 185, 200, 20);
+    SignUpFrame.getContentPane().add(SignUptxtPassword);
+    SignUptxtPassword.setColumns(10);
 
     JButton btnSubmit = new JButton("Sign Up");
     btnSubmit.setBounds(350, 300, 90, 25);
@@ -76,15 +76,15 @@ public class AuthGUI extends JFrame {
     SignUptxtEnterYourId.setBounds(25, 60, 133, 20);
     SignUpFrame.getContentPane().add(SignUptxtEnterYourId);
 
-    SignUptxtEnterYourPassword = new JLabel();
-    SignUptxtEnterYourPassword.setText("Enter your Password :");
-    SignUptxtEnterYourPassword.setBounds(25, 110, 133, 20);
-    SignUpFrame.getContentPane().add(SignUptxtEnterYourPassword);
-
     SignUptxtEnterYourEmail = new JLabel();
     SignUptxtEnterYourEmail.setText("Enter your E-mail:");
-    SignUptxtEnterYourEmail.setBounds(25, 160, 133, 20);
+    SignUptxtEnterYourEmail.setBounds(25, 110, 133, 20);
     SignUpFrame.getContentPane().add(SignUptxtEnterYourEmail);
+    
+    SignUptxtEnterYourPassword = new JLabel();
+    SignUptxtEnterYourPassword.setText("Enter your Password :");
+    SignUptxtEnterYourPassword.setBounds(25, 160, 133, 20);
+    SignUpFrame.getContentPane().add(SignUptxtEnterYourPassword);
 
     SignUptxtEnterYourRole = new JLabel();
     SignUptxtEnterYourRole.setText("Choose your Role:");
@@ -121,21 +121,37 @@ public class AuthGUI extends JFrame {
           Table = "Admins";
           userType = "Admin";
         }
+        if (id.equals("") || name.equals("") || password.equals("") || email.equals("")) {
+          JOptionPane.showMessageDialog(SignUpFrame, "Please fill all the fields.", "Error!",
+              JOptionPane.WARNING_MESSAGE);
+          return;
+        } else if (Auth.isValidEmail(email) == false) {
+          JOptionPane.showMessageDialog(SignUpFrame, "Invalid Email.", "Error!", JOptionPane.WARNING_MESSAGE);
+          return;
+        } else if (Auth.isInteger(id) == false) {
+          JOptionPane.showMessageDialog(SignUpFrame, "Invalid ID\nEnter it in numbers", "Error!",
+              JOptionPane.WARNING_MESSAGE);
+          return;
+        } else if (Auth.isExist("id", id, Table)) {
+          JOptionPane.showMessageDialog(SignUpFrame, "This ID is already exist.", "Error!",
+              JOptionPane.WARNING_MESSAGE);
+          return;
+        } else if (Auth.isExist("email", email, Table)) {
+          JOptionPane.showMessageDialog(SignUpFrame, "This Email is already exist.", "Error!",
+              JOptionPane.WARNING_MESSAGE);
+          return;
+        }
 
         Boolean x = DataBase.insertData(name, id, password, email, Table);
+
         if (x) {
           SignUpFrame.dispose();
-          System.out.println("Data inserted successfully!");
           UserGUI.UserPage(userType, name, id, email);
-
+          javax.swing.JOptionPane.showMessageDialog(null, "Welcome " + name + " to our system!", "Welcome!",
+              javax.swing.JOptionPane.INFORMATION_MESSAGE);
         } else {
           JOptionPane.showMessageDialog(SignUpFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
-
         }
-        SignUptxtName.setText("");
-        SignUptxtId.setText("");
-        SignUptxtPassword.setText("");
-        SignUptxtEmail.setText("");
       }
     });
 
