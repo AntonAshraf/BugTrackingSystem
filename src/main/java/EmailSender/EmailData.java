@@ -9,6 +9,10 @@ public class EmailData {
     return "Bug Report: BugID #" + BugID + " - " + Bugname;
   }
 
+  public static String getSubject() {
+    return "Join the chat room to discuss the bug";
+  }
+
   public static String getbody(String devName, String BugName) {
     Bug bug = new Bug(BugName);
     String BugID = bug.getID();
@@ -49,5 +53,17 @@ public class EmailData {
         "Thank you for your attention to this matter.\n\n" +
         "Best regards,\n" +
         TesterName;
+  }
+
+  public static String getbody(String devName, String port, String ip, String email) {
+  String testerName = DataBase.getIDByName(email, "name", "Testers", "email");
+	return "Dear "+ devName +",\n\n"
+  + "You are invited to join the chat room for direct communication with the "+ testerName +". "
+  + "Please open the Bug Tracking system app and use the following details to easily join the chat room:\n\n"
+  + "IP Address: " + ip + "\n"
+  + "Port Number: " + port + "\n\n"
+  + "Thank you,\n"
+  + testerName;
+
   }
 }

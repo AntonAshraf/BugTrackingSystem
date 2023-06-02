@@ -16,6 +16,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import DB.DataBase;
+
 public class SendMail extends EmailData {
 
   public static void sendEmail(String BugName, String DevName, String PATH) {
@@ -75,7 +77,7 @@ public class SendMail extends EmailData {
       textPart.setText(EmailData.getbody(DevName, BugName));
       multipart.addBodyPart(textPart);
 
-      if ("".equals(PATH)) {
+      if (PATH == null) {
         System.out.println("No attachment");
       } else {
         try {
@@ -102,6 +104,46 @@ public class SendMail extends EmailData {
       mex.printStackTrace();
     }
 
+  }
+  public static void sendEmail(String DevName, String email, String ip, int port) {
+    String to = DataBase.getIDByName(DevName, "email", "Developers", "name");
+
+    final String from = email;
+
+    String host = "smtp.gmail.com";
+
+    Properties properties = System.getProperties();
+
+    properties.put("mail.smtp.host", host);
+    properties.put("mail.smtp.port", "465");
+    properties.put("mail.smtp.ssl.enable", "true");
+    properties.put("mail.smtp.auth", "true");
+
+    Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+
+      protected PasswordAuthentication getPasswordAuthentication() {
+        String Pass = DataBase.getIDByName(email, "password", "Testers", "email");
+        return new PasswordAuthentication(from, Pass);
+      }
+
+    });
+
+    try {
+        MimeMessage message = new MimeMessage(session);
+
+        message.setFrom(new InternetAddress(from));
+
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+        message.setSubject(EmailData.getSubject());
+
+        String portString = Integer.toString(port);
+        message.setText(EmailData.getbody(DevName, ip, portString, email));
+        
+        Transport.send(message);
+    } catch (MessagingException mex) {
+        mex.printStackTrace();
+    }
   }
 
 }

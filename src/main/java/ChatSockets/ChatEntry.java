@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 
 import Authentication.Auth;
 import DB.DataBase;
+import EmailSender.SendMail;
 
 public class ChatEntry {
   public static void startChat(final String email) {
@@ -274,10 +276,26 @@ public class ChatEntry {
         btnHostRoom.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
             HostFrame.dispose();
-
+            if (HosttxtIPEntry.getText().equals("") || HosttxtPortEntry.getText().equals("")) {
+              JOptionPane.showMessageDialog(null, "Please enter all fields");
+              return;
+            }
             String IP = HosttxtIPEntry.getText();
             int Port = Integer.parseInt(HosttxtPortEntry.getText());
             String DevName = (String) DevsCombo.getSelectedItem();
+
+            Thread thread = new Thread(new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  SendMail.sendEmail(DevName, email, IP, Port);
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            });
+
+            thread.start();
 
             try {
               ServerSocket serverSocket = new ServerSocket(Port);
@@ -316,14 +334,12 @@ public class ChatEntry {
             final Client client = new Client(socket, username);
             client.listenForMessage();
 
-            // Create a JButton for sending the input
             JButton sendButton = new JButton("Send");
             sendButton.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent e) {
                 final String input = inputField.getText();
                 Auth.processInput(input, outputArea);
-                // client.sendMessage();
                 Thread thread = new Thread(new Runnable() {
                   @Override
                   public void run() {
@@ -331,11 +347,9 @@ public class ChatEntry {
                     try {
                       client.getBufferedWriter().flush();
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
 
-                    // while (client.getSocket().isConnected()) {
                     try {
                       client.getBufferedWriter().write(username + ": " + input + "\n");
                     } catch (IOException e) {
