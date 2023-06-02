@@ -9,6 +9,10 @@ The system's GUI, developed using Java Swing, provides a user-friendly interface
 
 In addition to bug tracking capabilities, the project also includes an authentication system that validates email addresses and ensures data integrity in the database. This adds an extra layer of security and prevents redundant or invalid data from being stored.
 
+Furthermore to the mentioned functionalities, the project is structured as a Maven project. Maven is a powerful build automation tool for Java projects that helps manage dependencies, build processes, and project configuration. By utilizing Maven, the project benefits from simplified dependency management, consistent build processes, and improved project structure.
+
+With Maven, the project can easily manage and resolve external libraries and dependencies required by the Java Swing GUI and the MySQL database integration. Maven's dependency management simplifies the process of adding, updating, and resolving library dependencies, ensuring that the project has all the necessary components for successful compilation and execution.
+
 ## Users 
 The Bug Tracking System project accommodates multiple user roles, including testers, developers, project managers, and admins. Each role is equipped with specific functionalities tailored to their responsibilities and permissions. 
 
