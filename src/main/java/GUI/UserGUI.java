@@ -5,7 +5,13 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Properties;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -20,10 +26,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.jdatepicker.JDatePicker;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import DB.DataBase;
 import ChatSockets.*;
 import system.Admin;
-import system.Date;
+import system.Dates;
 import system.Developer;
 import system.Project_Manager;
 import system.Tester;
@@ -36,6 +47,7 @@ public class UserGUI {
   static DataBase cmd = new DataBase();
   private static String path;
   private static JTextField textField;
+  private static String formattedDate;
 
   private static class FileViewWithSizeLimit extends javax.swing.filechooser.FileView {
     private long maxSize;
@@ -49,7 +61,6 @@ public class UserGUI {
     }
   }
 
-  // ok null -1 ok
   public static void UserPage(String UserType, String name, String id, String email) {
 
     if (UserType.equals("Project Manager")) {
@@ -235,7 +246,7 @@ public class UserGUI {
         JFrame frame = new JFrame("View Bugs");
         frame.setSize(500, 400);
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JTable table = new JTable();
@@ -243,8 +254,11 @@ public class UserGUI {
         frame.add(scrollPane, BorderLayout.CENTER);
 
         DataBase.viewspecificdata(table, "Bugs", "developerid", ID);
-
-        frame.setVisible(true);
+        if (table.getRowCount() == 0) {
+          JOptionPane.showMessageDialog(null, "No Bugs Assigned");
+        } else {
+          frame.setVisible(true);
+        }
       }
     });
 
@@ -253,7 +267,7 @@ public class UserGUI {
         final JFrame bugfinishFrame = new JFrame("Developer window");
         bugfinishFrame.setSize(300, 225);
         bugfinishFrame.setLocationRelativeTo(null);
-        bugfinishFrame.setVisible(true);
+        
         bugfinishFrame.setResizable(false);
         bugfinishFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         bugfinishFrame.getContentPane().setLayout(null);
@@ -268,7 +282,13 @@ public class UserGUI {
         bugfinishFrame.getContentPane().add(FinishtxtChooseBug);
 
         List<String> Bugs = DataBase.getColumnspecificValues("name", "Bugs", "developerid", ID);
-
+        
+        if (Bugs.size() == 0) {
+          JOptionPane.showMessageDialog(null, "No Bugs Assigned");
+          bugfinishFrame.dispose();
+        } else {
+          bugfinishFrame.setVisible(true);
+        }
         String Bugsarray[] = new String[Bugs.size()];
         for (int j = 0; j < Bugs.size(); j++) {
           Bugsarray[j] = Bugs.get(j);
@@ -284,13 +304,13 @@ public class UserGUI {
 
           public void actionPerformed(ActionEvent e) {
             bugfinishFrame.dispose();
-            String donedate = Date.getCurrentDate();
+            String donedate = Dates.getCurrentDate();
             String bugname = (String) BugsCombo.getSelectedItem();
             DataBase.updateDatabug("Bugs", "name", bugname, "status", "closed"); // change status of bug
             DataBase.increment("Developers", "donebugs", ID, "id"); // increment donebug for developer
             DataBase.updateDatabug("Bugs", "name", bugname, "donedate", donedate); // add donedate to the bug
             String deadline = DataBase.getIDByName(bugname, "deadline", "Bugs", "name"); // get deadline of the bug
-            long days = DataBase.getDaysBetweenDates(donedate, deadline); // get days between dates using deadline and
+            long days = Dates.getDaysBetweenDates(donedate, deadline); // get days between dates using deadline and
                                                                           // donedate
             DataBase.updatelongDatabug("Bugs", "name", bugname, "timetaken", days); // update taken time in the bugs
                                                                                     // table
@@ -678,9 +698,13 @@ public class UserGUI {
         frame.add(scrollPane, BorderLayout.CENTER);
 
         DataBase.viewspecificdata(table, "Bugs", "testerid", ID);
-
-        frame.setVisible(true);
-
+        // if no bugs are found
+        if (table.getRowCount() == 0) {
+          JOptionPane.showMessageDialog(null, "No Bugs Found");
+          frame.dispose();
+        } else {
+          frame.setVisible(true);
+        }
       }
     });
 
@@ -747,10 +771,17 @@ public class UserGUI {
         assignBugtxtChooseBug.setBounds(25, 10, 133, 20);
         assignFrame.getContentPane().add(assignBugtxtChooseBug);
 
-        List<String> Bugs = DataBase.getColumnspecificValues("name", "Bugs", "testerid", ID);
+        List<String> Bugs = DataBase.getColumnspecific3Values("name", "Bugs", "testerid", ID, "status",
+            "open", "developerid");
         String Bugsarray[] = new String[Bugs.size()];
         for (int j = 0; j < Bugs.size(); j++) {
           Bugsarray[j] = Bugs.get(j);
+        }
+        // display error message if no bugs are available
+        if (Bugsarray.length == 0) {
+          JOptionPane.showMessageDialog(null, "No Bugs Available");
+          assignFrame.dispose();
+          tester(email);
         }
 
         final JComboBox BugsCombo = new JComboBox(Bugsarray);
@@ -773,6 +804,41 @@ public class UserGUI {
         DevsCombo.setSelectedIndex(0);
         DevsCombo.setBounds(25, 85, 200, 20);
         assignFrame.getContentPane().add(DevsCombo);
+
+        JLabel DueDate = new JLabel();
+        DueDate.setText("Due Date:");
+        DueDate.setBounds(300, 10, 133, 20);
+        assignFrame.getContentPane().add(DueDate);
+
+        UtilDateModel model = new UtilDateModel();
+        Properties properties = new Properties();
+        JDatePanelImpl datePanel = new JDatePanelImpl(model, properties);
+        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+        datePicker.setBounds(300, 35, 150, 30);
+        assignFrame.add(datePicker);
+             
+        
+
+        
+        datePicker.getJFormattedTextField().addPropertyChangeListener("value", event -> {
+          Calendar selectedCalendar = (Calendar) event.getNewValue();
+          if (selectedCalendar != null) {
+              // make sure that the selected date is not in the past
+              Calendar now = Calendar.getInstance();
+              if (selectedCalendar.before(now)) {
+                  datePicker.getJFormattedTextField().setValue(null);
+                  JOptionPane.showMessageDialog(assignFrame, "You cannot select a date in the past. Please select a valid date.");
+                  return;
+              }
+              // get the selected date
+              Date selectedDate = selectedCalendar.getTime();
+              LocalDate localDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+              DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+              formattedDate = localDate.format(formatter);
+              datePicker.getJFormattedTextField().setText(formattedDate);
+          }
+      });
+
 
         JButton btnSubmit = new JButton("Submit");
         btnSubmit.setBounds(350, 300, 90, 25);
@@ -840,7 +906,8 @@ public class UserGUI {
             final String BugName = (String) BugsCombo.getSelectedItem();
             final String DevName = (String) DevsCombo.getSelectedItem();
             String DevID = DataBase.getIDByName(DevName, "id", "Developers", "name");
-
+            DataBase.updateDatabug("Bugs", "name", BugName, "deadline", formattedDate);
+            DataBase.updateDatabug("Bugs", "name", BugName, "startdate", Dates.getCurrentDate()); // Make start date = current date assigned to the dev
             Boolean x = DataBase.updateDatabug("Bugs", "name", BugName, "developerid", DevID);
 
             if (x) {

@@ -54,24 +54,16 @@ public class Tester {
         addBugtxtProjectName.setColumns(10);
 
         JLabel addBugtxtEnterStartDate = new JLabel();
-        addBugtxtEnterStartDate.setText("Enter Start Date:");
+        addBugtxtEnterStartDate.setText("Start Date:");
         addBugtxtEnterStartDate.setBounds(260, 110, 133, 20);
         addFrame.getContentPane().add(addBugtxtEnterStartDate);
 
         final JTextField addBugtxtStartDate = new JTextField();
+        addBugtxtStartDate.setText(Dates.getCurrentDate());
+        addBugtxtStartDate.setEditable(false);
         addBugtxtStartDate.setBounds(260, 135, 200, 20);
         addFrame.getContentPane().add(addBugtxtStartDate);
         addBugtxtStartDate.setColumns(10);
-
-        JLabel addBugtxtEnterDeadline = new JLabel();
-        addBugtxtEnterDeadline.setText("Enter Deadline Date:");
-        addBugtxtEnterDeadline.setBounds(260, 160, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterDeadline);
-
-        final JTextField addBugtxtDeadline = new JTextField();
-        addBugtxtDeadline.setBounds(260, 185, 200, 20);
-        addFrame.getContentPane().add(addBugtxtDeadline);
-        addBugtxtDeadline.setColumns(10);
 
         JLabel addBugtxtEnterType = new JLabel();
         addBugtxtEnterType.setText("Enter Bug Type:");
@@ -122,25 +114,22 @@ public class Tester {
             String BugPriority = (String) PriorityCombo.getSelectedItem();
             String BugLevel = (String) LevelCombo.getSelectedItem();
             String ProjectName = addBugtxtProjectName.getText();
-            String StartDate = addBugtxtStartDate.getText();
-            String DeadlineDate = addBugtxtDeadline.getText();
-
+            String StartDate = Dates.getCurrentDate();
+            
+            if (BugName.equals("") || BugID.equals("") || ProjectName.equals("") || StartDate.equals("")) {
+              JOptionPane.showMessageDialog(addFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
+              return;
+            }
+            
             Boolean x = DataBase.insertDataBug(BugID, BugName, BugType, BugPriority, ProjectName, StartDate,
-                DeadlineDate, BugLevel, ID);
-
+                "", BugLevel, ID);
+            
             if (x) {
               addFrame.dispose();
               UserGUI.tester(email);
             } else {
               JOptionPane.showMessageDialog(addFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
             }
-
-            addBugtxtName.setText("");
-            addBugtxtID.setText("");
-            addBugtxtProjectName.setText("");
-            addBugtxtStartDate.setText("");
-            addBugtxtDeadline.setText("");
-
           }
         });
 
