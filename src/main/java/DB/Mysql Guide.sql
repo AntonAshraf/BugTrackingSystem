@@ -98,19 +98,19 @@ ALTER TABLE Developers
 ADD donebugs INT;
 
 ---------------------------------------------------
-              -- Extra Commands --
+                                -- Extra Commands --
 
-SHOW TABLES;  -- viwe all tables in the database
-
-Select deadline  from Bugs -- select colum in a table
-
-DELETE FROM Bugs WHERE bugid = 333 -- delete value
-
-ALTER TABLE Bugs   -- add colum in a table
+SHOW TABLES;                                        -- viwe all tables in the database
+--------------------------------------------------
+Select deadline  from Bugs                          -- select colum in a table
+--------------------------------------------------
+DELETE FROM Bugs WHERE bugid = 333                  -- delete value
+--------------------------------------------------
+ALTER TABLE Bugs                                    -- add colum in a table
 ADD timetaken INT;
-
-DROP TABLE Bugs;  -- delete table in the database
-
-select priority from Bugs  where developerid = 1 -- select value in a table
-
-select * from Bugs -- viwe table 
+--------------------------------------------------
+DROP TABLE Bugs;                                    -- delete table in the database
+--------------------------------------------------
+select priority from Bugs  where developerid = 1    -- select value in a table
+-------------------------------------------------
+select * from Bugs                                   -- viwe table 
