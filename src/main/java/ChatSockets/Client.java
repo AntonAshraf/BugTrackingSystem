@@ -86,23 +86,6 @@ public class Client {
     }
   }
 
-//  public static void main(String[] args) {
-//      Socket socket = null;
-//      try {
-//        socket = new Socket("localhost", 1234);
-//      } catch (UnknownHostException e) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      } catch (IOException e) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      }
-//      Client client = new Client(socket, username);
-//      client.listenForMessage();
-//      client.sendMessage();
-//    }
-//
-//  }
 
 public BufferedReader getBufferedReader() {
     return bufferedReader;

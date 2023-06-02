@@ -880,13 +880,11 @@ public class UserGUI {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setAcceptAllFileFilterUsed(false);
             FileViewWithSizeLimit fsz = new FileViewWithSizeLimit(5 * 1024 * 1024);
-            // fileChooser.setFileView();
 
             int result = fileChooser.showOpenDialog(assignFrame);
             if (result == JFileChooser.APPROVE_OPTION) {
               File selectedFile = fileChooser.getSelectedFile();
               // Process the selected image file
-              // TODO: Add your code here to handle the selected image file
               System.out.println("Selected file: " + selectedFile.getAbsolutePath());
               path = selectedFile.getAbsolutePath();
               if (fsz.isTraversable(selectedFile)) {

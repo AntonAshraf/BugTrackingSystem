@@ -96,10 +96,8 @@ public class ChatEntry {
             try {
               socket = new Socket(IP, Port);
             } catch (UnknownHostException exception) {
-              // TODO Auto-generated catch block
               exception.printStackTrace();
             } catch (IOException exception) {
-              // TODO Auto-generated catch block
               exception.printStackTrace();
             }
 
@@ -141,7 +139,6 @@ public class ChatEntry {
                     try {
                       client.getBufferedWriter().flush();
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
 
@@ -149,19 +146,16 @@ public class ChatEntry {
                     try {
                       client.getBufferedWriter().write(username + ": " + input + "\n");
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
                     try {
                       client.getBufferedWriter().newLine();
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
                     try {
                       client.getBufferedWriter().flush();
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
 
@@ -302,7 +296,6 @@ public class ChatEntry {
               Server server = new Server(serverSocket);
               server.startServer();
             } catch (IOException exception) {
-              // TODO Auto-generated catch block
               exception.printStackTrace();
             }
 
@@ -325,10 +318,8 @@ public class ChatEntry {
             try {
               socket = new Socket("localhost", Port);
             } catch (UnknownHostException exception) {
-              // TODO Auto-generated catch block
               exception.printStackTrace();
             } catch (IOException exception) {
-              // TODO Auto-generated catch block
               exception.printStackTrace();
             }
             final Client client = new Client(socket, username);
@@ -339,7 +330,7 @@ public class ChatEntry {
               @Override
               public void actionPerformed(ActionEvent e) {
                 final String input = inputField.getText();
-                Auth.processInput(input, outputArea);
+                outputArea.append(username + ": " + input + "\n");
                 Thread thread = new Thread(new Runnable() {
                   @Override
                   public void run() {
@@ -353,19 +344,16 @@ public class ChatEntry {
                     try {
                       client.getBufferedWriter().write(username + ": " + input + "\n");
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
                     try {
                       client.getBufferedWriter().newLine();
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
                     try {
                       client.getBufferedWriter().flush();
                     } catch (IOException e) {
-                      // TODO Auto-generated catch block
                       e.printStackTrace();
                     }
 

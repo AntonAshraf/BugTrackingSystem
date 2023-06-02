@@ -1,15 +1,10 @@
 package GUI;
 
 import javax.swing.JFrame;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 
 public class HomePage extends JFrame {
