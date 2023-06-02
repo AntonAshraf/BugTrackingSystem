@@ -131,7 +131,7 @@ public class ChatEntry {
               @Override
               public void actionPerformed(ActionEvent e) {
                 final String input = inputField.getText();
-                Auth.processInput(input, outputArea);
+                outputArea.append(username + ": " + input + "\n");
                 // client.sendMessage();
                 Thread thread = new Thread(new Runnable() {
                   @Override
@@ -158,12 +158,8 @@ public class ChatEntry {
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
-
                   }
-                  // }
-                  // closeEverything(getSocket(), getBufferedReader(), bufferedWriter);
                 }
-
                 );
                 thread.start();
                 inputField.setText("");

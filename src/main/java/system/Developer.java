@@ -20,7 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import Authentication.Auth;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class Developer {
   public static void search() {
@@ -46,13 +49,12 @@ public class Developer {
       public void actionPerformed(ActionEvent e) {
         String input = inputField.getText();
         List<String> Results = new ArrayList<String>();
-        Results = Auth.GoogleSearch(input);
+        Results = GoogleSearch(input);
 
+        // Remove the first two elements from the list
         Results.remove(0);
-        Results.remove(Results.size() - 1);
-        Results.remove(Results.size() - 1);
-        Results.remove(Results.size() - 1);
-
+        Results.remove(0);
+        
         StringBuilder htmlContent = new StringBuilder();
         int linkCount = 0;
         for (String link : Results) {
@@ -109,4 +111,33 @@ public class Developer {
 
   }
 
+  public static List<String> GoogleSearch(String Prompt) {
+
+    Document doc;
+    List<String> Results = new ArrayList<String>();
+    String s = "https://www.google.com/search?q=" + Prompt;
+    s.replace(' ', '+');
+
+    try {
+      doc = Jsoup.connect(s).get();
+      // get title of the page
+      String title = doc.title();
+      System.out.println("Title: " + title);
+      // get all links
+      Elements links = doc.select("a[href]");
+      for (Element link : links) {
+        String x = new String(link.attr("href"));
+        // get the value from href attribute
+        if (x.startsWith("https")) {
+          Results.add(x);
+//          System.out.println("\nLink : " + x);
+        }
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return Results;
+
+  }
 }
