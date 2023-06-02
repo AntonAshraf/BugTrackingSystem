@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS Testers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
-    numbugs INT NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    numbugs INT NOT NULL
 );
 -----------------------------------------------
 
@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS Bugs (
     deadline VARCHAR(255) NOT NULL,
     donedate VARCHAR(255) NOT NULL,
     FOREIGN KEY (testerid) REFERENCES tester(id),
-    FOREIGN KEY (developerid) REFERENCES developer(id)
-    timetaken long NOT NULL,
+    FOREIGN KEY (developerid) REFERENCES developer(id),
+    timetaken long NOT NULL
 );
 
 ---------------------------------------------------
