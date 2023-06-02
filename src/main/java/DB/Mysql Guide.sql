@@ -101,5 +101,6 @@ ADD donebugs INT;
 -- DELETE FROM Bugs WHERE bugid = 1100
 -- ALTER TABLE Bugs
 -- ADD timetaken INT;
+-- DROP TABLE Bugs;
 -- select priority from Bugs  where developerid = 1
 -- select * from Bugs
