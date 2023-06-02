@@ -77,6 +77,35 @@ public class DataBase {
     return columnValues;
   }
 
+  public static List<String> getColumnspecific3Values(String columnName, String table, String identifier, String value,
+   String identifier2, String value2, String identifier3) {
+
+    List<String> columnValues = new ArrayList<>();
+    try {
+      Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+      // sample for method call: getColumnspecific3Values("name", "Bugs", "testerid", "3", "status", "open", "priority", "high");
+      String query = "SELECT " + columnName + " FROM " + table + " WHERE " + identifier + " = ?" + " AND " + identifier2 + " = ?" + " AND " + identifier3 + " IS NULL";
+      // SELECT name FROM Bugs testerid 3
+      PreparedStatement statement = conn.prepareStatement(query);
+      statement.setString(1, value);
+      statement.setString(2, value2);
+
+      ResultSet resultSet = statement.executeQuery();
+
+      while (resultSet.next()) {
+        columnValues.add(resultSet.getString(columnName));
+      }
+
+      resultSet.close();
+      statement.close();
+      conn.close();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+
+    return columnValues;
+  }
+
   public static List<Long> getLongColumnspecificValues(String columnName, String table, String identifier,
       String value) {
     List<Long> columnValues = new ArrayList<>();
@@ -392,23 +421,6 @@ public class DataBase {
     return false;
   }
 
-  public static long getDaysBetweenDates(String date1, String date2) {
-    // long d = Auth.getDaysBetweenDates("23/04/2023","29/04/2023");
-    // start done
-    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    try {
-      java.util.Date startDate = dateFormat.parse(date1);
-      java.util.Date endDate = dateFormat.parse(date2);
-
-      long diffInMilliseconds = endDate.getTime() - startDate.getTime();
-      long diffInDays = TimeUnit.DAYS.convert(diffInMilliseconds, TimeUnit.MILLISECONDS);
-
-      return diffInDays;
-    } catch (ParseException e) {
-      e.printStackTrace();
-      return -1; // Return -1 to indicate an error
-    }
-  }
 
   public static void viewspecificdata(JTable table, String datatable, String specificcolum, String specificvalue) {
     // Establish database connection and execute query
