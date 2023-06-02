@@ -1,27 +1,14 @@
 package Authentication;
 
-import java.awt.EventQueue;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import GUI.HomePage;
 
 public class Auth extends JFrame {
 
@@ -30,20 +17,6 @@ public class Auth extends JFrame {
                                                                                                  // with your actual
   private static final String DB_USERNAME = "sql7621761";
   private static final String DB_PASSWORD = "aGdHdzy8Is";
-
-  public static void main(String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
-          HomePage frame = new HomePage();
-          frame.homePage();
-          // frame.setVisible(true);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
 
   public static boolean authenticateUser(String email, String password, String table) {
     // Establish database connection and execute query
