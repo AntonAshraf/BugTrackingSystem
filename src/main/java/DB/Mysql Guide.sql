@@ -114,3 +114,5 @@ DROP TABLE Bugs;                                    -- delete table in the datab
 select priority from Bugs  where developerid = 1    -- select value in a table
 -------------------------------------------------
 select * from Bugs                                   -- viwe table 
+-------------------------------------------------
+TRUNCATE Bugs                                        -- clear all table data         
