@@ -1,5 +1,7 @@
+-- create database
 CREATE DATABASE IF NOT EXISTS sql7621761; 
 ----------------------------------------------
+-- create Developers table
 USE sql7621761; -- Switch to your database
 
 CREATE TABLE IF NOT EXISTS Developers (
@@ -11,7 +13,7 @@ CREATE TABLE IF NOT EXISTS Developers (
 );
 
 -----------------------------------------------
-
+-- create Testers table
 USE sql7621761;
 
 CREATE TABLE IF NOT EXISTS Testers (
@@ -22,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Testers (
     numbugs INT NOT NULL
 );
 -----------------------------------------------
-
+-- create ProjectManagers table
 USE sql7621761;
 
 CREATE TABLE IF NOT EXISTS ProjectMangers (
@@ -34,6 +36,7 @@ CREATE TABLE IF NOT EXISTS ProjectMangers (
 );
 
 -------------------------------------------------
+-- create Admins table
 USE sql7621761;
 
 CREATE TABLE IF NOT EXISTS Admins (
@@ -44,6 +47,7 @@ CREATE TABLE IF NOT EXISTS Admins (
 );
 
 ----------------------------------------------------
+-- create Bugs table
 USE sql7621761;
 
 CREATE TABLE IF NOT EXISTS Bugs (
@@ -64,6 +68,7 @@ CREATE TABLE IF NOT EXISTS Bugs (
 
 ---------------------------------------------------
 -- Extra Commands
+-- insert data into table
 USE sql7621761;
 
 INSERT INTO Bugs (name, type, priority, projectname, testerid, developerid, startdate, deadline, donedate)
@@ -72,6 +77,7 @@ VALUES ('Bug 1', 'Functional', 'High', 'Project A', 1, 1, '2023-05-01', '2023-05
        ('Bug 3', 'UI', 'Low', 'Project C', 3, 3, '2023-05-10', '2023-05-20', '2023-05-18');
 
 ---------------------------------------------------
+-- update data into table
 USE sql7621761;
 
 UPDATE Testers
@@ -94,13 +100,17 @@ ADD donebugs INT;
 ---------------------------------------------------
               -- Extra Commands --
 
--- RENAME TABLE ProjectManager TO ProjectManagers;
--- SHOW TABLES;
--- Select deadline   from Bugs
--- DELETE FROM Bugs WHERE bugid = 333
--- DELETE FROM Bugs WHERE bugid = 1100
--- ALTER TABLE Bugs
--- ADD timetaken INT;
--- DROP TABLE Bugs;
--- select priority from Bugs  where developerid = 1
--- select * from Bugs
+SHOW TABLES;  -- viwe all tables in the database
+
+Select deadline  from Bugs -- select colum in a table
+
+DELETE FROM Bugs WHERE bugid = 333 -- delete value
+
+ALTER TABLE Bugs   -- add colum in a table
+ADD timetaken INT;
+
+DROP TABLE Bugs;  -- delete table in the database
+
+select priority from Bugs  where developerid = 1 -- select value in a table
+
+select * from Bugs -- viwe table 
