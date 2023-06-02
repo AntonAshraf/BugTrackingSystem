@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS Bugs (
     startdate VARCHAR(255) NOT NULL,
     deadline VARCHAR(255) NOT NULL,
     donedate VARCHAR(255) NOT NULL,
-    FOREIGN KEY (testerid) REFERENCES tester(id),
-    FOREIGN KEY (developerid) REFERENCES developer(id),
+    level VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL,
     timetaken long NOT NULL
 );
 
