@@ -144,7 +144,7 @@ public class ChatEntry {
 
                     // while (client.getSocket().isConnected()) {
                     try {
-                      client.getBufferedWriter().write(username + ": " + input + "\n");
+                      client.getBufferedWriter().write(username + ": " + input);
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
@@ -338,7 +338,7 @@ public class ChatEntry {
                     }
 
                     try {
-                      client.getBufferedWriter().write(username + ": " + input + "\n");
+                      client.getBufferedWriter().write(username + ": " + input);
                     } catch (IOException e) {
                       e.printStackTrace();
                     }
