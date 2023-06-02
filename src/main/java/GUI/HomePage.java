@@ -14,19 +14,9 @@ import java.awt.event.ActionEvent;
 
 public class HomePage extends JFrame {
 
-  // private JPanel contentPane;
-
   public void homePage() {
+
     final AuthGUI auth = new AuthGUI();
-
-    // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    // setBounds(710, 340, 500, 400);
-    // contentPane = new JPanel();
-    // contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-    // setContentPane(contentPane);
-    // contentPane.setLayout(null);
-
     final JFrame homeFrame = new JFrame("Main Menu");
 
     homeFrame.setLocation(710, 340);
@@ -86,7 +76,12 @@ public class HomePage extends JFrame {
         auth.signup();
       }
     });
-
+    btninfo.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        homeFrame.dispose();
+        auth.info();
+      }
+    });
     btnexit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         homeFrame.dispose();

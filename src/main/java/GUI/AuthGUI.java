@@ -3,15 +3,29 @@ package GUI;
 import Authentication.Auth;
 import DB.DataBase;
 
+import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 
 public class AuthGUI extends JFrame {
 
@@ -265,4 +279,69 @@ public class AuthGUI extends JFrame {
       }
     });
   }
+
+  public void info () {
+    final JFrame InfoFrame = new JFrame("Info");
+
+    InfoFrame.setLocation(710, 340);
+    InfoFrame.setSize(500, 400);
+    InfoFrame.setVisible(true);
+    InfoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    InfoFrame.setResizable(false);
+    InfoFrame.getContentPane().setLayout(null);
+    InfoFrame.getContentPane().setBackground(Color.WHITE);
+    
+    // make the description in the center and well formed
+    JTextArea textArea = new JTextArea();
+    textArea.setBounds(25, 35, 450, 100);
+    String Description = "The Bug Tracking System project is a comprehensive software application developed in Java that enables efficient tracking and management of bugs in software development. It leverages object-oriented programming principles to create a robust and scalable bug tracking solution. By utilizing the features and technologies mentioned earlier, it offers a wide range of capabilities for bug monitoring, assignment, and reporting.";
+    // write the description in the text area as a string
+    textArea.setText(Description);
+    textArea.setLineWrap(true);
+    textArea.setWrapStyleWord(true);
+    textArea.setOpaque(false);
+    textArea.setEditable(false);
+    InfoFrame.getContentPane().add(textArea);
+
+    JEditorPane editorPane = new JEditorPane();
+    editorPane.setContentType("text/html"); // Set content type to HTML
+    editorPane.setEditable(false);
+    
+    // Set the HTML content with the clickable link
+    String link = "<html><body><a href=\"https://github.com/AntonAshraf/BugTrackingSystem\">GitHub Repository</a></body></html>";
+    editorPane.setText(link);
+    
+    // Add a HyperlinkListener to handle link clicks
+    editorPane.addHyperlinkListener(new HyperlinkListener() {
+        @Override
+        public void hyperlinkUpdate(HyperlinkEvent e) {
+            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                // Handle the link click event
+                try {
+                    Desktop.getDesktop().browse(new URI(e.getURL().toString()));
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    });
+    
+    JScrollPane scrollPane = new JScrollPane(editorPane);
+    scrollPane.setBounds(25, 200, 200, 50);
+    scrollPane.setBorder(BorderFactory.createEmptyBorder());
+    InfoFrame.getContentPane().add(scrollPane);
+    
+    
+    JButton btnBack = new JButton("Back");
+    btnBack.setBounds(50, 300, 90, 25);
+    InfoFrame.getContentPane().add(btnBack);
+
+    btnBack.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        InfoFrame.dispose();
+        home.homePage();
+      }
+    });
+  }
+
 }

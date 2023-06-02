@@ -56,16 +56,13 @@ public class Project_Manager {
   }
 
   public static void calcDevPerformance(JFrame frame, String DevName) {
-	System.out.println("hekk");
     String ID = DataBase.getIDByName(DevName, "id", "Developers", "name");
     List<String> Priorities = DataBase.getColumnspecificValues("priority", "Bugs", "developerid", ID);
     List<String> Levels = DataBase.getColumnspecificValues("level", "Bugs", "developerid", ID);
     List<Long> TimeList = DataBase.getLongColumnspecificValues("timetaken", "Bugs", "developerid", ID);
-    System.out.println("Priorities = " + Priorities);
-    System.out.println("TimeList = " + TimeList);
+
     int devdonebugs = DataBase.intgetIDByName(DevName, "donebugs", "Developers", "name");
     double performance = Performance.Developer(devdonebugs, Priorities, Levels, TimeList);
-    System.out.println("Performance = " + performance);
 
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
     String formattedperformance = decimalFormat.format(performance);
@@ -80,7 +77,6 @@ public class Project_Manager {
     int allbugcount = DataBase.getRowCount("Bugs");
     int specificbugcount = DataBase.intgetIDByName(TesterName, "numbugs", "Testers", "name");
     double performance = Performance.Tester(allbugcount, specificbugcount, Priorities);
-    System.out.println("Performance = " + performance);
 
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
     String formattedperformance = decimalFormat.format(performance);
