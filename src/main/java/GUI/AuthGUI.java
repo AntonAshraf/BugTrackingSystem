@@ -234,7 +234,11 @@ public class AuthGUI extends JFrame {
           Table = "Admins";
           userType = "Admin";
         }
-
+        if (email.equals("") || password.equals("")) {
+          JOptionPane.showMessageDialog(LogInFrame, "Please fill all the fields.", "Error!",
+              JOptionPane.WARNING_MESSAGE);
+          return;
+        } 
         boolean found = Auth.authenticateUser(email, password, Table);
 
         if (found) {

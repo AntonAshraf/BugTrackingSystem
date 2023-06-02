@@ -75,7 +75,7 @@ public class SendMail extends EmailData {
       textPart.setText(EmailData.getbody(DevName, BugName));
       multipart.addBodyPart(textPart);
 
-      if (PATH.equals("")) {
+      if ("".equals(PATH)) {
         System.out.println("No attachment");
       } else {
         try {
