@@ -55,7 +55,7 @@ public class EmailData {
         TesterName;
   }
 
-  public static String getbody(String devName, String port, String ip, String email) {
+  public static String getbody(String devName, String ip, String port, String email) {
   String testerName = DataBase.getIDByName(email, "name", "Testers", "email");
 	return "Dear "+ devName +",\n\n"
   + "You are invited to join the chat room for direct communication with the "+ testerName +". "

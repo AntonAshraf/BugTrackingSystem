@@ -76,6 +76,35 @@ public class DataBase {
 
     return columnValues;
   }
+  
+  public static List<String> getColumnspecific2Values(String columnName, String table, String identifier, String value,
+		   String identifier2, String value2) {
+
+		    List<String> columnValues = new ArrayList<>();
+		    try {
+		      Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+		      // sample for method call: getColumnspecific3Values("name", "Bugs", "testerid", "3", "status", "open", "priority", "high");
+		      String query = "SELECT " + columnName + " FROM " + table + " WHERE " + identifier + " = ?" + " AND " + identifier2 + " = ?";
+		      // SELECT name FROM Bugs testerid 3
+		      PreparedStatement statement = conn.prepareStatement(query);
+		      statement.setString(1, value);
+		      statement.setString(2, value2);
+
+		      ResultSet resultSet = statement.executeQuery();
+
+		      while (resultSet.next()) {
+		        columnValues.add(resultSet.getString(columnName));
+		      }
+
+		      resultSet.close();
+		      statement.close();
+		      conn.close();
+		    } catch (SQLException ex) {
+		      ex.printStackTrace();
+		    }
+
+		    return columnValues;
+		  }
 
   public static List<String> getColumnspecific3Values(String columnName, String table, String identifier, String value,
    String identifier2, String value2, String identifier3) {

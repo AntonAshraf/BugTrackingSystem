@@ -281,7 +281,7 @@ public class UserGUI {
         FinishtxtChooseBug.setBounds(25, 10, 130, 20);
         bugfinishFrame.getContentPane().add(FinishtxtChooseBug);
 
-        List<String> Bugs = DataBase.getColumnspecificValues("name", "Bugs", "developerid", ID);
+        List<String> Bugs = DataBase.getColumnspecific2Values("name", "Bugs", "developerid", ID,"status","open");
         
         if (Bugs.size() == 0) {
           JOptionPane.showMessageDialog(null, "No Bugs Assigned");
