@@ -46,7 +46,7 @@ public class SendMail extends EmailData {
 
       protected PasswordAuthentication getPasswordAuthentication() {
 
-        return new PasswordAuthentication(bug.getTesterEmail(), bug.getTesterPassword());
+        return new PasswordAuthentication("ooptester1@gmail.com", "ixzcbsrhunzwvsbe");
 
       }
 
