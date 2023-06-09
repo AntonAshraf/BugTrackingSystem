@@ -2,6 +2,7 @@ package system;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,138 +15,130 @@ import DB.DataBase;
 import GUI.UserGUI;
 
 public class Tester {
-	public static void addBug (final String email, final String ID) {
-		final JFrame addFrame = new JFrame("Add Bug");
-        addFrame.setSize(500, 400);
-        addFrame.setLocationRelativeTo(null);
-        addFrame.setResizable(false);
-        addFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        addFrame.setVisible(true);
-        addFrame.getContentPane().setLayout(null);
+  public static void addBug(final String email, final String ID) {
+    final JFrame addFrame = new JFrame("Add Bug");
+    addFrame.setSize(500, 400);
+    addFrame.setLocationRelativeTo(null);
+    addFrame.setResizable(false);
+    addFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    addFrame.setVisible(true);
+    addFrame.getContentPane().setLayout(null);
 
-        JLabel addBugtxtEnterName = new JLabel();
-        addBugtxtEnterName.setText("Enter Bug Name:");
-        addBugtxtEnterName.setBounds(25, 10, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterName);
+    JLabel addBugtxtEnterName = new JLabel();
+    addBugtxtEnterName.setText("Enter Bug Name:");
+    addBugtxtEnterName.setBounds(25, 10, 133, 20);
+    addFrame.getContentPane().add(addBugtxtEnterName);
 
-        final JTextField addBugtxtName = new JTextField();
-        addBugtxtName.setBounds(25, 35, 200, 20);
-        addFrame.getContentPane().add(addBugtxtName);
-        addBugtxtName.setColumns(10);
+    final JTextField addBugtxtName = new JTextField();
+    addBugtxtName.setBounds(25, 35, 200, 20);
+    addFrame.getContentPane().add(addBugtxtName);
+    addBugtxtName.setColumns(10);
 
-        JLabel addBugtxtEnterID = new JLabel();
-        addBugtxtEnterID.setText("Enter Bug ID:");
-        addBugtxtEnterID.setBounds(260, 10, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterID);
+    JLabel addBugtxtEnterProjectName = new JLabel();
+    addBugtxtEnterProjectName.setText("Enter Project Name:");
+    addBugtxtEnterProjectName.setBounds(260, 10, 133, 20);
+    addFrame.getContentPane().add(addBugtxtEnterProjectName);
 
-        final JTextField addBugtxtID = new JTextField();
-        addBugtxtID.setBounds(260, 35, 200, 20);
-        addFrame.getContentPane().add(addBugtxtID);
-        addBugtxtID.setColumns(10);
+    final JTextField addBugtxtProjectName = new JTextField();
+    addBugtxtProjectName.setBounds(260, 35, 200, 20);
+    addFrame.getContentPane().add(addBugtxtProjectName);
+    addBugtxtProjectName.setColumns(10);
 
-        JLabel addBugtxtEnterProjectName = new JLabel();
-        addBugtxtEnterProjectName.setText("Enter Project Name:");
-        addBugtxtEnterProjectName.setBounds(260, 60, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterProjectName);
+    JLabel addBugtxtEnterStartDate = new JLabel();
+    addBugtxtEnterStartDate.setText("Start Date:");
+    addBugtxtEnterStartDate.setBounds(260, 110, 133, 20);
+    addFrame.getContentPane().add(addBugtxtEnterStartDate);
 
-        final JTextField addBugtxtProjectName = new JTextField();
-        addBugtxtProjectName.setBounds(260, 85, 200, 20);
-        addFrame.getContentPane().add(addBugtxtProjectName);
-        addBugtxtProjectName.setColumns(10);
+    final JTextField addBugtxtStartDate = new JTextField();
+    addBugtxtStartDate.setText(Dates.getCurrentDate());
+    addBugtxtStartDate.setEditable(false);
+    addBugtxtStartDate.setBounds(260, 135, 200, 20);
+    addFrame.getContentPane().add(addBugtxtStartDate);
+    addBugtxtStartDate.setColumns(10);
 
-        JLabel addBugtxtEnterStartDate = new JLabel();
-        addBugtxtEnterStartDate.setText("Start Date:");
-        addBugtxtEnterStartDate.setBounds(260, 110, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterStartDate);
+    JLabel addBugtxtEnterType = new JLabel();
+    addBugtxtEnterType.setText("Enter Bug Type:");
+    addBugtxtEnterType.setBounds(25, 60, 133, 20);
+    addFrame.getContentPane().add(addBugtxtEnterType);
 
-        final JTextField addBugtxtStartDate = new JTextField();
-        addBugtxtStartDate.setText(Dates.getCurrentDate());
-        addBugtxtStartDate.setEditable(false);
-        addBugtxtStartDate.setBounds(260, 135, 200, 20);
-        addFrame.getContentPane().add(addBugtxtStartDate);
-        addBugtxtStartDate.setColumns(10);
+    String[] BugTypes = { "Logic Bug", "Syntax Bug", "Security Bug", "Performance Bug" };
 
-        JLabel addBugtxtEnterType = new JLabel();
-        addBugtxtEnterType.setText("Enter Bug Type:");
-        addBugtxtEnterType.setBounds(25, 60, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterType);
+    final JComboBox TypeCombo = new JComboBox(BugTypes);
+    TypeCombo.setSelectedIndex(0);
+    TypeCombo.setBounds(25, 85, 200, 20);
+    addFrame.getContentPane().add(TypeCombo);
 
-        String[] BugTypes = { "Logic Bug", "Syntax Bug", "Security Bug", "Performance Bug" };
+    JLabel addBugtxtEnterPriority = new JLabel();
+    addBugtxtEnterPriority.setText("Enter Bug Priority:");
+    addBugtxtEnterPriority.setBounds(25, 110, 133, 20);
+    addFrame.getContentPane().add(addBugtxtEnterPriority);
 
-        final JComboBox TypeCombo = new JComboBox(BugTypes);
-        TypeCombo.setSelectedIndex(0);
-        TypeCombo.setBounds(25, 85, 200, 20);
-        addFrame.getContentPane().add(TypeCombo);
+    String[] BugPriorities = { "Low", "Medium", "High" };
 
-        JLabel addBugtxtEnterPriority = new JLabel();
-        addBugtxtEnterPriority.setText("Enter Bug Priority:");
-        addBugtxtEnterPriority.setBounds(25, 110, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterPriority);
+    final JComboBox PriorityCombo = new JComboBox(BugPriorities);
+    PriorityCombo.setSelectedIndex(0);
+    PriorityCombo.setBounds(25, 135, 200, 20);
+    addFrame.getContentPane().add(PriorityCombo);
 
-        String[] BugPriorities = { "Low", "Medium", "High" };
+    JLabel addBugtxtEnterLevel = new JLabel();
+    addBugtxtEnterLevel.setText("Enter Bug Level:");
+    addBugtxtEnterLevel.setBounds(260, 60, 133, 20);
+    addFrame.getContentPane().add(addBugtxtEnterLevel);
 
-        final JComboBox PriorityCombo = new JComboBox(BugPriorities);
-        PriorityCombo.setSelectedIndex(0);
-        PriorityCombo.setBounds(25, 135, 200, 20);
-        addFrame.getContentPane().add(PriorityCombo);
+    String[] BugLevels = { "Easy", "Medium", "Hard", "Level El Wa7sh" };
 
-        JLabel addBugtxtEnterLevel = new JLabel();
-        addBugtxtEnterLevel.setText("Enter Bug Level:");
-        addBugtxtEnterLevel.setBounds(25, 160, 133, 20);
-        addFrame.getContentPane().add(addBugtxtEnterLevel);
+    final JComboBox LevelCombo = new JComboBox(BugLevels);
+    LevelCombo.setSelectedIndex(0);
+    LevelCombo.setBounds(260, 85, 200, 20);
+    addFrame.getContentPane().add(LevelCombo);
 
-        String[] BugLevels = { "Easy", "Medium", "Hard", "Level El Wa7sh" };
+    JButton btnSubmit = new JButton("Submit");
+    btnSubmit.setBounds(350, 300, 90, 25);
+    addFrame.getContentPane().add(btnSubmit);
 
-        final JComboBox LevelCombo = new JComboBox(BugLevels);
-        LevelCombo.setSelectedIndex(0);
-        LevelCombo.setBounds(25, 185, 200, 20);
-        addFrame.getContentPane().add(LevelCombo);
+    btnSubmit.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String BugName = addBugtxtName.getText();
+        String BugID = "";
+        String BugType = (String) TypeCombo.getSelectedItem();
+        String BugPriority = (String) PriorityCombo.getSelectedItem();
+        String BugLevel = (String) LevelCombo.getSelectedItem();
+        String ProjectName = addBugtxtProjectName.getText();
+        String StartDate = Dates.getCurrentDate();
 
-        JButton btnSubmit = new JButton("Submit");
-        btnSubmit.setBounds(350, 300, 90, 25);
-        addFrame.getContentPane().add(btnSubmit);
+        if (BugName.equals("") || ProjectName.equals("") || StartDate.equals("")) {
+          JOptionPane.showMessageDialog(addFrame, "Please fill all the data.", "Error!", JOptionPane.WARNING_MESSAGE);
+          return;
+        }
+        Boolean inserted = false;
+        while (!inserted) {
+          Random random = new Random();
+          BugID = String.valueOf(random.nextInt(1000));
+          inserted = DataBase.insertDataBug(BugID, BugName, BugType, BugPriority, ProjectName, StartDate,
+              "", BugLevel, ID);
+        }
 
-        btnSubmit.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            String BugName = addBugtxtName.getText();
-            String BugID = addBugtxtID.getText();
-            String BugType = (String) TypeCombo.getSelectedItem();
-            String BugPriority = (String) PriorityCombo.getSelectedItem();
-            String BugLevel = (String) LevelCombo.getSelectedItem();
-            String ProjectName = addBugtxtProjectName.getText();
-            String StartDate = Dates.getCurrentDate();
-            
-            if (BugName.equals("") || BugID.equals("") || ProjectName.equals("") || StartDate.equals("")) {
-              JOptionPane.showMessageDialog(addFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
-              return;
-            }
-            
-            Boolean x = DataBase.insertDataBug(BugID, BugName, BugType, BugPriority, ProjectName, StartDate,
-                "", BugLevel, ID);
-            
-            if (x) {
-              addFrame.dispose();
-              UserGUI.tester(email);
-            } else {
-              JOptionPane.showMessageDialog(addFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
-            }
-          }
-        });
+        if (inserted) {
+          addFrame.dispose();
+          UserGUI.tester(email);
+        } else {
+          JOptionPane.showMessageDialog(addFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
+        }
+      }
+    });
 
-        JButton btnBack = new JButton("Back");
-        btnBack.setBounds(50, 300, 90, 25);
-        addFrame.getContentPane().add(btnBack);
+    JButton btnBack = new JButton("Back");
+    btnBack.setBounds(50, 300, 90, 25);
+    addFrame.getContentPane().add(btnBack);
 
-        btnBack.addActionListener(new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            addFrame.dispose();
-            UserGUI.tester(email);
-          }
-        });
+    btnBack.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        addFrame.dispose();
+        UserGUI.tester(email);
+      }
+    });
 
-	}
- 		
+  }
+
 }
-
-

@@ -2,7 +2,7 @@ package GUI;
 
 import Authentication.Auth;
 import DB.DataBase;
-
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -61,18 +61,13 @@ public class AuthGUI extends JFrame {
     SignUpFrame.getContentPane().add(SignUptxtName);
     SignUptxtName.setColumns(10);
 
-    SignUptxtId = new JTextField();
-    SignUptxtId.setBounds(25, 85, 200, 20);
-    SignUpFrame.getContentPane().add(SignUptxtId);
-    SignUptxtId.setColumns(10);
-
     SignUptxtEmail = new JTextField();
-    SignUptxtEmail.setBounds(25, 135, 200, 20);
+    SignUptxtEmail.setBounds(25, 85, 200, 20);
     SignUpFrame.getContentPane().add(SignUptxtEmail);
     SignUptxtEmail.setColumns(10);
 
     SignUptxtPassword = new JPasswordField();
-    SignUptxtPassword.setBounds(25, 185, 200, 20);
+    SignUptxtPassword.setBounds(25, 135, 200, 20);
     SignUpFrame.getContentPane().add(SignUptxtPassword);
     SignUptxtPassword.setColumns(10);
 
@@ -85,37 +80,33 @@ public class AuthGUI extends JFrame {
     SignUptxtEnterYourName.setBounds(25, 10, 133, 20);
     SignUpFrame.getContentPane().add(SignUptxtEnterYourName);
 
-    SignUptxtEnterYourId = new JLabel();
-    SignUptxtEnterYourId.setText("Enter your ID:");
-    SignUptxtEnterYourId.setBounds(25, 60, 133, 20);
-    SignUpFrame.getContentPane().add(SignUptxtEnterYourId);
-
     SignUptxtEnterYourEmail = new JLabel();
     SignUptxtEnterYourEmail.setText("Enter your E-mail:");
-    SignUptxtEnterYourEmail.setBounds(25, 110, 133, 20);
+    SignUptxtEnterYourEmail.setBounds(25, 60, 133, 20);
+
     SignUpFrame.getContentPane().add(SignUptxtEnterYourEmail);
-    
+
     SignUptxtEnterYourPassword = new JLabel();
     SignUptxtEnterYourPassword.setText("Enter your Password :");
-    SignUptxtEnterYourPassword.setBounds(25, 160, 133, 20);
+    SignUptxtEnterYourPassword.setBounds(25, 110, 133, 20);
     SignUpFrame.getContentPane().add(SignUptxtEnterYourPassword);
 
     SignUptxtEnterYourRole = new JLabel();
     SignUptxtEnterYourRole.setText("Choose your Role:");
-    SignUptxtEnterYourRole.setBounds(25, 210, 133, 20);
+    SignUptxtEnterYourRole.setBounds(25, 160, 133, 20);
     SignUpFrame.getContentPane().add(SignUptxtEnterYourRole);
 
     String[] UserOptions = { "Tester", "Developer", "Project Manager", "Admin" };
 
     final JComboBox UserList = new JComboBox(UserOptions);
     UserList.setSelectedIndex(0);
-    UserList.setBounds(25, 235, 200, 30);
+    UserList.setBounds(25, 185, 200, 30);
     SignUpFrame.getContentPane().add(UserList);
 
     btnSubmit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         String name = SignUptxtName.getText();
-        String id = SignUptxtId.getText();
+        String id = "";
         String password = SignUptxtPassword.getText();
         String email = SignUptxtEmail.getText();
         String role = (String) UserList.getSelectedItem();
@@ -135,36 +126,40 @@ public class AuthGUI extends JFrame {
           Table = "Admins";
           userType = "Admin";
         }
-        if (id.equals("") || name.equals("") || password.equals("") || email.equals("")) {
+        if (name.equals("") || password.equals("") || email.equals("")) {
           JOptionPane.showMessageDialog(SignUpFrame, "Please fill all the fields.", "Error!",
               JOptionPane.WARNING_MESSAGE);
           return;
         } else if (Auth.isValidEmail(email) == false) {
           JOptionPane.showMessageDialog(SignUpFrame, "Invalid Email.", "Error!", JOptionPane.WARNING_MESSAGE);
           return;
-        } else if (Auth.isInteger(id) == false) {
-          JOptionPane.showMessageDialog(SignUpFrame, "Invalid ID\nEnter it in numbers", "Error!",
-              JOptionPane.WARNING_MESSAGE);
-          return;
-        } else if (Auth.isExist("id", id, Table)) {
-          JOptionPane.showMessageDialog(SignUpFrame, "This ID is already exist.", "Error!",
-              JOptionPane.WARNING_MESSAGE);
-          return;
         } else if (Auth.isExist("email", email, Table)) {
           JOptionPane.showMessageDialog(SignUpFrame, "This Email is already exist.", "Error!",
               JOptionPane.WARNING_MESSAGE);
           return;
         }
+        Boolean loggedin = false;
+        int timeout_fail = 0;
+        do {
+          // Create a Random object
+          Random random = new Random();
+          // Generate a random ID number between 0 and 999 (inclusive)
+          id = String.valueOf(random.nextInt(1000));
+          loggedin = DataBase.insertData(name, id, password, email, Table);
+          timeout_fail++;
+          if (timeout_fail == 5) {
+            break;
+          }
+        } while (loggedin == false);
 
-        Boolean x = DataBase.insertData(name, id, password, email, Table);
-
-        if (x) {
+        if (loggedin) {
           SignUpFrame.dispose();
           UserGUI.UserPage(userType, name, id, email);
           javax.swing.JOptionPane.showMessageDialog(null, "Welcome " + name + " to our system!", "Welcome!",
               javax.swing.JOptionPane.INFORMATION_MESSAGE);
         } else {
-          JOptionPane.showMessageDialog(SignUpFrame, "Invalid Data.", "Error!", JOptionPane.WARNING_MESSAGE);
+          JOptionPane.showMessageDialog(SignUpFrame, "Please make sure that you are connected to the internet",
+              "Error!", JOptionPane.WARNING_MESSAGE);
         }
       }
     });
@@ -252,20 +247,29 @@ public class AuthGUI extends JFrame {
           JOptionPane.showMessageDialog(LogInFrame, "Please fill all the fields.", "Error!",
               JOptionPane.WARNING_MESSAGE);
           return;
-        } 
-        boolean found = Auth.authenticateUser(email, password, Table);
+        }
+        int timeout_fail = 0;
+        Boolean loggedIn = false;
+        do {
+          loggedIn = Auth.authenticateUser(email, password, Table);
+          timeout_fail++;
+          if (timeout_fail == 15) {
+            break;
+          }
+        } while (loggedIn == false);
 
-        if (found) {
+        if (loggedIn) {
           LogInFrame.dispose();
           System.out.println("Found");
           UserGUI.UserPage(userType, "null", "-1", email);
+        } else if (timeout_fail > 14) {
+          JOptionPane.showMessageDialog(LogInFrame, "Please make sure that you are connected to the internet", "Error!",
+              JOptionPane.WARNING_MESSAGE);
         } else {
           System.out.println("Not found");
           JOptionPane.showMessageDialog(LogInFrame, "Invalid E-Mail or Password.", "Error!",
               JOptionPane.WARNING_MESSAGE);
         }
-        LogIntxtEmail.setText("");
-        LogIntxtPassword.setText("");
       }
     });
     JButton btnBack = new JButton("Back");
@@ -280,7 +284,7 @@ public class AuthGUI extends JFrame {
     });
   }
 
-  public void info () {
+  public void info() {
     final JFrame InfoFrame = new JFrame("Info");
 
     InfoFrame.setLocation(710, 340);
@@ -290,7 +294,7 @@ public class AuthGUI extends JFrame {
     InfoFrame.setResizable(false);
     InfoFrame.getContentPane().setLayout(null);
     InfoFrame.getContentPane().setBackground(Color.WHITE);
-    
+
     // make the description in the center and well formed
     JTextArea textArea = new JTextArea();
     textArea.setBounds(25, 35, 450, 100);
@@ -306,32 +310,31 @@ public class AuthGUI extends JFrame {
     JEditorPane editorPane = new JEditorPane();
     editorPane.setContentType("text/html"); // Set content type to HTML
     editorPane.setEditable(false);
-    
+
     // Set the HTML content with the clickable link
     String link = "<html><body><a href=\"https://github.com/AntonAshraf/BugTrackingSystem\">GitHub Repository</a></body></html>";
     editorPane.setText(link);
-    
+
     // Add a HyperlinkListener to handle link clicks
     editorPane.addHyperlinkListener(new HyperlinkListener() {
-        @Override
-        public void hyperlinkUpdate(HyperlinkEvent e) {
-            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                // Handle the link click event
-                try {
-                    Desktop.getDesktop().browse(new URI(e.getURL().toString()));
-                } catch (IOException | URISyntaxException ex) {
-                    ex.printStackTrace();
-                }
-            }
+      @Override
+      public void hyperlinkUpdate(HyperlinkEvent e) {
+        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+          // Handle the link click event
+          try {
+            Desktop.getDesktop().browse(new URI(e.getURL().toString()));
+          } catch (IOException | URISyntaxException ex) {
+            ex.printStackTrace();
+          }
         }
+      }
     });
-    
+
     JScrollPane scrollPane = new JScrollPane(editorPane);
     scrollPane.setBounds(25, 200, 200, 50);
     scrollPane.setBorder(BorderFactory.createEmptyBorder());
     InfoFrame.getContentPane().add(scrollPane);
-    
-    
+
     JButton btnBack = new JButton("Back");
     btnBack.setBounds(50, 300, 90, 25);
     InfoFrame.getContentPane().add(btnBack);
