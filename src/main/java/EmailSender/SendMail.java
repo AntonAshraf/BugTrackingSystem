@@ -26,8 +26,14 @@ public class SendMail extends EmailData {
     
     String to = bug.getDeveloperEmail();
 
+    
+    String TesterName = bug.getTesterName();
+    
+    // Find the position of the first space
+    int spaceIndex = TesterName.indexOf(" ");
+ 
     // Sender's email ID needs to be mentioned
-    final String from = bug.getTesterName();
+    final String from = TesterName.substring(0, spaceIndex);
 
     // Assuming you are sending email from through gmails smtp
     String host = "smtp.gmail.com";
