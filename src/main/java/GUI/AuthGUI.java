@@ -32,11 +32,9 @@ public class AuthGUI extends JFrame {
   HomePage home = new HomePage();
 
   private JTextField SignUptxtName;
-  private JTextField SignUptxtId;
   private JTextField SignUptxtPassword;
   private JTextField SignUptxtEmail;
   private JLabel SignUptxtEnterYourName;
-  private JLabel SignUptxtEnterYourId;
   private JLabel SignUptxtEnterYourPassword;
   private JLabel SignUptxtEnterYourEmail;
   private JLabel SignUptxtEnterYourRole;
@@ -50,6 +48,7 @@ public class AuthGUI extends JFrame {
     final JFrame SignUpFrame = new JFrame("Sign Up");
 
     SignUpFrame.setLocation(710, 340);
+    SignUpFrame.setLocationRelativeTo(null);
     SignUpFrame.setSize(500, 400);
     SignUpFrame.setVisible(true);
     SignUpFrame.setResizable(false);
@@ -181,6 +180,7 @@ public class AuthGUI extends JFrame {
 
     LogInFrame.setLocation(710, 340);
     LogInFrame.setSize(500, 400);
+    LogInFrame.setLocationRelativeTo(null);
     LogInFrame.setVisible(true);
     LogInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     LogInFrame.setResizable(false);
