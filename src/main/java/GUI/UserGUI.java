@@ -827,7 +827,7 @@ public class UserGUI {
               Calendar now = Calendar.getInstance();
               if (selectedCalendar.before(now)) {
                   datePicker.getJFormattedTextField().setValue(null);
-                  JOptionPane.showMessageDialog(assignFrame, "You cannot select a date in the past. Please select a valid date.");
+                  JOptionPane.showMessageDialog(null, "Please select a future date", "Warning!", JOptionPane.ERROR_MESSAGE);
                   return;
               }
               // get the selected date
@@ -906,6 +906,13 @@ public class UserGUI {
             String DevID = DataBase.getIDByName(DevName, "id", "Developers", "name");
             DataBase.updateDatabug("Bugs", "name", BugName, "deadline", formattedDate);
             DataBase.updateDatabug("Bugs", "name", BugName, "startdate", Dates.getCurrentDate()); // Make start date = current date assigned to the dev
+            
+            if (formattedDate == null) {
+              JOptionPane.showMessageDialog(assignFrame, "Please add due date.", "Error!",
+                  JOptionPane.WARNING_MESSAGE);
+              return;
+            }
+            
             Boolean x = DataBase.updateDatabug("Bugs", "name", BugName, "developerid", DevID);
 
             if (x) {
