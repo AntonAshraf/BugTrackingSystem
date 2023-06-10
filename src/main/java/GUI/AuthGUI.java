@@ -48,8 +48,8 @@ public class AuthGUI extends JFrame {
     final JFrame SignUpFrame = new JFrame("Sign Up");
 
     SignUpFrame.setLocation(710, 340);
-    SignUpFrame.setLocationRelativeTo(null);
     SignUpFrame.setSize(500, 400);
+    SignUpFrame.setLocationRelativeTo(null);
     SignUpFrame.setVisible(true);
     SignUpFrame.setResizable(false);
     SignUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -289,6 +289,7 @@ public class AuthGUI extends JFrame {
 
     InfoFrame.setLocation(710, 340);
     InfoFrame.setSize(500, 400);
+    InfoFrame.setLocationRelativeTo(null);
     InfoFrame.setVisible(true);
     InfoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     InfoFrame.setResizable(false);
