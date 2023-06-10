@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -50,7 +51,12 @@ public class Developer {
         String input = inputField.getText();
         List<String> Results = new ArrayList<String>();
         Results = GoogleSearch(input);
-
+        if (Results.size() == 0) {
+          // warning message if no results found and request to close the VPN
+          JOptionPane.showMessageDialog(SearchFrame, "Check your internet connection\nPlease close the VPN", "Warning",
+              JOptionPane.WARNING_MESSAGE);
+          return;
+        }
         // Remove the first two elements from the list
         Results.remove(0);
         Results.remove(0);
