@@ -43,7 +43,7 @@ public class AuthGUI extends JFrame {
   private JLabel LogIntxtEnterYourEmail;
   private JLabel LogIntxtEnterYourPassword;
   private JLabel LogIntxtEnterYourRole;
-
+  private int timeout_fail = 0;
   public void signup() {
     final JFrame SignUpFrame = new JFrame("Sign Up");
 
@@ -177,7 +177,7 @@ public class AuthGUI extends JFrame {
 
   public void login() {
     final JFrame LogInFrame = new JFrame("Login");
-
+    
     LogInFrame.setLocation(710, 340);
     LogInFrame.setSize(500, 400);
     LogInFrame.setLocationRelativeTo(null);
@@ -248,27 +248,24 @@ public class AuthGUI extends JFrame {
               JOptionPane.WARNING_MESSAGE);
           return;
         }
-        int timeout_fail = 0;
         Boolean loggedIn = false;
-        do {
-          loggedIn = Auth.authenticateUser(email, password, Table);
-          timeout_fail++;
-          if (timeout_fail == 15) {
-            break;
-          }
-        } while (loggedIn == false);
+
+        loggedIn = Auth.authenticateUser(email, password, Table);
+
 
         if (loggedIn) {
           LogInFrame.dispose();
           System.out.println("Found");
+          timeout_fail = 0;
           UserGUI.UserPage(userType, "null", "-1", email);
-        } else if (timeout_fail > 14) {
+        } else if (timeout_fail > 2) {
           JOptionPane.showMessageDialog(LogInFrame, "Please make sure that you are connected to the internet", "Error!",
               JOptionPane.WARNING_MESSAGE);
         } else {
           System.out.println("Not found");
           JOptionPane.showMessageDialog(LogInFrame, "Invalid E-Mail or Password.", "Error!",
               JOptionPane.WARNING_MESSAGE);
+          timeout_fail++;
         }
       }
     });
